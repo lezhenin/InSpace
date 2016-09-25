@@ -16,9 +16,15 @@ public class GalaxyTest {
         Planet gottenPlanet = galaxy.getPlanet(position);
         assertTrue(planet == gottenPlanet);
     }
+
     @Test
     public void testDelete() {
         galaxy.deletePlanet(position);
         assertNull(galaxy.getPlanet(position));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testWrongPositionGet() {
+        galaxy.getPlanet(new Position(15, -2));
     }
 }

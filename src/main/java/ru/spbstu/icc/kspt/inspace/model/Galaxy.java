@@ -19,15 +19,30 @@ public class Galaxy {
         }
     }
 
+    private void checkPosition(Position position) {
+        int planetNumber = position.getPlanetNumber();
+        int systemNumber = position.getSystemNumber();
+        if (systemNumber < 0 && systemNumber >= MAX_SYSTEM_NUMBER &&
+            planetNumber < 0 && planetNumber >= MAX_PLANET_NUMBER) {
+
+            throw new IndexOutOfBoundsException(position
+                    + " Maximal number of systems: " + MAX_SYSTEM_NUMBER
+                    + ", maximal number of planets: " + MAX_PLANET_NUMBER + ".");
+        }
+    }
+
     public void addPlanet(Planet planet, Position position) {
+        checkPosition(position);
         galaxy.get(position.getSystemNumber()).add(position.getPlanetNumber(), planet);
     }
 
     public Planet getPlanet(Position position) {
+        checkPosition(position);
         return galaxy.get(position.getSystemNumber()).get(position.getPlanetNumber());
     }
 
     public void deletePlanet(Position position) {
+        checkPosition(position);
         galaxy.get(position.getSystemNumber()).set(position.getPlanetNumber(),null);
     }
 
