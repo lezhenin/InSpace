@@ -1,0 +1,35 @@
+package ru.spbstu.icc.kspt.inspace.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Galaxy {
+
+    public static final int MAX_SYSTEM_NUMBER = 10;
+    public static final int MAX_PLANET_NUMBER = 10;
+
+    private List<List<Planet>> galaxy = new ArrayList<>();
+
+    public Galaxy() {
+        for (int i = 0; i < MAX_SYSTEM_NUMBER; i++) {
+            galaxy.add(new ArrayList<>());
+            for (int j = 0; j < MAX_PLANET_NUMBER; j++) {
+                galaxy.get(i).add(null);
+            }
+        }
+    }
+
+    public void addPlanet(Planet planet, Position position) {
+        galaxy.get(position.getSystemNumber()).add(position.getPlanetNumber(), planet);
+    }
+
+    public Planet getPlanet(Position position) {
+        return galaxy.get(position.getSystemNumber()).get(position.getPlanetNumber());
+    }
+
+    public void deletePlanet(Position position) {
+        galaxy.get(position.getSystemNumber()).set(position.getPlanetNumber(),null);
+    }
+
+
+}
