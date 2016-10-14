@@ -6,8 +6,8 @@ import static org.junit.Assert.*;
 
 public class GalaxyTest {
 
-    Galaxy galaxy = new Galaxy();
-    Position position = new Position(5, 7);
+    private Galaxy galaxy = new Galaxy();
+    private Position position = new Position(5, 7);
 
     @Test
     public void testAdd() {
