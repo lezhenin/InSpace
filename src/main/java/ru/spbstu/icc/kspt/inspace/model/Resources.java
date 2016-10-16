@@ -17,6 +17,18 @@ public class Resources {
         deuterium += resources.deuterium;
     }
 
+    public int getMetal() {
+        return metal;
+    }
+
+    public int getCrystals() {
+        return crystals;
+    }
+
+    public int getDeuterium() {
+        return deuterium;
+    }
+
     public Resources getResources(int metal, int crystals, int deuterium) {
 
         int metalAmount = (metal <= this.metal) ? metal : this.metal;
