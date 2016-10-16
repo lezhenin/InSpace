@@ -15,7 +15,8 @@ public class MetalMine extends Mine {
 
     @Override
     protected Resources getProductionPerPeriod(Duration duration) {
-        int metal = (int)Math.round(PRODUCTION_SPEED_VALUE_1 * level * Math.pow(PRODUCTION_SPEED_VALUE_2, level));
-        return new Resources(metal, 0, 0);
+        double metal = PRODUCTION_SPEED_VALUE_1 * (level+1) * Math.pow(PRODUCTION_SPEED_VALUE_2, level);
+        metal *= duration.getSeconds()/3600.0;
+        return new Resources((int)Math.round(metal), 0, 0);
     }
 }

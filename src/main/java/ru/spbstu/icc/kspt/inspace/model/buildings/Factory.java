@@ -17,7 +17,10 @@ public class Factory extends Building {
         super(factory);
     }
 
-    protected void upgrade(Building building) {}
+    protected void upgrade(Building building) {
+        building.level++;
+        //TODO implement buildings upgrade mechanism
+    }
 
     protected Duration getDuration(Building building) {
 

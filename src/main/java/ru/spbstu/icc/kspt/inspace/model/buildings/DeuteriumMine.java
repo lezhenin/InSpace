@@ -15,7 +15,8 @@ public class DeuteriumMine extends Mine {
 
     @Override
     protected Resources getProductionPerPeriod(Duration duration) {
-        int deuterium = (int)Math.round(PRODUCTION_SPEED_VALUE_1 * level * Math.pow(PRODUCTION_SPEED_VALUE_2, level));
-        return new Resources(0, 0, deuterium);
+        double deuterium = PRODUCTION_SPEED_VALUE_1 * (level+1) * Math.pow(PRODUCTION_SPEED_VALUE_2, level);
+        deuterium *= duration.getSeconds()/3600.0;
+        return new Resources(0, 0, (int)Math.round(deuterium));
     }
 }
