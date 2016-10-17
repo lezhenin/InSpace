@@ -16,12 +16,16 @@ public class Building {
         this.factory = factory;
     }
 
+    public boolean canBeUpgraded() {
+        return factory.canBeUpgraded(this);
+    }
+
     public void upgrade() {
         factory.upgrade(this);
     }
 
-    public Duration getDuration() {
-        return factory.getDuration(this);
+    public Duration getBuildDuration() {
+        return factory.getBuildDuration(this);
     }
 
     public Resources getCost() {

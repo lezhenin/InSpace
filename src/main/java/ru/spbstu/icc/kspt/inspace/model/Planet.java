@@ -27,7 +27,7 @@ public class Planet {
     public Planet() {
         this.resources = new Resources(0,0,0);
 
-        Factory factory = new Factory();
+        Factory factory = new Factory(this);
         buildings.put(BuildingType.FACTORY, factory);
         buildings.put(BuildingType.CRYSTAL_MINE, new CrystalMine(factory));
         buildings.put(BuildingType.DEUTERIUM_MINE, new DeuteriumMine(factory));
@@ -46,6 +46,10 @@ public class Planet {
 
     public Resources getResources() {
         return resources;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public Building getBuilding(BuildingType type) {
