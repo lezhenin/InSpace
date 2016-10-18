@@ -52,8 +52,8 @@ public class Planet {
         return buildings.get(type);
     }
 
-    public Collection<Building> getBuildings() {
-        return buildings.values();
+    public Set<Map.Entry<BuildingType, Building>> getBuildings() {
+        return buildings.entrySet();
     }
 
     public BuildingUpgrade getCurrentBuildingUpgrade() {
