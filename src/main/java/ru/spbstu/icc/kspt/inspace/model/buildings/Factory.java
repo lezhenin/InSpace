@@ -56,6 +56,7 @@ public class Factory extends Building {
     public void updateBuildings() {
         if (isBusy() && upgrading.getTime().compareTo(LocalDateTime.now()) >= 0 ){
             upgrading.execute(LocalDateTime.now());
+            upgrading = null;
         }
     }
 

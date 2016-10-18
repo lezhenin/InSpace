@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
+import com.sun.istack.internal.Nullable;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 
 import java.util.*;
@@ -49,21 +50,31 @@ public class Planet {
     }
 
     public Building getBuilding(BuildingType type) {
+        updateBuildings();
         return buildings.get(type);
     }
 
     public Set<Map.Entry<BuildingType, Building>> getBuildings() {
+        updateBuildings();
         return buildings.entrySet();
     }
 
+    @Nullable
     public BuildingUpgrade getCurrentBuildingUpgrade() {
+        updateBuildings();
         Factory factory = (Factory)buildings.get(BuildingType.FACTORY);
         return factory.getCurrentUpgrade();
     }
 
     public void update() {
+
         for (Mine mine: mines) {
             resources.addResources(mine.getProduction());
         }
+        updateBuildings();
+    }
+
+    private void updateBuildings() {
+        ((Factory)buildings.get(BuildingType.FACTORY)).updateBuildings();
     }
 }
