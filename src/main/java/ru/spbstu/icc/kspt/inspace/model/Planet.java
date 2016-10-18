@@ -2,10 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model;
 
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class Planet {
@@ -36,7 +33,6 @@ public class Planet {
         mines.add((Mine)buildings.get(BuildingType.METAL_MINE));
         mines.add((Mine)buildings.get(BuildingType.CRYSTAL_MINE));
         mines.add((Mine)buildings.get(BuildingType.DEUTERIUM_MINE));
-
     }
 
     public Planet(int size) {
@@ -54,6 +50,15 @@ public class Planet {
 
     public Building getBuilding(BuildingType type) {
         return buildings.get(type);
+    }
+
+    public Collection<Building> getBuildings() {
+        return buildings.values();
+    }
+
+    public BuildingUpgrade getCurrentBuildingUpgrade() {
+        Factory factory = (Factory)buildings.get(BuildingType.FACTORY);
+        return factory.getCurrentUpgrade();
     }
 
     public void update() {
