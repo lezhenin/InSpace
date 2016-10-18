@@ -4,11 +4,13 @@ import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Factory extends Building {
 
     private final static int BUILDING_SPEED_VALUE = 3000;
     private Planet planet;
+    private BuildingUpgrade upgrading;
 
     public Factory(Planet planet) {
         this(planet, null);
@@ -21,27 +23,41 @@ public class Factory extends Building {
         this.planet = planet;
     }
 
-    public boolean canBeUpgraded(Building building) {
-        if (building.getCost().compareTo(planet.getResources()) == -1) {
-            return false;
-        }
-        else return true;
+    public boolean isBusy() {
+        return upgrading != null;
     }
 
-    public void upgrade(Building building) {
+    public void startUpgrade(BuildingUpgrade upgrading) {
 
-        if (canBeUpgraded(building)){
-            planet.getResources().getResources(building.getCost());
-            building.level++;
+        Building building = upgrading.getUpgradable();
+
+        if (!checkUpgradability(building)){
+            //TODO exception
+            return;
         }
-        //TODO implement buildings upgrade mechanism
+
+        planet.getResources().getResources(building.getUpgradeCost());
+        this.upgrading = upgrading;
     }
 
-    public Duration getBuildDuration(Building building) {
+    public boolean checkUpgradability(Building building) {
+        return !(building.getUpgradeCost().compareTo(planet.getResources()) == -1 && !isBusy());
+    }
 
-        Resources cost = building.getCost();
+    public Duration calculateUpgradeDuration(Building building) {
+
+        Resources cost = building.getUpgradeCost();
         double hours = (cost.getMetal() + cost.getCrystals())/(BUILDING_SPEED_VALUE * (1 + level));
         return Duration.ofSeconds(Math.round(hours * 3600));
     }
 
+    public BuildingUpgrade getCurrentUpgrade() {
+        return upgrading;
+    }
+
+    public void updateBuildings() {
+        if (isBusy() && upgrading.getTime().compareTo(LocalDateTime.now()) >= 0 ){
+            upgrading.execute(LocalDateTime.now());
+        }
+    }
 }
