@@ -8,8 +8,13 @@ import java.time.LocalDateTime;
 
 public class Factory extends Building {
 
-    private final static int BUILDING_SPEED_VALUE = 3000;
+    private static final int METAL_COST_VALUE = 60;
+    private static final int CRYSTAL_COST_VALUE = 50;
+
+    private final static int UPGRADE_SPEED_VALUE = 3000;
+
     private Planet planet;
+
     private BuildingUpgrade upgrading;
 
     public Factory(Planet planet) {
@@ -44,13 +49,6 @@ public class Factory extends Building {
         return !(building.getUpgradeCost().compareTo(planet.getResources()) == -1 && !isBusy());
     }
 
-    public Duration calculateUpgradeDuration(Building building) {
-
-        Resources cost = building.getUpgradeCost();
-        double hours = (cost.getMetal() + cost.getCrystals())/(BUILDING_SPEED_VALUE * (1 + level));
-        return Duration.ofSeconds(Math.round(hours * 3600));
-    }
-
     public BuildingUpgrade getCurrentUpgrade() {
         return upgrading;
     }
@@ -60,4 +58,21 @@ public class Factory extends Building {
             upgrading.execute(LocalDateTime.now());
         }
     }
+
+    @Override
+    public Duration getUpgradeDuration() {
+        Resources cost = getUpgradeCost();
+        double summaryCost = cost.getMetal() + cost.getCrystals() + cost.getMetal();
+        double hours = summaryCost / (UPGRADE_SPEED_VALUE * (1 + factory.getLevel()));
+        return Duration.ofSeconds(Math.round(hours * 3600));
+    }
+
+    @Override
+    public Resources getUpgradeCost() {
+        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.6, level));
+        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.6, level));
+        return new Resources(metal, crystal, 0);
+    }
+
+
 }
