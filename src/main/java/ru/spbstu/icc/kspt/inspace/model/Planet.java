@@ -1,6 +1,5 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
-import com.sun.istack.internal.Nullable;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 
 import java.util.*;
@@ -59,7 +58,6 @@ public class Planet {
         return buildings.entrySet();
     }
 
-    @Nullable
     public BuildingUpgrade getCurrentBuildingUpgrade() {
         updateBuildings();
         Factory factory = (Factory)buildings.get(BuildingType.FACTORY);
