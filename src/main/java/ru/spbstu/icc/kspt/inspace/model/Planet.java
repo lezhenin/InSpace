@@ -15,7 +15,7 @@ public class Planet {
         DEUTERIUM_MINE,
     }
 
-    private Map<BuildingType, Building> buildings = new HashMap<>();
+    private Map<BuildingType, Building> buildings = new EnumMap<>(BuildingType.class);
     private List<Mine> mines = new ArrayList<>();
 
     private int size;
@@ -59,7 +59,6 @@ public class Planet {
         return buildings.entrySet();
     }
 
-    @Nullable
     public BuildingUpgrade getCurrentBuildingUpgrade() {
         updateBuildings();
         Factory factory = (Factory)buildings.get(BuildingType.FACTORY);

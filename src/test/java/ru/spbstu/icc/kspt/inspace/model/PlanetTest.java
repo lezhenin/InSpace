@@ -17,14 +17,8 @@ public class PlanetTest {
 
         System.out.println(planet.getResources());
 
-        planet.getBuilding(Planet.BuildingType.METAL_MINE).startUpgrade();
-        planet.getBuilding(Planet.BuildingType.METAL_MINE).startUpgrade();
-        planet.getBuilding(Planet.BuildingType.METAL_MINE).startUpgrade();
-        planet.getBuilding(Planet.BuildingType.METAL_MINE).startUpgrade();
-        planet.getBuilding(Planet.BuildingType.METAL_MINE).startUpgrade();
-
         try {
-            Thread.sleep(10000);
+            Thread.sleep(60000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
