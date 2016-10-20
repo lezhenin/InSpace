@@ -1,6 +1,5 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
-import com.sun.istack.internal.Nullable;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 
 import java.util.*;
