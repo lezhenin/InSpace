@@ -9,6 +9,7 @@ node {
         }
         stage ('test') {
             sh 'gradle test'
+            sh 'gradle jacocoTestReport'
         }
         stage ('publish results') {
             junit 'build\test-results\TEST-ru.spbstu.icc.kspt.inspace.model.GalaxyTest.xml'
