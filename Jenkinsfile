@@ -12,7 +12,7 @@ node {
             sh 'gradle jacocoTestReport'
         }
         stage ('publish results') {
-            junit 'build\test-results\TEST-ru.spbstu.icc.kspt.inspace.model.GalaxyTest.xml'
+            junit 'build/test-results/TEST-ru.spbstu.icc.kspt.inspace.model.GalaxyTest.xml'
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: 'Jacoco HTML Report'])
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'build/reports/tests', reportFiles: 'index.html', reportName: 'JUnit HTML Report'])
         }
