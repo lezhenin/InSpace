@@ -1,3 +1,3 @@
-stage 'Build'{
+stage 'build'{
     sh 'gradle build'
 }
