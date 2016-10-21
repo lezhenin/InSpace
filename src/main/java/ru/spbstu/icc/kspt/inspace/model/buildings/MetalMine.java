@@ -38,4 +38,9 @@ public class MetalMine extends Mine {
         metal *= duration.getSeconds()/3600.0;
         return new Resources((int)Math.round(metal), 0, 0);
     }
+
+    @Override
+    public int getEnergyConsumption() {
+        return 0;
+    }
 }

@@ -11,7 +11,7 @@ public class GalaxyTest {
 
     @Test
     public void testAdd() {
-        Planet planet = new Planet();
+        Planet planet = new Planet("MyPlanet");
         galaxy.addPlanet(planet, position);
         Planet gottenPlanet = galaxy.getPlanet(position);
         assertTrue(planet == gottenPlanet);

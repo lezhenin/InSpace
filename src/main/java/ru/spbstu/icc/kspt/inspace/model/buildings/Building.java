@@ -12,11 +12,9 @@ abstract public class Building implements Upgradable {
 
     protected int level;
 
-
     protected void upgrade() {
         level++;
     }
-
 
     public Building(Factory factory) {
         this.factory = factory;
@@ -41,6 +39,8 @@ abstract public class Building implements Upgradable {
     abstract public Duration getUpgradeDuration();
 
     abstract public Resources getUpgradeCost();
+
+    abstract public int getEnergyConsumption();
 
     public int getLevel() {
         return level;

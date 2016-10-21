@@ -17,6 +17,8 @@ public class Factory extends Building {
 
     private BuildingUpgrade upgrading;
 
+    private int fields = 0;
+
     public Factory(Planet planet) {
         this(planet, null);
         factory = this;
@@ -26,6 +28,10 @@ public class Factory extends Building {
     {
         super(factory);
         this.planet = planet;
+    }
+
+    public int getFields() {
+        return fields;
     }
 
     public boolean isBusy() {
@@ -46,7 +52,8 @@ public class Factory extends Building {
     }
 
     public boolean checkUpgradability(Building building) {
-        return !(building.getUpgradeCost().compareTo(planet.getResources()) == -1 && !isBusy());
+        return !(building.getUpgradeCost().compareTo(planet.getResources()) == -1 &&
+                !isBusy() && planet.getSize()-fields > 0);
     }
 
     public BuildingUpgrade getCurrentUpgrade() {
@@ -57,6 +64,7 @@ public class Factory extends Building {
         if (isBusy() && upgrading.getTime().compareTo(LocalDateTime.now()) >= 0 ){
             upgrading.execute(LocalDateTime.now());
             upgrading = null;
+            fields++;
         }
     }
 
@@ -75,5 +83,8 @@ public class Factory extends Building {
         return new Resources(metal, crystal, 0);
     }
 
-
+    @Override
+    public int getEnergyConsumption() {
+        return 0;
+    }
 }

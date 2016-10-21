@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class PlanetTest {
 
-    private Planet planet = new Planet();
+    private Planet planet = new Planet("Nibiru");
 
     @Test
     public void testUpdate() {
@@ -29,6 +29,12 @@ public class PlanetTest {
 
     @Test
     public void testGetBuildings() {
+        System.out.println("Planet: " + planet.getName());
+        System.out.println("Resources: " + planet.getResources());
+        System.out.println("Energy level: " + planet.getEnergyLevel());
+        System.out.println(planet.getEmptyFields() + " fields are empty");
+        System.out.println("Buildings:");
+        System.out.println();
         for(Map.Entry<BuildingType, Building> entry: planet.getBuildings()) {
             Building building = entry.getValue();
             System.out.println(entry.getKey());

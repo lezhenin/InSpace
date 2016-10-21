@@ -13,6 +13,8 @@ public class CrystalMine extends Mine {
 
     private static final int UPGRADE_SPEED_VALUE = 2500;
 
+    private static final int ENETGY_CONSUMPTION_VALUE = 40;
+
     public CrystalMine(Factory factory) {
         super(factory);
     }
@@ -37,5 +39,10 @@ public class CrystalMine extends Mine {
         double crystals = PRODUCTION_SPEED_VALUE * (level+1) * Math.pow(1.1, level);
         crystals *= duration.getSeconds()/3600.0;
         return new Resources(0, (int)Math.round(crystals), 0);
+    }
+
+    @Override
+    public int getEnergyConsumption() {
+        return  (int)(ENETGY_CONSUMPTION_VALUE * (level+1) * Math.pow(1.4, level));
     }
 }

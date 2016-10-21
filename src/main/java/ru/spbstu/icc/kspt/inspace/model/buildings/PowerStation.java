@@ -3,18 +3,42 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DeuteriumMine extends Mine {
+public class PowerStation extends Building {
 
-    private static final int PRODUCTION_SPEED_VALUE = 20;
+    public static final int ENERGY_PRODUCTION_VALUE = 100;
 
-    private static final int METAL_COST_VALUE = 62;
-    private static final int CRYSTAL_COST_VALUE = 58;
+    private static final int METAL_COST_VALUE = 85;
+    private static final int CRYSTAL_COST_VALUE = 65;
 
     private static final int UPGRADE_SPEED_VALUE = 2300;
 
-    public DeuteriumMine(Factory factory) {
+    public PowerStation(Factory factory) {
         super(factory);
+    }
+
+    private List<Building> consumers = new ArrayList<>();
+
+    public int getEnergyLevel() {
+        int energy = getEnergyProduction();
+        for(Building building: consumers) {
+            energy -= building.getEnergyConsumption();
+        }
+        return energy;
+    }
+
+    public void addConsumer(Building building) {
+        consumers.add(building);
+    }
+
+    public List<Building> getConsumers() {
+        return consumers;
+    }
+
+    public int getEnergyProduction() {
+        return ENERGY_PRODUCTION_VALUE * level * (int)Math.pow(1.3, level);
     }
 
     @Override
@@ -30,13 +54,6 @@ public class DeuteriumMine extends Mine {
         int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, level));
         int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.5, level));
         return new Resources(metal, crystal, 0);
-    }
-
-    @Override
-    protected Resources getProductionPerPeriod(Duration duration) {
-        double deuterium = PRODUCTION_SPEED_VALUE * (level+1) * Math.pow(1.1, level);
-        deuterium *= duration.getSeconds()/3600.0;
-        return new Resources(0, 0, (int)Math.round(deuterium));
     }
 
     @Override
