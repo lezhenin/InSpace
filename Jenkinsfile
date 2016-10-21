@@ -1,5 +1,5 @@
 node {
     stage ('build sources') {
-        sh 'gradle build -Dorg.gradle.jvmargs=-Xmx256m -Dorg.gradle.daemon=false'
+        sh 'gradlew build -Dorg.gradle.jvmargs=-Xmx256m -Dorg.gradle.daemon=false'
     }
 }
