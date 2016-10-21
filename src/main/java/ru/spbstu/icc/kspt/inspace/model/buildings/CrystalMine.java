@@ -43,6 +43,6 @@ public class CrystalMine extends Mine {
 
     @Override
     public int getEnergyConsumption() {
-        return  (int)(ENETGY_CONSUMPTION_VALUE * (level+1) * Math.pow(1.4, level));
+        return  (int)(ENETGY_CONSUMPTION_VALUE * level * Math.pow(1.4, level));
     }
 }

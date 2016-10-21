@@ -4,8 +4,11 @@ apply plugin: 'java'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.powermock', name: 'powermock-mockito-release-full', version: '1.5.4'
+
 }
