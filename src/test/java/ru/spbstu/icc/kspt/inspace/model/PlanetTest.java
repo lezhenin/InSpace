@@ -70,9 +70,10 @@ public class PlanetTest {
         PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime
                 .now()
-                .plus(Duration.ofMinutes(532))
+                .plus(Duration.ofMinutes(531))
                 .plus(building.getUpgradeDuration()));
         planet.update();
         assertEquals(building.getLevel(), 1);
+        assertEquals(planet.getResources(), new Resources(208, 172, 178));
     }
 }

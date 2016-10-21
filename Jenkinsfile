@@ -7,11 +7,8 @@ node {
         stage ('build sources') {
             sh 'gradle build -Dorg.gradle.jvmargs=-Xmx256m -Dorg.gradle.daemon=false'
         }
-        stage ('test') {
-            sh 'gradle test'
-            sh 'gradle jacocoTestReport'
-        }
         stage ('publish results') {
+            sh 'gradle jacocoTestReport -Dorg.gradle.jvmargs=-Xmx256m -Dorg.gradle.daemon=false'
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: 'Jacoco HTML Report'])
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'build/reports/tests', reportFiles: 'index.html', reportName: 'JUnit HTML Report'])
         }
