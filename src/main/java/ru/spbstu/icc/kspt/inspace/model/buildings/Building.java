@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 
 import java.time.Duration;
@@ -26,7 +27,7 @@ abstract public class Building implements Upgradable {
 
     @Override
     public void startUpgrade() {
-        LocalDateTime upgradeTime = LocalDateTime.now().plus(getUpgradeDuration());
+        LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());
         factory.startUpgrade(new BuildingUpgrade(this, upgradeTime) {
             @Override
             public void execute(LocalDateTime now) {

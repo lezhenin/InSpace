@@ -2,6 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
 import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,15 +14,15 @@ abstract public class Mine extends Building {;
 
     public Mine(Factory factory) {
         super(factory);
-        lastProductionGetting = LocalDateTime.now();
+        lastProductionGetting = Time.now();
         temporaryStorage = new Resources(0,0,0);
     }
 
     public Resources getProduction() {
-        Resources resources = getProductionPerPeriod(Duration.between(lastProductionGetting, LocalDateTime.now()));
+        Resources resources = getProductionPerPeriod(Duration.between(lastProductionGetting, Time.now()));
         resources.addResources(temporaryStorage);
         temporaryStorage = new Resources(0,0,0);
-        lastProductionGetting = LocalDateTime.now();
+        lastProductionGetting = Time.now();
         return resources;
     }
 

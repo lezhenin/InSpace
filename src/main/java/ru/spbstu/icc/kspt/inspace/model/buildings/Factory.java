@@ -2,9 +2,9 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 
 public class Factory extends Building {
 
@@ -52,7 +52,7 @@ public class Factory extends Building {
     }
 
     public boolean checkUpgradability(Building building) {
-        return !(building.getUpgradeCost().compareTo(planet.getResources()) == -1 &&
+        return (building.getUpgradeCost().compareTo(planet.getResources()) == -1 &&
                 !isBusy() && planet.getSize()-fields > 0);
     }
 
@@ -61,8 +61,8 @@ public class Factory extends Building {
     }
 
     public void updateBuildings() {
-        if (isBusy() && upgrading.getTime().compareTo(LocalDateTime.now()) >= 0 ){
-            upgrading.execute(LocalDateTime.now());
+        if (isBusy() && upgrading.getTime().compareTo(Time.now()) <= 0 ){
+            upgrading.execute(Time.now());
             upgrading = null;
             fields++;
         }

@@ -50,6 +50,7 @@ public class Planet {
     }
 
     public Resources getResources() {
+        update();
         return resources;
     }
 
