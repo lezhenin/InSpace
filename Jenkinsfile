@@ -7,5 +7,11 @@ node {
         stage ('build sources') {
             sh 'gradle build -Dorg.gradle.jvmargs=-Xmx256m -Dorg.gradle.daemon=false'
         }
+        stage ('test') {
+            sh 'gradle test'
+        }
+        stage ('publish results') {
+            junit 'build/test-results/TEST*.xml'
+        }
     }
 }
