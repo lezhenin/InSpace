@@ -67,4 +67,25 @@ public class Resources implements Comparable<Resources>{
             return 1;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Resources resources = (Resources) o;
+
+        if (metal != resources.metal) return false;
+        if (crystals != resources.crystals) return false;
+        return deuterium == resources.deuterium;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = metal;
+        result = 31 * result + crystals;
+        result = 31 * result + deuterium;
+        return result;
+    }
 }
