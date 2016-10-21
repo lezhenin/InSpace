@@ -1,2 +1,3 @@
-stage 'Test'
-echo 'hello world'
+stage 'Build'{
+    sh 'gradle build'
+}
