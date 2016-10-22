@@ -1,8 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
-import ru.spbstu.icc.kspt.inspace.model.Planet;
+import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
-import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import java.time.Duration;
 
@@ -13,66 +12,17 @@ public class Factory extends Building {
 
     private final static int UPGRADE_SPEED_VALUE = 3000;
 
-    private Planet planet;
 
-    private BuildingUpgrade upgrading;
-
-    private int fields = 0;
-
-    public Factory(Planet planet) {
-        this(planet, null);
-        factory = this;
-    }
-
-    public Factory(Planet planet, Factory factory)
+    public Factory(BuildingDepartment department)
     {
-        super(factory);
-        this.planet = planet;
-    }
-
-    public int getFields() {
-        return fields;
-    }
-
-    public boolean isBusy() {
-        return upgrading != null;
-    }
-
-    public void startUpgrade(BuildingUpgrade upgrading) {
-
-        Building building = upgrading.getUpgradable();
-
-        if (!checkUpgradability(building)){
-            //TODO exception
-            return;
-        }
-
-        planet.getResources().getResources(building.getUpgradeCost());
-        this.upgrading = upgrading;
-    }
-
-    public boolean checkUpgradability(Building building) {
-        return (building.getUpgradeCost().compareTo(planet.getResources()) == -1 &&
-                !isBusy() && planet.getSize()-fields > 0);
-    }
-
-    public BuildingUpgrade getCurrentUpgrade() {
-        return upgrading;
-    }
-
-    public void updateBuildings() {
-        if (isBusy() && upgrading.getTime().compareTo(Time.now()) <= 0 ){
-            upgrading.execute(Time.now());
-            upgrading = null;
-            fields++;
-        }
+        super(department);
     }
 
     @Override
     public Duration getUpgradeDuration() {
         Resources cost = getUpgradeCost();
         double summaryCost = cost.getMetal() + cost.getCrystals() + cost.getMetal();
-        double hours = summaryCost / (UPGRADE_SPEED_VALUE * (1 + factory.getLevel()));
+        double hours = summaryCost / (UPGRADE_SPEED_VALUE * (1 + level));
         return Duration.ofSeconds(Math.round(hours * 3600));
     }
 

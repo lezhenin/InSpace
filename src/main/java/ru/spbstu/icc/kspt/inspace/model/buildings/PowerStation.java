@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
+import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 
 import java.time.Duration;
@@ -15,8 +16,11 @@ public class PowerStation extends Building {
 
     private static final int UPGRADE_SPEED_VALUE = 2300;
 
-    public PowerStation(Factory factory) {
-        super(factory);
+    private Factory factory;
+
+    public PowerStation(BuildingDepartment department, Factory factory) {
+        super(department);
+        this.factory = factory;
     }
 
     private List<Building> consumers = new ArrayList<>();

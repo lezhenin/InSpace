@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
+import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 
 import java.util.*;
 
@@ -15,33 +16,17 @@ public class Planet {
         POWER_STATION
     }
 
-    private Map<BuildingType, Building> buildings = new EnumMap<>(BuildingType.class);
-    private List<Mine> mines = new ArrayList<>();
-
     private int size = 200;
-
     private String name;
-
     private Resources resources;
+    private BuildingDepartment buildingDepartment;
+
 
     public Planet(String name) {
         this.name = name;
         this.resources = new Resources(0,0,0);
 
-        Factory factory = new Factory(this);
-        buildings.put(BuildingType.FACTORY, factory);
-        buildings.put(BuildingType.CRYSTAL_MINE, new CrystalMine(factory));
-        buildings.put(BuildingType.DEUTERIUM_MINE, new DeuteriumMine(factory));
-        buildings.put(BuildingType.METAL_MINE, new MetalMine(factory));
-
-        mines.add((Mine)buildings.get(BuildingType.METAL_MINE));
-        mines.add((Mine)buildings.get(BuildingType.CRYSTAL_MINE));
-        mines.add((Mine)buildings.get(BuildingType.DEUTERIUM_MINE));
-
-        PowerStation station = new PowerStation(factory);
-        mines.forEach(station::addConsumer);
-        buildings.put(BuildingType.POWER_STATION, station);
-
+        buildingDepartment = new BuildingDepartment(this);
     }
 
     public Planet(String name, int size) {
@@ -55,7 +40,7 @@ public class Planet {
     }
 
     public int getEnergyLevel() {
-        return ((PowerStation) (getBuilding(BuildingType.POWER_STATION))).getEnergyLevel();
+        return ((PowerStation)(getBuilding(BuildingType.POWER_STATION))).getEnergyLevel();
     }
 
     public int getSize() {
@@ -63,7 +48,7 @@ public class Planet {
     }
 
     public int getEmptyFields() {
-        return size - ((Factory)getBuilding(BuildingType.FACTORY)).getFields();
+        return size - buildingDepartment.getFields();
     }
 
     public String getName() {
@@ -71,34 +56,26 @@ public class Planet {
     }
 
     public Building getBuilding(BuildingType type) {
-        updateBuildings();
-        return buildings.get(type);
+        return buildingDepartment.getBuilding(type);
     }
 
     public Set<Map.Entry<BuildingType, Building>> getBuildings() {
-        updateBuildings();
-        return buildings.entrySet();
+        return buildingDepartment.getBuildings();
     }
 
     public BuildingUpgrade getCurrentBuildingUpgrade() {
-        updateBuildings();
-        Factory factory = (Factory)getBuilding(BuildingType.FACTORY);
-        return factory.getCurrentUpgrade();
+        return buildingDepartment.getCurrentUpgrade();
     }
 
     public void update() {
 
-        for (Mine mine: mines) {
+        for (Mine mine: buildingDepartment.getMines()) {
             resources.addResources(mine.getProduction());
         }
-        updateBuildings();
     }
 
     public void rename(String newName) {
         name = newName;
     }
 
-    private void updateBuildings() {
-        ((Factory)buildings.get(BuildingType.FACTORY)).updateBuildings();
-    }
 }

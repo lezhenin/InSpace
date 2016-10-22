@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
+import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 
 abstract public class Building implements Upgradable {
 
-    protected Factory factory;
+    protected BuildingDepartment department;
 
     protected int level;
 
@@ -17,18 +18,18 @@ abstract public class Building implements Upgradable {
         level++;
     }
 
-    public Building(Factory factory) {
-        this.factory = factory;
+    public Building(BuildingDepartment department) {
+        this.department = department;
     }
 
     public boolean canBeUpgraded() {
-        return factory.checkUpgradability(this);
+        return department.checkUpgradability(this);
     }
 
     @Override
     public void startUpgrade() {
         LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());
-        factory.startUpgrade(new BuildingUpgrade(this, upgradeTime) {
+        department.startUpgrade(new BuildingUpgrade(this, upgradeTime) {
             @Override
             public void execute(LocalDateTime now) {
                 super.execute(now);

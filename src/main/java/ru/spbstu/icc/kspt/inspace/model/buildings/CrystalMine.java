@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
+import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 
 import java.time.Duration;
@@ -13,10 +14,10 @@ public class CrystalMine extends Mine {
 
     private static final int UPGRADE_SPEED_VALUE = 2500;
 
-    private static final int ENETGY_CONSUMPTION_VALUE = 40;
+    private static final int ENERGY_CONSUMPTION_VALUE = 40;
 
-    public CrystalMine(Factory factory) {
-        super(factory);
+    public CrystalMine(BuildingDepartment department, Factory factory) {
+        super(department, factory);
     }
 
     @Override
@@ -43,6 +44,6 @@ public class CrystalMine extends Mine {
 
     @Override
     public int getEnergyConsumption() {
-        return  (int)(ENETGY_CONSUMPTION_VALUE * level * Math.pow(1.4, level));
+        return  (int)(ENERGY_CONSUMPTION_VALUE * level * Math.pow(1.4, level));
     }
 }

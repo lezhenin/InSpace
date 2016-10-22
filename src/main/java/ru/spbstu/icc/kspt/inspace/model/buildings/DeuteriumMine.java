@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
+import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 
 import java.time.Duration;
@@ -10,11 +11,10 @@ public class DeuteriumMine extends Mine {
 
     private static final int METAL_COST_VALUE = 62;
     private static final int CRYSTAL_COST_VALUE = 58;
-
     private static final int UPGRADE_SPEED_VALUE = 2300;
 
-    public DeuteriumMine(Factory factory) {
-        super(factory);
+    public DeuteriumMine(BuildingDepartment department, Factory factory) {
+        super(department, factory);
     }
 
     @Override

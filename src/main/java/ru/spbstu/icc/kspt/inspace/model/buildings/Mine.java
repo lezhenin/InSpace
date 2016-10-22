@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
+import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
@@ -11,9 +12,12 @@ abstract public class Mine extends Building {;
 
     protected LocalDateTime lastProductionGetting;
     protected Resources temporaryStorage;
+    protected Factory factory;
 
-    public Mine(Factory factory) {
-        super(factory);
+    public Mine(BuildingDepartment department, Factory factory) {
+        super(department);
+        this.factory = factory;
+
         lastProductionGetting = Time.now();
         temporaryStorage = new Resources(0,0,0);
     }
