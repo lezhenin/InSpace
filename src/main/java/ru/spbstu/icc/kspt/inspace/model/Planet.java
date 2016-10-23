@@ -1,7 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
-import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
+import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
 
 import java.util.*;

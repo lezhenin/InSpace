@@ -1,12 +1,9 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
-import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyProducer;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PowerStation extends Building implements EnergyProducer {
 

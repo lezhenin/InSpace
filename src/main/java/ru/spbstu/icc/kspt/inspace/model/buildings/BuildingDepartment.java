@@ -1,4 +1,4 @@
-package ru.spbstu.icc.kspt.inspace.model.departments;
+package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
