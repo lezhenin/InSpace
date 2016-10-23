@@ -2,6 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model;
 
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
+import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
 
 import java.util.*;
 
@@ -19,14 +20,16 @@ public class Planet {
     private int size = 200;
     private String name;
     private Resources resources;
-    private BuildingDepartment buildingDepartment;
 
+    private BuildingDepartment buildingDepartment;
+    private EnergyDepartment energyDepartment;
 
     public Planet(String name) {
         this.name = name;
         this.resources = new Resources(0,0,0);
 
         buildingDepartment = new BuildingDepartment(this);
+        energyDepartment = new EnergyDepartment(this);
     }
 
     public Planet(String name, int size) {
@@ -39,8 +42,16 @@ public class Planet {
         return resources;
     }
 
+    public int getEnergyProduction() {
+        return energyDepartment.getTotalEnergyProduction();
+    }
+
+    public int getEnergyConsumption() {
+        return energyDepartment.getTotalEnergyConsumption();
+    }
+
     public int getEnergyLevel() {
-        return ((PowerStation)(getBuilding(BuildingType.POWER_STATION))).getEnergyLevel();
+        return energyDepartment.getEnergyLevel();
     }
 
     public int getSize() {

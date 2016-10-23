@@ -24,14 +24,11 @@ public class BuildingDepartment {
         buildings.put(Planet.BuildingType.CRYSTAL_MINE, new CrystalMine(this, factory));
         buildings.put(Planet.BuildingType.DEUTERIUM_MINE, new DeuteriumMine(this, factory));
         buildings.put(Planet.BuildingType.METAL_MINE, new MetalMine(this, factory));
+        buildings.put(Planet.BuildingType.POWER_STATION, new PowerStation(this, factory));
 
         mines.add((Mine)buildings.get(Planet.BuildingType.METAL_MINE));
         mines.add((Mine)buildings.get(Planet.BuildingType.CRYSTAL_MINE));
         mines.add((Mine)buildings.get(Planet.BuildingType.DEUTERIUM_MINE));
-
-        PowerStation station = new PowerStation(this, factory);
-        mines.forEach(station::addConsumer);
-        buildings.put(Planet.BuildingType.POWER_STATION, station);
     }
 
     public boolean checkUpgradability(Building building) {

@@ -24,24 +24,6 @@ public class PowerStation extends Building implements EnergyProducer {
         this.factory = factory;
     }
 
-    private List<Building> consumers = new ArrayList<>();
-
-    public int getEnergyLevel() {
-        int energy = getEnergyProduction();
-        for(Building building: consumers) {
-            //energy -= building.getEnergyConsumption();
-        }
-        return energy;
-    }
-
-    public void addConsumer(Building building) {
-        consumers.add(building);
-    }
-
-    public List<Building> getConsumers() {
-        return consumers;
-    }
-
     public int getEnergyProduction() {
         return ENERGY_PRODUCTION_VALUE * level * (int)Math.pow(1.3, level);
     }
