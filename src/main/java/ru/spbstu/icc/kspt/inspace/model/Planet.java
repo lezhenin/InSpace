@@ -38,19 +38,27 @@ public class Planet {
     }
 
     public Resources getResources() {
-        update();
+        updateResources();
         return resources;
     }
 
+    public void balanceEnergyConsumption() {
+        updateBuildings();
+        energyDepartment.balanceEnergyConsumption();
+    }
+
     public int getEnergyProduction() {
+        updateBuildings();
         return energyDepartment.getTotalEnergyProduction();
     }
 
     public int getEnergyConsumption() {
+        updateBuildings();
         return energyDepartment.getTotalEnergyConsumption();
     }
 
     public int getEnergyLevel() {
+        updateBuildings();
         return energyDepartment.getEnergyLevel();
     }
 
@@ -78,11 +86,19 @@ public class Planet {
         return buildingDepartment.getCurrentUpgrade();
     }
 
-    public void update() {
-
+    private void updateResources() {
+        updateBuildings();
         for (Mine mine: buildingDepartment.getMines()) {
             resources.addResources(mine.getProduction());
         }
+    }
+
+    private void updateBuildings(){
+        buildingDepartment.updateBuildings();
+    }
+
+    public void update() {
+        updateResources();
     }
 
     public void rename(String newName) {

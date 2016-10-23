@@ -2,7 +2,6 @@ package ru.spbstu.icc.kspt.inspace.model.energy;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
-import ru.spbstu.icc.kspt.inspace.model.buildings.PowerStation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +18,19 @@ public class EnergyDepartment {
 
         //TODO find alternative way to get consumers and producers
         for(Map.Entry<Planet.BuildingType, Building> building: planet.getBuildings()){
-            if (building instanceof EnergyConsumer) {
-                addConsumer((EnergyConsumer)building);
+            if (building.getValue() instanceof EnergyConsumer) {
+                addConsumer((EnergyConsumer)building.getValue());
             }
-            if (building instanceof EnergyProducer) {
-                addProducer((EnergyProducer)building);
+            if (building.getValue() instanceof EnergyProducer) {
+                addProducer((EnergyProducer)building.getValue());
             }
+        }
+    }
+
+    public void balanceEnergyConsumption() {
+        double power = (double)getTotalEnergyProduction() / getTotalEnergyConsumption();
+        for (EnergyConsumer consumer: consumers) {
+            consumer.setProductionPower(power);
         }
     }
 

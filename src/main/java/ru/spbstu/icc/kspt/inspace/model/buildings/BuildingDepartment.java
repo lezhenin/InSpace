@@ -79,7 +79,7 @@ public class BuildingDepartment {
         return mines;
     }
 
-   private void updateBuildings() {
+   public void updateBuildings() {
         if (upgrading != null && upgrading.getTime().compareTo(Time.now()) <= 0 ){
             upgrading.execute(Time.now());
             upgrading = null;
