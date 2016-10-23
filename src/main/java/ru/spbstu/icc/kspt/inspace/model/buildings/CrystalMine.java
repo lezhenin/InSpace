@@ -2,18 +2,16 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.energy.EnergyConsumer;
 
 import java.time.Duration;
 
-public class CrystalMine extends Mine {
+public class CrystalMine extends Mine implements EnergyConsumer {
 
     private static final int PRODUCTION_SPEED_VALUE = 25;
-
     private static final int METAL_COST_VALUE = 55;
     private static final int CRYSTAL_COST_VALUE = 50;
-
     private static final int UPGRADE_SPEED_VALUE = 2500;
-
     private static final int ENERGY_CONSUMPTION_VALUE = 40;
 
     public CrystalMine(BuildingDepartment department, Factory factory) {
@@ -37,13 +35,13 @@ public class CrystalMine extends Mine {
 
     @Override
     protected Resources getProductionPerPeriod(Duration duration) {
-        double crystals = PRODUCTION_SPEED_VALUE * (level+1) * Math.pow(1.1, level);
+        double crystals = PRODUCTION_SPEED_VALUE * (level+1) * Math.pow(1.1, level) * power;
         crystals *= duration.getSeconds()/3600.0;
         return new Resources(0, (int)Math.round(crystals), 0);
     }
 
     @Override
     public int getEnergyConsumption() {
-        return  (int)(ENERGY_CONSUMPTION_VALUE * level * Math.pow(1.4, level));
+        return  (int)(ENERGY_CONSUMPTION_VALUE * level * Math.pow(1.4, level) * power);
     }
 }

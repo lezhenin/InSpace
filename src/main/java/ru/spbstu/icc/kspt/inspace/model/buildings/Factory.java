@@ -32,9 +32,4 @@ public class Factory extends Building {
         int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.6, level));
         return new Resources(metal, crystal, 0);
     }
-
-    @Override
-    public int getEnergyConsumption() {
-        return 0;
-    }
 }
