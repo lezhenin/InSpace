@@ -2,7 +2,6 @@ package ru.spbstu.icc.kspt.inspace.model;
 
 
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -75,5 +74,40 @@ public class PlanetTest {
         planet.update();
         assertEquals(building.getLevel(), 1);
         assertEquals(planet.getResources(), new Resources(208, 172, 178));
+    }
+
+    @Test
+    public void testEnergySystem() {
+        
+        PowerMockito.mockStatic(Time.class);
+
+        assertEquals(planet.getEnergyLevel(), 0);
+
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
+        planet.getBuilding(Planet.BuildingType.POWER_STATION).startUpgrade();
+
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(540)));
+        assertEquals(planet.getEnergyLevel(), 100);
+        assertEquals(planet.getEnergyProduction(), 100);
+        assertEquals(planet.getEnergyConsumption(), 0);
+        planet.getBuilding(Planet.BuildingType.DEUTERIUM_MINE).startUpgrade();
+
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(550)));
+        assertEquals(planet.getEnergyLevel(), 38);
+        assertEquals(planet.getEnergyProduction(), 100);
+        assertEquals(planet.getEnergyConsumption(), 62);
+        planet.getBuilding(Planet.BuildingType.CRYSTAL_MINE).startUpgrade();
+
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(560)));
+        assertEquals(planet.getEnergyLevel(), -18);
+        assertEquals(planet.getEnergyProduction(), 100);
+        assertEquals(planet.getEnergyConsumption(), 118);
+
+        planet.balanceEnergyConsumption();
+        assertEquals(planet.getEnergyLevel(), 0);
+        assertEquals(planet.getEnergyConsumption(), planet.getEnergyProduction());
+        assertEquals(planet.getEnergyConsumption(), 100);
+
+
     }
 }
