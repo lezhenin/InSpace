@@ -8,10 +8,10 @@ import java.time.Duration;
 public class DeuteriumMine extends Mine {
 
     private static final int PRODUCTION_SPEED_VALUE = 20;
-
     private static final int METAL_COST_VALUE = 62;
     private static final int CRYSTAL_COST_VALUE = 58;
     private static final int UPGRADE_SPEED_VALUE = 2300;
+    private static final int ENERGY_CONSUMPTION_VALUE = 45;
 
     public DeuteriumMine(BuildingDepartment department, Factory factory) {
         super(department, factory);
@@ -34,13 +34,13 @@ public class DeuteriumMine extends Mine {
 
     @Override
     protected Resources getProductionPerPeriod(Duration duration) {
-        double deuterium = PRODUCTION_SPEED_VALUE * (level+1) * Math.pow(1.1, level);
+        double deuterium = PRODUCTION_SPEED_VALUE * (level+1) * Math.pow(1.1, level) * power;
         deuterium *= duration.getSeconds()/3600.0;
         return new Resources(0, 0, (int)Math.round(deuterium));
     }
 
     @Override
     public int getEnergyConsumption() {
-        return 0;
+        return (int)(ENERGY_CONSUMPTION_VALUE * level * Math.pow(1.4, level) * power);
     }
 }

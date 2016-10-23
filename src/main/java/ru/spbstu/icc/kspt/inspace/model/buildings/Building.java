@@ -42,8 +42,6 @@ abstract public class Building implements Upgradable {
 
     abstract public Resources getUpgradeCost();
 
-    abstract public int getEnergyConsumption();
-
     public int getLevel() {
         return level;
     }
