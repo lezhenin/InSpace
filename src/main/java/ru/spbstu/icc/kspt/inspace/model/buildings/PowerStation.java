@@ -1,13 +1,11 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
-import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.energy.EnergyProducer;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
-public class PowerStation extends Building {
+public class PowerStation extends Building implements EnergyProducer {
 
     public static final int ENERGY_PRODUCTION_VALUE = 100;
 
@@ -21,24 +19,6 @@ public class PowerStation extends Building {
     public PowerStation(BuildingDepartment department, Factory factory) {
         super(department);
         this.factory = factory;
-    }
-
-    private List<Building> consumers = new ArrayList<>();
-
-    public int getEnergyLevel() {
-        int energy = getEnergyProduction();
-        for(Building building: consumers) {
-            energy -= building.getEnergyConsumption();
-        }
-        return energy;
-    }
-
-    public void addConsumer(Building building) {
-        consumers.add(building);
-    }
-
-    public List<Building> getConsumers() {
-        return consumers;
     }
 
     public int getEnergyProduction() {
@@ -58,10 +38,5 @@ public class PowerStation extends Building {
         int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, level));
         int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.5, level));
         return new Resources(metal, crystal, 0);
-    }
-
-    @Override
-    public int getEnergyConsumption() {
-        return 0;
     }
 }

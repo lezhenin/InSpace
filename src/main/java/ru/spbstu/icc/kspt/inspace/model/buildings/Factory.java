@@ -1,6 +1,5 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
-import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 
 import java.time.Duration;
@@ -31,10 +30,5 @@ public class Factory extends Building {
         int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.6, level));
         int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.6, level));
         return new Resources(metal, crystal, 0);
-    }
-
-    @Override
-    public int getEnergyConsumption() {
-        return 0;
     }
 }

@@ -1,6 +1,5 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
-import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 
 import java.time.Duration;
@@ -8,10 +7,10 @@ import java.time.Duration;
 public class MetalMine extends Mine {
 
     private static final int PRODUCTION_SPEED_VALUE = 30;
-
     private static final int METAL_COST_VALUE = 40;
     private static final int CRYSTAL_COST_VALUE = 35;
     private static final int UPGRADE_SPEED_VALUE = 2700;
+    private static final int ENERGY_CONSUMPTION_VALUE = 30;
 
     public MetalMine(BuildingDepartment department, Factory factory) {
         super(department, factory);
@@ -35,12 +34,12 @@ public class MetalMine extends Mine {
     @Override
     protected Resources getProductionPerPeriod(Duration duration) {
         double metal = PRODUCTION_SPEED_VALUE * (level+1) * Math.pow(1.1, level);
-        metal *= duration.getSeconds()/3600.0;
+        metal *= duration.getSeconds() / 3600.0;
         return new Resources((int)Math.round(metal), 0, 0);
     }
 
     @Override
     public int getEnergyConsumption() {
-        return 0;
+        return (int)(ENERGY_CONSUMPTION_VALUE * level * Math.pow(1.4, level) * power);
     }
 }

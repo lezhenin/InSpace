@@ -1,6 +1,5 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
-import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
@@ -41,8 +40,6 @@ abstract public class Building implements Upgradable {
     abstract public Duration getUpgradeDuration();
 
     abstract public Resources getUpgradeCost();
-
-    abstract public int getEnergyConsumption();
 
     public int getLevel() {
         return level;

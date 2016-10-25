@@ -1,18 +1,19 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
-import ru.spbstu.icc.kspt.inspace.model.departments.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.energy.EnergyConsumer;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-abstract public class Mine extends Building {;
+abstract public class Mine extends Building implements EnergyConsumer {;
 
     protected LocalDateTime lastProductionGetting;
     protected Resources temporaryStorage;
     protected Factory factory;
+    protected double power = 1.0;
 
     public Mine(BuildingDepartment department, Factory factory) {
         super(department);
@@ -36,6 +37,12 @@ abstract public class Mine extends Building {;
         super.upgrade();
     }
 
-    abstract protected Resources getProductionPerPeriod(Duration duration);
+    @Override
+    public void setProductionPower(double power) {
+        if (power <= 1 && power >=0 ) {
+            this.power = power;
+        }
+    }
 
+    abstract protected Resources getProductionPerPeriod(Duration duration);
 }
