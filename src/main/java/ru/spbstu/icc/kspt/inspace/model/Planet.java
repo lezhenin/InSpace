@@ -3,6 +3,9 @@ package ru.spbstu.icc.kspt.inspace.model;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
+import ru.spbstu.icc.kspt.inspace.model.research.Research;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 
 import java.util.*;
 
@@ -15,6 +18,7 @@ public class Planet {
 
     private BuildingDepartment buildingDepartment;
     private EnergyDepartment energyDepartment;
+    private ResearchDepartment researchDepartment;
 
     public Planet(String name) {
         this.name = name;
@@ -76,6 +80,14 @@ public class Planet {
 
     public BuildingUpgrade getCurrentBuildingUpgrade() {
         return buildingDepartment.getCurrentUpgrade();
+    }
+
+    public Research getResearch(ResearchType type) {
+        return researchDepartment.getResearch(type);
+    }
+
+    public Set<Map.Entry<ResearchType, Research>> getResearches() {
+        return researchDepartment.getResearches();
     }
 
     private void updateResources() {
