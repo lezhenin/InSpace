@@ -6,5 +6,6 @@ public enum BuildingType {
     CRYSTAL_MINE,
     METAL_MINE,
     DEUTERIUM_MINE,
-    POWER_STATION
+    POWER_STATION,
+    LABORATORY
 }
