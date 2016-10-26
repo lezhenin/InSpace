@@ -27,6 +27,10 @@ abstract public class Building implements Upgradable {
 
     @Override
     public void startUpgrade() {
+        if(!canBeUpgraded()) {
+            //TODO exception
+            return;
+        }
         LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());
         department.startUpgrade(new BuildingUpgrade(this, upgradeTime) {
             @Override

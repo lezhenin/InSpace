@@ -31,17 +31,12 @@ public class BuildingDepartment {
         mines.add((Mine)buildings.get(BuildingType.DEUTERIUM_MINE));
     }
 
-    public boolean checkUpgradability(Building building) {
+    boolean checkUpgradability(Building building) {
         return (building.getUpgradeCost().compareTo(planet.getResources()) == -1 &&
-                !isBusy() && planet.getSize() - occupiedFields > 0);
+                upgrading == null && planet.getSize() - occupiedFields > 0);
     }
 
-    public boolean isBusy() {
-        updateBuildings();
-        return upgrading != null;
-    }
-
-    public void startUpgrade(BuildingUpgrade upgrading) {
+    void startUpgrade(BuildingUpgrade upgrading) {
 
         Building building = upgrading.getUpgradable();
 

@@ -9,7 +9,7 @@ public class BuildingUpgrade implements Upgrade {
     private LocalDateTime time;
 
 
-    public BuildingUpgrade(Building building, LocalDateTime time) {
+    BuildingUpgrade(Building building, LocalDateTime time) {
         this.building = building;
         this.time = time;
     }
