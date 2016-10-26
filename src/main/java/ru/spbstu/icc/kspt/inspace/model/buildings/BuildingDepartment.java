@@ -12,7 +12,7 @@ public class BuildingDepartment {
     private BuildingUpgrade upgrading;
     private int occupiedFields = 0;
 
-    private Map<Planet.BuildingType, Building> buildings = new EnumMap<>(Planet.BuildingType.class);
+    private Map<BuildingType, Building> buildings = new EnumMap<>(BuildingType.class);
     private List<Mine> mines = new ArrayList<>();
 
     public BuildingDepartment(Planet planet) {
@@ -20,15 +20,15 @@ public class BuildingDepartment {
 
         Factory factory = new Factory(this);
 
-        buildings.put(Planet.BuildingType.FACTORY, factory);
-        buildings.put(Planet.BuildingType.CRYSTAL_MINE, new CrystalMine(this, factory));
-        buildings.put(Planet.BuildingType.DEUTERIUM_MINE, new DeuteriumMine(this, factory));
-        buildings.put(Planet.BuildingType.METAL_MINE, new MetalMine(this, factory));
-        buildings.put(Planet.BuildingType.POWER_STATION, new PowerStation(this, factory));
+        buildings.put(BuildingType.FACTORY, factory);
+        buildings.put(BuildingType.CRYSTAL_MINE, new CrystalMine(this, factory));
+        buildings.put(BuildingType.DEUTERIUM_MINE, new DeuteriumMine(this, factory));
+        buildings.put(BuildingType.METAL_MINE, new MetalMine(this, factory));
+        buildings.put(BuildingType.POWER_STATION, new PowerStation(this, factory));
 
-        mines.add((Mine)buildings.get(Planet.BuildingType.METAL_MINE));
-        mines.add((Mine)buildings.get(Planet.BuildingType.CRYSTAL_MINE));
-        mines.add((Mine)buildings.get(Planet.BuildingType.DEUTERIUM_MINE));
+        mines.add((Mine)buildings.get(BuildingType.METAL_MINE));
+        mines.add((Mine)buildings.get(BuildingType.CRYSTAL_MINE));
+        mines.add((Mine)buildings.get(BuildingType.DEUTERIUM_MINE));
     }
 
     public boolean checkUpgradability(Building building) {
@@ -64,12 +64,12 @@ public class BuildingDepartment {
         return occupiedFields;
     }
 
-    public Building getBuilding(Planet.BuildingType type) {
+    public Building getBuilding(BuildingType type) {
         updateBuildings();
         return buildings.get(type);
     }
 
-    public Set<Map.Entry<Planet.BuildingType, Building>> getBuildings() {
+    public Set<Map.Entry<BuildingType, Building>> getBuildings() {
         updateBuildings();
         return buildings.entrySet();
     }

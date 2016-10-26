@@ -2,6 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.energy;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
+import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class EnergyDepartment {
         this.planet = planet;
 
         //TODO find alternative way to get consumers and producers
-        for(Map.Entry<Planet.BuildingType, Building> building: planet.getBuildings()){
+        for(Map.Entry<BuildingType, Building> building: planet.getBuildings()){
             if (building.getValue() instanceof EnergyConsumer) {
                 addConsumer((EnergyConsumer)building.getValue());
             }

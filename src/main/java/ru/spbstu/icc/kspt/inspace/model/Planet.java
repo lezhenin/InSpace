@@ -9,14 +9,6 @@ import java.util.*;
 
 public class Planet {
 
-    public enum BuildingType {
-        FACTORY,
-        CRYSTAL_MINE,
-        METAL_MINE,
-        DEUTERIUM_MINE,
-        POWER_STATION
-    }
-
     private int size = 200;
     private String name;
     private Resources resources;
