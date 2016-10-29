@@ -8,6 +8,13 @@ findbugs {
     ignoreFailures = true
 }
 
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
 jacoco {
     reportsDir = file("$buildDir/reports/jacoco")
 }

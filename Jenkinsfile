@@ -11,6 +11,7 @@ node {
             sh 'gradle jacocoTestReport -Dorg.gradle.jvmargs=-Xmx256m -Dorg.gradle.daemon=false'
             step([$class: 'FindBugsPublisher', canComputeNew: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', pattern: 'build/reports/findbugs/*.xml', unHealthy: ''])
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: 'Jacoco HTML Report'])
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'build/reports/findbugs', reportFiles: 'main.html', reportName: 'Findbugs HTML Report'])
         }
     }
 }
