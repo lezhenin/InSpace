@@ -6,6 +6,7 @@ import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchUpgrade;
 
 import java.util.*;
 
@@ -92,6 +93,10 @@ public class Planet {
 
     public Set<Map.Entry<ResearchType, Research>> getResearches() {
         return researchDepartment.getResearches();
+    }
+
+    public ResearchUpgrade getCurrentResearchUpgrade() {
+        return researchDepartment.getCurrentUpgrade();
     }
 
     private void updateResources() {
