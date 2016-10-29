@@ -5,6 +5,7 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 import java.time.LocalDateTime;
 
 public class BuildingUpgrade implements Upgrade {
+
     private Building building;
     private LocalDateTime time;
 
@@ -18,7 +19,6 @@ public class BuildingUpgrade implements Upgrade {
     public void execute(LocalDateTime now) {
         if (time.compareTo(now) == -1) {
             //TODO throw
-            return;
         }
 
     }

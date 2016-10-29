@@ -41,12 +41,6 @@ abstract public class Building implements Upgradable {
         });
     }
 
-    abstract public void updateDependencies();
-
-    abstract public Duration getUpgradeDuration();
-
-    abstract public Resources getUpgradeCost();
-
     public int getLevel() {
         return level;
     }

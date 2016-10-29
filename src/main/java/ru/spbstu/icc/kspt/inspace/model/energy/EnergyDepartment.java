@@ -10,12 +10,10 @@ import java.util.Map;
 
 public class EnergyDepartment {
 
-    private Planet planet;
     private List<EnergyConsumer> consumers = new ArrayList<>();
     private List<EnergyProducer> producers = new ArrayList<>();
 
     public EnergyDepartment(Planet planet) {
-        this.planet = planet;
 
         //TODO find alternative way to get consumers and producers
         for(Map.Entry<BuildingType, Building> building: planet.getBuildings()){
