@@ -1,11 +1,9 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
-import ru.spbstu.icc.kspt.inspace.model.Resources;
-import ru.spbstu.icc.kspt.inspace.model.research.Research;
+
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 abstract public class Building implements Upgradable {

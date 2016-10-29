@@ -13,7 +13,6 @@ abstract public class UpgradeDepartment {
         this.planet = planet;
     }
 
-
     protected boolean checkUpgradability(Upgradable upgradable) {
         return (planet.getResources().isEnough(upgradable.getUpgradeCost()) && upgrade == null);
     }
@@ -44,4 +43,3 @@ abstract public class UpgradeDepartment {
         return update;
     }
 }
-
