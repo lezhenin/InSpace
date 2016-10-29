@@ -17,6 +17,10 @@ public class EnergyTechnology extends Research {
 
     public EnergyTechnology(ResearchDepartment department) {
         super(department);
+    }
+
+    @Override
+    void updateDependencies() {
         laboratory = (Laboratory)department.getBuilding(BuildingType.LABORATORY);
     }
 

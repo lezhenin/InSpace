@@ -12,8 +12,8 @@ public class DeuteriumMine extends Mine {
     private static final int UPGRADE_SPEED_VALUE = 2300;
     private static final int ENERGY_CONSUMPTION_VALUE = 45;
 
-    public DeuteriumMine(BuildingDepartment department, Factory factory) {
-        super(department, factory);
+    public DeuteriumMine(BuildingDepartment department) {
+        super(department);
     }
 
     @Override

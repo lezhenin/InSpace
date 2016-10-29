@@ -13,8 +13,8 @@ public class CrystalMine extends Mine implements EnergyConsumer {
     private static final int UPGRADE_SPEED_VALUE = 2500;
     private static final int ENERGY_CONSUMPTION_VALUE = 40;
 
-    public CrystalMine(BuildingDepartment department, Factory factory) {
-        super(department, factory);
+    public CrystalMine(BuildingDepartment department) {
+        super(department);
     }
 
     @Override

@@ -12,8 +12,8 @@ public class MetalMine extends Mine {
     private static final int UPGRADE_SPEED_VALUE = 2700;
     private static final int ENERGY_CONSUMPTION_VALUE = 30;
 
-    public MetalMine(BuildingDepartment department, Factory factory) {
-        super(department, factory);
+    public MetalMine(BuildingDepartment department) {
+        super(department);
     }
 
     @Override

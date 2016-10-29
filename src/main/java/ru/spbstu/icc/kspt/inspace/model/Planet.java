@@ -24,8 +24,12 @@ public class Planet {
         this.name = name;
         this.resources = new Resources(0,0,0);
 
+        researchDepartment = new ResearchDepartment(this);
         buildingDepartment = new BuildingDepartment(this);
         energyDepartment = new EnergyDepartment(this);
+
+        buildingDepartment.updateDependencies();
+        researchDepartment.updateDependencies();
     }
 
     public Planet(String name, int size) {

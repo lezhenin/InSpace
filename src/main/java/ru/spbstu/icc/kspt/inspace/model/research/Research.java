@@ -17,16 +17,18 @@ public abstract class Research implements Upgradable{
         this.department = department;
     }
 
+    abstract void updateDependencies();
+
     @Override
     public void startUpgrade() {
-//        LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());
-//        department.startUpgrade(new BuildingUpgrade(this, upgradeTime) {
-//            @Override
-//            public void execute(LocalDateTime now) {
-//                super.execute(now);
-//                level++;
-//            }
-//        });
+        LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());
+        department.startUpgrade(new ResearchUpgrade(this, upgradeTime) {
+            @Override
+            public void execute(LocalDateTime now) {
+                super.execute(now);
+                level++;
+            }
+        });
     }
 
     abstract public Duration getUpgradeDuration();

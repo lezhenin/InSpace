@@ -1,7 +1,8 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
-import ru.spbstu.icc.kspt.inspace.model.buildings.*;
+import ru.spbstu.icc.kspt.inspace.model.research.Research;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import java.util.*;
@@ -18,17 +19,19 @@ public class BuildingDepartment {
     public BuildingDepartment(Planet planet) {
         this.planet = planet;
 
-        Factory factory = new Factory(this);
-
-        buildings.put(BuildingType.FACTORY, factory);
-        buildings.put(BuildingType.CRYSTAL_MINE, new CrystalMine(this, factory));
-        buildings.put(BuildingType.DEUTERIUM_MINE, new DeuteriumMine(this, factory));
-        buildings.put(BuildingType.METAL_MINE, new MetalMine(this, factory));
-        buildings.put(BuildingType.POWER_STATION, new PowerStation(this, factory));
+        buildings.put(BuildingType.FACTORY, new Factory(this));
+        buildings.put(BuildingType.CRYSTAL_MINE, new CrystalMine(this));
+        buildings.put(BuildingType.DEUTERIUM_MINE, new DeuteriumMine(this));
+        buildings.put(BuildingType.METAL_MINE, new MetalMine(this));
+        buildings.put(BuildingType.POWER_STATION, new PowerStation(this));
 
         mines.add((Mine)buildings.get(BuildingType.METAL_MINE));
         mines.add((Mine)buildings.get(BuildingType.CRYSTAL_MINE));
         mines.add((Mine)buildings.get(BuildingType.DEUTERIUM_MINE));
+    }
+
+    public void updateDependencies() {
+        buildings.values().forEach(Building::updateDependencies);
     }
 
     boolean checkUpgradability(Building building) {
@@ -57,6 +60,10 @@ public class BuildingDepartment {
     public int getFields() {
         updateBuildings();
         return occupiedFields;
+    }
+
+    Research getResearch(ResearchType type) {
+      return planet.getResearch(type);
     }
 
     public Building getBuilding(BuildingType type) {
