@@ -102,7 +102,12 @@ public class Planet {
     }
 
     private void updateBuildings(){
+        updateResearches();
         buildingDepartment.updateBuildings();
+    }
+
+    private void updateResearches() {
+        researchDepartment.updateResearches();
     }
 
     public void update() {

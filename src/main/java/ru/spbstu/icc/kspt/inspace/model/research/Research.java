@@ -19,6 +19,10 @@ public abstract class Research implements Upgradable{
 
     abstract void updateDependencies();
 
+    public boolean canBeUpgraded() {
+        return department.checkUpgradability(this);
+    }
+
     @Override
     public void startUpgrade() {
         LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());

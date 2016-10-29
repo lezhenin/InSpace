@@ -20,6 +20,7 @@ public class BuildingDepartment {
         this.planet = planet;
 
         buildings.put(BuildingType.FACTORY, new Factory(this));
+        buildings.put(BuildingType.LABORATORY, new Laboratory(this));
         buildings.put(BuildingType.CRYSTAL_MINE, new CrystalMine(this));
         buildings.put(BuildingType.DEUTERIUM_MINE, new DeuteriumMine(this));
         buildings.put(BuildingType.METAL_MINE, new MetalMine(this));

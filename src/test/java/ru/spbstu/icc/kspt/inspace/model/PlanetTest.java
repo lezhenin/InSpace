@@ -9,6 +9,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.api.mockito.PowerMockito;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.research.Research;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import static org.junit.Assert.*;
@@ -57,7 +59,27 @@ public class PlanetTest {
     }
 
     @Test
-    public void testUpgrade() {
+    public void testResearchUpgrade() {
+        PowerMockito.mockStatic(Time.class);
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
+
+        Research research = planet.getResearch(ResearchType.ENERGY);
+        assertTrue(research.canBeUpgraded());
+        assertEquals(research.getLevel(), 0);
+        research.startUpgrade();
+
+        PowerMockito.mockStatic(Time.class);
+        when(Time.now()).thenReturn(LocalDateTime
+                .now()
+                .plus(Duration.ofMinutes(531))
+                .plus(research.getUpgradeDuration()));
+        planet.update();
+        assertEquals(research.getLevel(), 1);
+        assertEquals(planet.getResources(), new Resources(231, 160, 115));
+    }
+
+    @Test
+    public void testBuildingUpgrade() {
 
         PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
