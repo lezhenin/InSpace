@@ -10,17 +10,22 @@ import java.time.LocalDateTime;
 
 abstract public class Mine extends Building implements EnergyConsumer {;
 
-    protected LocalDateTime lastProductionGetting;
-    protected Resources temporaryStorage;
-    protected Factory factory;
-    protected double power = 1.0;
+    private LocalDateTime lastProductionGetting;
+    private Resources temporaryStorage;
+    double power = 1.0;
 
-    public Mine(BuildingDepartment department, Factory factory) {
+    protected Factory factory;
+
+    public Mine(BuildingDepartment department) {
         super(department);
-        this.factory = factory;
 
         lastProductionGetting = Time.now();
         temporaryStorage = new Resources(0,0,0);
+    }
+
+    @Override
+    public void updateDependencies() {
+        factory = (Factory)department.getBuilding(BuildingType.FACTORY);
     }
 
     public Resources getProduction() {

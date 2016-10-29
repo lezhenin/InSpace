@@ -3,19 +3,15 @@ package ru.spbstu.icc.kspt.inspace.model;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
+import ru.spbstu.icc.kspt.inspace.model.research.Research;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchUpgrade;
 
 import java.util.*;
 
 
 public class Planet {
-
-    public enum BuildingType {
-        FACTORY,
-        CRYSTAL_MINE,
-        METAL_MINE,
-        DEUTERIUM_MINE,
-        POWER_STATION
-    }
 
     private int size = 200;
     private String name;
@@ -23,13 +19,18 @@ public class Planet {
 
     private BuildingDepartment buildingDepartment;
     private EnergyDepartment energyDepartment;
+    private ResearchDepartment researchDepartment;
 
     public Planet(String name) {
         this.name = name;
         this.resources = new Resources(0,0,0);
 
+        researchDepartment = new ResearchDepartment(this);
         buildingDepartment = new BuildingDepartment(this);
         energyDepartment = new EnergyDepartment(this);
+
+        buildingDepartment.updateDependencies();
+        researchDepartment.updateDependencies();
     }
 
     public Planet(String name, int size) {
@@ -86,6 +87,18 @@ public class Planet {
         return buildingDepartment.getCurrentUpgrade();
     }
 
+    public Research getResearch(ResearchType type) {
+        return researchDepartment.getResearch(type);
+    }
+
+    public Set<Map.Entry<ResearchType, Research>> getResearches() {
+        return researchDepartment.getResearches();
+    }
+
+    public ResearchUpgrade getCurrentResearchUpgrade() {
+        return researchDepartment.getCurrentUpgrade();
+    }
+
     private void updateResources() {
         updateBuildings();
         for (Mine mine: buildingDepartment.getMines()) {
@@ -94,7 +107,12 @@ public class Planet {
     }
 
     private void updateBuildings(){
+        updateResearches();
         buildingDepartment.updateBuildings();
+    }
+
+    private void updateResearches() {
+        researchDepartment.updateResearches();
     }
 
     public void update() {

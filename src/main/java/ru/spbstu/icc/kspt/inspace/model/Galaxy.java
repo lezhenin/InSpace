@@ -43,7 +43,7 @@ public class Galaxy {
 
     public void deletePlanet(Position position) {
         checkPosition(position);
-        galaxy.get(position.getSystemNumber()).set(position.getPlanetNumber(),null);
+        galaxy.get(position.getSystemNumber()).set(position.getPlanetNumber(), null);
     }
 
 

@@ -13,8 +13,8 @@ public class CrystalMine extends Mine implements EnergyConsumer {
     private static final int UPGRADE_SPEED_VALUE = 2500;
     private static final int ENERGY_CONSUMPTION_VALUE = 40;
 
-    public CrystalMine(BuildingDepartment department, Factory factory) {
-        super(department, factory);
+    public CrystalMine(BuildingDepartment department) {
+        super(department);
     }
 
     @Override
@@ -27,20 +27,20 @@ public class CrystalMine extends Mine implements EnergyConsumer {
 
     @Override
     public Resources getUpgradeCost() {
-        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, level));
-        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.5, level));
+        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, getLevel()));
+        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.5, getLevel()));
         return new Resources(metal, crystal, 0);
     }
 
     @Override
     protected Resources getProductionPerPeriod(Duration duration) {
-        double crystals = PRODUCTION_SPEED_VALUE * (level+1) * Math.pow(1.1, level) * power;
+        double crystals = PRODUCTION_SPEED_VALUE * (getLevel()+1) * Math.pow(1.1, getLevel()) * power;
         crystals *= duration.getSeconds()/3600.0;
         return new Resources(0, (int)Math.round(crystals), 0);
     }
 
     @Override
     public int getEnergyConsumption() {
-        return  (int)(ENERGY_CONSUMPTION_VALUE * level * Math.pow(1.4, level) * power);
+        return  (int)(ENERGY_CONSUMPTION_VALUE * getLevel() * Math.pow(1.4, getLevel()) * power);
     }
 }

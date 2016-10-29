@@ -2,27 +2,34 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyProducer;
+import ru.spbstu.icc.kspt.inspace.model.research.EnergyTechnology;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 
 import java.time.Duration;
 
 public class PowerStation extends Building implements EnergyProducer {
 
-    public static final int ENERGY_PRODUCTION_VALUE = 100;
-
+    private static final int ENERGY_PRODUCTION_VALUE = 100;
     private static final int METAL_COST_VALUE = 85;
     private static final int CRYSTAL_COST_VALUE = 65;
-
     private static final int UPGRADE_SPEED_VALUE = 2300;
 
     private Factory factory;
+    private EnergyTechnology energyTechnology;
 
-    public PowerStation(BuildingDepartment department, Factory factory) {
+    public PowerStation(BuildingDepartment department) {
         super(department);
-        this.factory = factory;
+    }
+
+    @Override
+    public void updateDependencies() {
+        factory = (Factory)department.getBuilding(BuildingType.FACTORY);
+        energyTechnology = (EnergyTechnology)department.getResearch(ResearchType.ENERGY);
     }
 
     public int getEnergyProduction() {
-        return ENERGY_PRODUCTION_VALUE * level * (int)Math.pow(1.3, level);
+        return (int)Math.round(ENERGY_PRODUCTION_VALUE * getLevel() * Math.pow(1.3, getLevel() - 1)
+                 * (1 + energyTechnology.getLevel() * 0.05));
     }
 
     @Override
@@ -35,8 +42,8 @@ public class PowerStation extends Building implements EnergyProducer {
 
     @Override
     public Resources getUpgradeCost() {
-        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, level));
-        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.5, level));
+        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, getLevel()));
+        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.5, getLevel()));
         return new Resources(metal, crystal, 0);
     }
 }

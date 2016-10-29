@@ -1,17 +1,16 @@
-package ru.spbstu.icc.kspt.inspace.model.buildings;
+package ru.spbstu.icc.kspt.inspace.model.research;
 
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
 import java.time.LocalDateTime;
 
-public class BuildingUpgrade implements Upgrade {
+public class ResearchUpgrade implements Upgrade{
 
-    private Building building;
-    private LocalDateTime time;
+    Research research;
+    LocalDateTime time;
 
-
-    BuildingUpgrade(Building building, LocalDateTime time) {
-        this.building = building;
+    public ResearchUpgrade(Research research, LocalDateTime time) {
+        this.research = research;
         this.time = time;
     }
 
@@ -20,16 +19,15 @@ public class BuildingUpgrade implements Upgrade {
         if (time.compareTo(now) == -1) {
             //TODO throw
         }
-
     }
 
     @Override
     public LocalDateTime getTime() {
-        return time;
+       return time;
     }
 
     @Override
-    public Building getUpgradable() {
-        return building;
+    public Research getUpgradable() {
+        return research;
     }
 }
