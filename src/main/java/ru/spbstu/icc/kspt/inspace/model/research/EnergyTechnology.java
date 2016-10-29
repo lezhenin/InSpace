@@ -27,7 +27,7 @@ public class EnergyTechnology extends Research {
     @Override
     public Duration getUpgradeDuration() {
         Resources cost = getUpgradeCost();
-        double summaryCost = cost.getMetal() + cost.getCrystals() + cost.getMetal();
+        double summaryCost = cost.getMetal() + cost.getCrystals() + cost.getDeuterium();
         double hours = summaryCost / (UPGRADE_SPEED_VALUE * (1 + laboratory.getLevel()));
         return Duration.ofSeconds(Math.round(hours * 3600));
     }

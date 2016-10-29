@@ -35,7 +35,7 @@ public class BuildingDepartment {
     }
 
     boolean checkUpgradability(Building building) {
-        return (building.getUpgradeCost().compareTo(planet.getResources()) == -1 &&
+        return (planet.getResources().isEnough(building.getUpgradeCost()) &&
                 upgrading == null && planet.getSize() - occupiedFields > 0);
     }
 
@@ -48,7 +48,7 @@ public class BuildingDepartment {
             return;
         }
 
-        planet.getResources().getResources(building.getUpgradeCost());
+        planet.getResources().takeResources(building.getUpgradeCost());
         this.upgrading = upgrading;
     }
 

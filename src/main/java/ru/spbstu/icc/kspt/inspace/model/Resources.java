@@ -1,6 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
-public class Resources implements Comparable<Resources>{
+public class Resources {
     private int metal;
     private int crystals;
     private int deuterium;
@@ -29,11 +29,11 @@ public class Resources implements Comparable<Resources>{
         return deuterium;
     }
 
-    public Resources getResources(Resources resources) {
-        return getResources(resources.metal, resources.crystals, resources.deuterium);
+    public Resources takeResources(Resources resources) {
+        return takeResources(resources.metal, resources.crystals, resources.deuterium);
     }
 
-    public Resources getResources(int metal, int crystals, int deuterium) {
+    public Resources takeResources(int metal, int crystals, int deuterium) {
 
         int metalAmount = (metal <= this.metal) ? metal : this.metal;
         int crystalsAmount = (crystals <= this.metal) ? crystals : this.metal;
@@ -55,17 +55,8 @@ public class Resources implements Comparable<Resources>{
                 '}';
     }
 
-    @Override
-    public int compareTo(Resources o) {
-        if (metal == o.metal && crystals == o.crystals && deuterium == o.deuterium) {
-            return 0;
-        }
-        else  if (metal <= o.metal && crystals <= o.crystals && deuterium <= o.deuterium) {
-            return -1;
-        }
-        else {
-            return 1;
-        }
+    public boolean isEnough(Resources o) {
+        return  (metal >= o.metal && crystals >= o.crystals && deuterium >= o.deuterium);
     }
 
     @Override
