@@ -3,42 +3,34 @@ package ru.spbstu.icc.kspt.inspace.model.research;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
-import ru.spbstu.icc.kspt.inspace.model.utils.Time;
+import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ResearchDepartment {
+public class ResearchDepartment extends UpgradeDepartment {
 
-    private Planet planet;
     private Map<ResearchType, Research> researches = new EnumMap<>(ResearchType.class);
     private ResearchUpgrade upgrading;
 
     public ResearchDepartment(Planet planet) {
-        this.planet = planet;
+        super(planet);
         researches.put(ResearchType.ENERGY, new EnergyTechnology(this));
     }
 
-    public boolean checkUpgradability(Research research){
+    boolean checkUpgradability(Research research){
         updateResearches();
-        return (planet.getResources().isEnough(research.getUpgradeCost()) && upgrading == null);
+        return super.checkUpgradability(research);
     }
 
     void startUpgrade(ResearchUpgrade upgrade) {
-        Research research = upgrade.getUpgradable();
-        if (!checkUpgradability(research)){
-            //TODO exception
-            return;
-        }
-        planet.getResources().takeResources(upgrade.getUpgradable().getUpgradeCost());
-        upgrading = upgrade;
+        super.startUpgrade(upgrade);
     }
-
 
     public ResearchUpgrade getCurrentUpgrade() {
         updateResearches();
-        return upgrading;
+        return (ResearchUpgrade)super.getCurrentUpgrade();
     }
 
     public void updateDependencies() {
@@ -60,9 +52,6 @@ public class ResearchDepartment {
     }
 
     public void updateResearches() {
-        if (upgrading != null && upgrading.getTime().compareTo(Time.now()) <= 0 ){
-            upgrading.execute(Time.now());
-            upgrading = null;
-        }
+        super.update();
     }
 }

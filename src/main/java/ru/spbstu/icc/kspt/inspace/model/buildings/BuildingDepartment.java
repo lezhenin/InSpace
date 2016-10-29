@@ -4,20 +4,19 @@ import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
+import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
 
 import java.util.*;
 
-public class BuildingDepartment {
+public class BuildingDepartment extends UpgradeDepartment {
 
-    private Planet planet;
-    private BuildingUpgrade upgrading;
     private int occupiedFields = 0;
 
     private Map<BuildingType, Building> buildings = new EnumMap<>(BuildingType.class);
     private List<Mine> mines = new ArrayList<>();
 
     public BuildingDepartment(Planet planet) {
-        this.planet = planet;
+        super(planet);
 
         buildings.put(BuildingType.FACTORY, new Factory(this));
         buildings.put(BuildingType.LABORATORY, new Laboratory(this));
@@ -36,26 +35,16 @@ public class BuildingDepartment {
     }
 
     boolean checkUpgradability(Building building) {
-        return (planet.getResources().isEnough(building.getUpgradeCost()) &&
-                upgrading == null && planet.getSize() - occupiedFields > 0);
+        return (super.checkUpgradability(building) && planet.getSize() - occupiedFields > 0);
     }
 
-    void startUpgrade(BuildingUpgrade upgrading) {
-
-        Building building = upgrading.getUpgradable();
-
-        if (!checkUpgradability(building)){
-            //TODO exception
-            return;
-        }
-
-        planet.getResources().takeResources(building.getUpgradeCost());
-        this.upgrading = upgrading;
+    void startUpgrade(BuildingUpgrade upgrade) {
+        super.startUpgrade(upgrade);
     }
 
     public BuildingUpgrade getCurrentUpgrade() {
         updateBuildings();
-        return upgrading;
+        return (BuildingUpgrade)super.getCurrentUpgrade();
     }
 
     public int getFields() {
@@ -83,9 +72,7 @@ public class BuildingDepartment {
     }
 
    public void updateBuildings() {
-        if (upgrading != null && upgrading.getTime().compareTo(Time.now()) <= 0 ){
-            upgrading.execute(Time.now());
-            upgrading = null;
+        if (super.update()) {
             occupiedFields++;
         }
     }

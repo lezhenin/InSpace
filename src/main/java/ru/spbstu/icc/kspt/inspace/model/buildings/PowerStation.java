@@ -28,7 +28,7 @@ public class PowerStation extends Building implements EnergyProducer {
     }
 
     public int getEnergyProduction() {
-        return (int)Math.round(ENERGY_PRODUCTION_VALUE * level * Math.pow(1.3, level - 1)
+        return (int)Math.round(ENERGY_PRODUCTION_VALUE * getLevel() * Math.pow(1.3, getLevel() - 1)
                  * (1 + energyTechnology.getLevel() * 0.05));
     }
 
@@ -42,8 +42,8 @@ public class PowerStation extends Building implements EnergyProducer {
 
     @Override
     public Resources getUpgradeCost() {
-        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, level));
-        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.5, level));
+        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, getLevel()));
+        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.5, getLevel()));
         return new Resources(metal, crystal, 0);
     }
 }

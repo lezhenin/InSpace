@@ -31,8 +31,8 @@ public class Laboratory extends Building {
 
     @Override
     public Resources getUpgradeCost() {
-        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.6, level));
-        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.6, level));
+        int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.6, getLevel()));
+        int crystal = (int)Math.round(CRYSTAL_COST_VALUE * Math.pow(1.6, getLevel()));
         return new Resources(metal, crystal, 0);
     }
 }
