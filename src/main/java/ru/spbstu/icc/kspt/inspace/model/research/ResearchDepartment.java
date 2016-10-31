@@ -12,7 +12,6 @@ import java.util.Set;
 public class ResearchDepartment extends UpgradeDepartment {
 
     private Map<ResearchType, Research> researches = new EnumMap<>(ResearchType.class);
-    private ResearchUpgrade upgrading;
 
     public ResearchDepartment(Planet planet) {
         super(planet);

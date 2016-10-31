@@ -22,8 +22,8 @@ public class Galaxy {
     private void checkPosition(Position position) {
         int planetNumber = position.getPlanetNumber();
         int systemNumber = position.getSystemNumber();
-        if (systemNumber < 0 && systemNumber >= MAX_SYSTEM_NUMBER &&
-            planetNumber < 0 && planetNumber >= MAX_PLANET_NUMBER) {
+        if (systemNumber < 0 || systemNumber >= MAX_SYSTEM_NUMBER ||
+            planetNumber < 0 || planetNumber >= MAX_PLANET_NUMBER) {
 
             throw new IndexOutOfBoundsException(position
                     + " Maximal number of systems: " + MAX_SYSTEM_NUMBER
