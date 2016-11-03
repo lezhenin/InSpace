@@ -7,5 +7,6 @@ public enum BuildingType {
     METAL_MINE,
     DEUTERIUM_MINE,
     POWER_STATION,
-    LABORATORY
+    LABORATORY,
+    SHIPYARD
 }
