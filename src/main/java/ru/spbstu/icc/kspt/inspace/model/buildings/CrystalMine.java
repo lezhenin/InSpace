@@ -5,6 +5,8 @@ import ru.spbstu.icc.kspt.inspace.model.energy.EnergyConsumer;
 
 import java.time.Duration;
 
+//TODO см Mine, MetallMine
+
 public class CrystalMine extends Mine implements EnergyConsumer {
 
     private static final int PRODUCTION_SPEED_VALUE = 25;

@@ -35,6 +35,7 @@ public class BuildingDepartment extends UpgradeDepartment {
     }
 
     boolean checkUpgradability(Building building) {
+        //TODO сравнение разности чисел с нулем быстрее вычисляется, чем просто сравнение?
         return (super.checkUpgradability(building) && planet.getSize() - occupiedFields > 0);
     }
 

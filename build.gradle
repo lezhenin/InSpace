@@ -4,6 +4,8 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'findbugs'
 
+sourceCompatibility = 1.8
+
 findbugs {
     ignoreFailures = true
 }
