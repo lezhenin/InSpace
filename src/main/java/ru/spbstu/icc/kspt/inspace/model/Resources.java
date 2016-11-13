@@ -33,20 +33,17 @@ public class Resources {
         return takeResources(resources.metal, resources.crystals, resources.deuterium);
     }
 
-    //TODO идея пишет, что можно метод сделать private, т.к только здесь его используешь.
-    //TODO мб ты и сам видел, но решил, что понадобится использовать и эту реализацию
     public Resources takeResources(int metal, int crystals, int deuterium) {
 
-        //TODO думаю, что тут лучше будет назвать переменные на подобии забираемыйРесурс.
-        int metalAmount = (metal <= this.metal) ? metal : this.metal;
-        int crystalsAmount = (crystals <= this.metal) ? crystals : this.metal;
-        int deuteriumAmount = (deuterium <= this.metal) ? deuterium : this.metal;
+        int takenMetal = (metal <= this.metal) ? metal : this.metal;
+        int takenCrystals = (crystals <= this.metal) ? crystals : this.metal;
+        int takenDeuterium = (deuterium <= this.metal) ? deuterium : this.metal;
 
-        this.metal -= metalAmount;
-        this.crystals -= crystalsAmount;
-        this.deuterium -= deuteriumAmount;
+        this.metal -= takenMetal;
+        this.crystals -= takenCrystals;
+        this.deuterium -= takenDeuterium;
 
-        return new Resources(metalAmount, crystalsAmount, deuteriumAmount);
+        return new Resources(takenMetal, takenCrystals, takenDeuterium);
     }
 
     @Override
@@ -58,18 +55,7 @@ public class Resources {
                 '}';
     }
 
-    //
-    //TODO вот тут мне кажется немного странным, что ресурсы знают, достаточно ли их для чего-то.
-    //TODO UPD: на самом деле они не знают, но название говорит об обратном.
-    //
-    //TODO если рассуждать в этом ключе, то ресурсы могут знать, больше ли их, чем сколько-то
-    //TODO areMoreThan(Resources resources), что, в общем-то, в данном решении и требуется
-    //
-    //TODO Я бы скорее всего переложил бы ответственность на проверку, достаточно ли ресурсов для апгрейда
-    //TODO на UpgradeDepartment. А в нем уже, дергая за геттеры этот класс, осуществлял проверку
-    //TODO смотри класс UpgradeDepartment
-    //
-    public boolean isEnough(Resources o) {
+    public boolean areMoreThan(Resources o) {
         return  (metal >= o.metal && crystals >= o.crystals && deuterium >= o.deuterium);
     }
 
@@ -80,10 +66,9 @@ public class Resources {
 
         Resources resources = (Resources) o;
 
-        //TODO идея подсказывает, что можно упростить конструкцию
-        if (metal != resources.metal) return false;
-        if (crystals != resources.crystals) return false;
-        return deuterium == resources.deuterium;
+        return metal == resources.metal &&
+                crystals == resources.crystals &&
+                deuterium == resources.deuterium;
 
     }
 

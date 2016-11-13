@@ -32,8 +32,7 @@ public class DeuteriumMine extends Mine {
     }
 
     @Override
-    //TODO мб лучше getProductionPerDuration ?
-    protected Resources getProductionPerPeriod(Duration duration) {
+    protected Resources getProductionPerDuration(Duration duration) {
         double deuterium = PRODUCTION_SPEED_VALUE * (getLevel()+1) * Math.pow(1.1, getLevel()) * power;
         deuterium *= duration.getSeconds()/3600.0;
         return new Resources(0, 0, (int)Math.round(deuterium));

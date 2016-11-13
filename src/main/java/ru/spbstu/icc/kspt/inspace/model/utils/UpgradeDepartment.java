@@ -21,16 +21,8 @@ abstract public class UpgradeDepartment {
 
     protected boolean checkUpgradability(Upgradable upgradable) {
         //return (areEnoughResourcesToUpgrade(upgradable) && upgrade == null);
-        return (planet.getResources().isEnough(upgradable.getUpgradeCost()) && upgrade == null);
+        return (planet.getResources().areMoreThan(upgradable.getUpgradeCost()) && upgrade == null);
     }
-
-//    private boolean areEnoughResourcesToUpgrade(Upgradable upgradable) {
-//        Resources planetResources = planet.getResources();
-//        Resources upgradeCost = upgradable.getUpgradeCost();
-//        return planetResources.getMetal() >= upgradeCost.getMetal() &&
-//                planetResources.getCrystals() >= upgradeCost.getCrystals() &&
-//                planetResources.getDeuterium() >= upgradeCost.getDeuterium();
-//    }
 
     protected void startUpgrade(Upgrade upgrade) {
 

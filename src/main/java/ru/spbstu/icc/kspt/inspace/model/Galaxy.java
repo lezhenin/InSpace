@@ -20,8 +20,8 @@ public class Galaxy {
     }
 
     private void checkPosition(Position position) {
-        int planetNumber = position.getPlanetNumber();
-        int systemNumber = position.getSystemNumber();
+        int planetNumber = position.getNumberOfPlanet();
+        int systemNumber = position.getNumberOfSystem();
         if (systemNumber < 0 || systemNumber >= MAX_SYSTEM_NUMBER ||
             planetNumber < 0 || planetNumber >= MAX_PLANET_NUMBER) {
 
@@ -33,17 +33,17 @@ public class Galaxy {
 
     public void addPlanet(Planet planet, Position position) {
         checkPosition(position);
-        galaxy.get(position.getSystemNumber()).add(position.getPlanetNumber(), planet);
+        galaxy.get(position.getNumberOfSystem()).add(position.getNumberOfPlanet(), planet);
     }
 
     public Planet getPlanet(Position position) {
         checkPosition(position);
-        return galaxy.get(position.getSystemNumber()).get(position.getPlanetNumber());
+        return galaxy.get(position.getNumberOfSystem()).get(position.getNumberOfPlanet());
     }
 
     public void deletePlanet(Position position) {
         checkPosition(position);
-        galaxy.get(position.getSystemNumber()).set(position.getPlanetNumber(), null);
+        galaxy.get(position.getNumberOfSystem()).set(position.getNumberOfPlanet(), null);
     }
 
 

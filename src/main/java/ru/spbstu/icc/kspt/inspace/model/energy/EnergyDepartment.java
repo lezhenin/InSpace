@@ -8,16 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//TODO не расширяет UpgradeDepartment. Я так понял, просто еще не реализовано, что энергопромышленность тоже может улучшаться
-
 public class EnergyDepartment {
 
     private List<EnergyConsumer> consumers = new ArrayList<>();
     private List<EnergyProducer> producers = new ArrayList<>();
 
     public EnergyDepartment(Planet planet) {
-
-        //TODO прикольно!
 
         //TODO find alternative way to get consumers and producers
         for(Map.Entry<BuildingType, Building> building: planet.getBuildings()){

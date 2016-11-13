@@ -18,7 +18,6 @@ public class BuildingUpgrade implements Upgrade {
         this.time = time;
     }
 
-    //TODO вроде когда реализуешь метод интерфейса, не нужна аннотация override.
     @Override
     public void execute(LocalDateTime now) {
         if (time.compareTo(now) == -1) {
@@ -27,13 +26,11 @@ public class BuildingUpgrade implements Upgrade {
 
     }
 
-    //TODO вроде когда реализуешь метод интерфейса, не нужна аннотация override.
     @Override
     public LocalDateTime getTime() {
         return time;
     }
 
-    //TODO вроде когда реализуешь метод интерфейса, не нужна аннотация override.
     @Override
     //TODO тут можно Upgradable вместо Building
     public Building getUpgradable() {

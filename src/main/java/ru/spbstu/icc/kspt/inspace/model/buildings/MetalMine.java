@@ -24,7 +24,6 @@ public class MetalMine extends Mine {
     //TODO возможно, все масштабнее. И можно даже в Building такое сделть.
     //TODO надо подумать.
 
-    //TODO вроде не нужна аннотация, когда реализуешь интерфейс.
     @Override
     public Duration getUpgradeDuration() {
         Resources cost = getUpgradeCost();
@@ -33,7 +32,6 @@ public class MetalMine extends Mine {
         return Duration.ofSeconds(Math.round(hours * 3600));
     }
 
-    //TODO вроде когда реализуешь метод интерфейса, не нужна аннотация override.
     @Override
     public Resources getUpgradeCost() {
         int metal = (int)Math.round(METAL_COST_VALUE * Math.pow(1.5, getLevel()));
@@ -41,20 +39,14 @@ public class MetalMine extends Mine {
         return new Resources(metal, crystal, 0);
     }
 
-    //TODO вроде когда реализуешь метод интерфейса, не нужна аннотация override.
-    @Override
-    //TODO мб лучше getProductionPerDuration ?
-    protected Resources getProductionPerPeriod(Duration duration) {
+    protected Resources getProductionPerDuration(Duration duration) {
         double metal = PRODUCTION_SPEED_VALUE * (getLevel()+1) * Math.pow(1.1, getLevel());
         metal *= duration.getSeconds() / 3600.0;
         return new Resources((int)Math.round(metal), 0, 0);
     }
 
-    //TODO вроде ВЕЗДЕ когда реализуешь метод интерфейса, не нужна аннотация override.
     @Override
     public int getEnergyConsumption() {
-        //TODO меня ругал за такие длинные выражения.
-        //TODO но мне кажется, что нормально
         return (int)(ENERGY_CONSUMPTION_VALUE * getLevel() * Math.pow(1.4, getLevel()) * power);
     }
 }

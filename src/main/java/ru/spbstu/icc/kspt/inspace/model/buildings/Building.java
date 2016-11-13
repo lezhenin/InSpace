@@ -25,7 +25,6 @@ abstract public class Building implements Upgradable {
         return department.checkUpgradability(this);
     }
 
-    //TODO вроде когда реализуешь метод интерфейса, не нужна аннотация override.
     @Override
     public void startUpgrade() {
         if(!canBeUpgraded()) {
@@ -33,7 +32,6 @@ abstract public class Building implements Upgradable {
             return;
         }
         LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());
-        //TODO подумать на тем, как это сделать лямбдой. Вроде можно.
         department.startUpgrade(new BuildingUpgrade(this, upgradeTime) {
             @Override
             public void execute(LocalDateTime now) {

@@ -21,7 +21,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-//TODO уже много логики реализовано! наверное, можно и функциональные тесты писать.
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Time.class)
