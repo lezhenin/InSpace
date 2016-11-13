@@ -35,15 +35,15 @@ public class Resources {
 
     public Resources takeResources(int metal, int crystals, int deuterium) {
 
-        int metalAmount = (metal <= this.metal) ? metal : this.metal;
-        int crystalsAmount = (crystals <= this.metal) ? crystals : this.metal;
-        int deuteriumAmount = (deuterium <= this.metal) ? deuterium : this.metal;
+        int takenMetal = (metal <= this.metal) ? metal : this.metal;
+        int takenCrystals = (crystals <= this.metal) ? crystals : this.metal;
+        int takenDeuterium = (deuterium <= this.metal) ? deuterium : this.metal;
 
-        this.metal -= metalAmount;
-        this.crystals -= crystalsAmount;
-        this.deuterium -= deuteriumAmount;
+        this.metal -= takenMetal;
+        this.crystals -= takenCrystals;
+        this.deuterium -= takenDeuterium;
 
-        return new Resources(metalAmount, crystalsAmount, deuteriumAmount);
+        return new Resources(takenMetal, takenCrystals, takenDeuterium);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Resources {
                 '}';
     }
 
-    public boolean isEnough(Resources o) {
+    public boolean areMoreThan(Resources o) {
         return  (metal >= o.metal && crystals >= o.crystals && deuterium >= o.deuterium);
     }
 
@@ -66,9 +66,9 @@ public class Resources {
 
         Resources resources = (Resources) o;
 
-        if (metal != resources.metal) return false;
-        if (crystals != resources.crystals) return false;
-        return deuterium == resources.deuterium;
+        return metal == resources.metal &&
+                crystals == resources.crystals &&
+                deuterium == resources.deuterium;
 
     }
 

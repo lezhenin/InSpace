@@ -6,8 +6,10 @@ import ru.spbstu.icc.kspt.inspace.model.buildings.Laboratory;
 
 import java.time.Duration;
 
+
 public class EnergyTechnology extends Research {
 
+    //TODO подумать об вынесении заинлайненых констант в переменные (1.6 например)
     private static final int METAL_COST_VALUE = 40;
     private static final int CRYSTAL_COST_VALUE = 65;
     private static final int DEUTERIUM_COST_VALUE = 65;

@@ -2,27 +2,28 @@ package ru.spbstu.icc.kspt.inspace.model;
 
 
 public class Position {
-    private int systemNumber;
-    private int planetNumber;
+    private int numberOfSystem;
+    private int numberOfPlanet;
 
-    public Position(int systemNumber, int planetNumber) {
-        this.systemNumber = systemNumber;
-        this.planetNumber = planetNumber;
+    public Position(int numberOfSystem, int numberOfPlanet) {
+        this.numberOfSystem = numberOfSystem;
+        this.numberOfPlanet = numberOfPlanet;
     }
 
-    public int getSystemNumber() {
-        return systemNumber;
+
+    public int getNumberOfSystem() {
+        return numberOfSystem;
     }
 
-    public int getPlanetNumber() {
-        return planetNumber;
+    public int getNumberOfPlanet() {
+        return numberOfPlanet;
     }
 
     @Override
     public String toString() {
         return "Position(" +
-                 + systemNumber +
-                ", " + planetNumber +
+                 +numberOfSystem +
+                ", " + numberOfPlanet +
                 ')';
     }
 
@@ -33,15 +34,14 @@ public class Position {
 
         Position position = (Position) o;
 
-        if (systemNumber != position.systemNumber) return false;
-        return planetNumber == position.planetNumber;
+        return numberOfSystem == position.numberOfSystem && numberOfPlanet == position.numberOfPlanet;
 
     }
 
     @Override
     public int hashCode() {
-        int result = systemNumber;
-        result = 31 * result + planetNumber;
+        int result = numberOfSystem;
+        result = 31 * result + numberOfPlanet;
         return result;
     }
 }

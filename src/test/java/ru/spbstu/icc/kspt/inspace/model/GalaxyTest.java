@@ -4,6 +4,7 @@ package ru.spbstu.icc.kspt.inspace.model;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+
 public class GalaxyTest {
 
     private Galaxy galaxy = new Galaxy();

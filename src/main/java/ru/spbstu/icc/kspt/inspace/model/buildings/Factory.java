@@ -18,11 +18,6 @@ public class Factory extends Building {
     }
 
     @Override
-    public void updateDependencies() {
-
-    }
-
-    @Override
     public Duration getUpgradeDuration() {
         Resources cost = getUpgradeCost();
         double summaryCost = cost.getMetal() + cost.getCrystals() + cost.getMetal();

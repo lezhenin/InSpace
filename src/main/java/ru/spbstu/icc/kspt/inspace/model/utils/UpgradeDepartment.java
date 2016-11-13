@@ -4,6 +4,7 @@ package ru.spbstu.icc.kspt.inspace.model.utils;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 
 
+
 abstract public class UpgradeDepartment {
 
     protected Planet planet;
@@ -13,15 +14,15 @@ abstract public class UpgradeDepartment {
         this.planet = planet;
     }
 
-    protected boolean checkUpgradability(Upgradable upgradable) {
-        return (planet.getResources().isEnough(upgradable.getUpgradeCost()) && upgrade == null);
+    protected boolean canBeUpgraded(Upgradable upgradable) {
+        update();
+        return (planet.getResources().areMoreThan(upgradable.getUpgradeCost()) && upgrade == null);
     }
 
     protected void startUpgrade(Upgrade upgrade) {
-
+        update();
         Upgradable upgradable = upgrade.getUpgradable();
-
-        if (!checkUpgradability(upgradable)) {
+        if (!canBeUpgraded(upgradable)) {
             //TODO exception
             return;
         }
@@ -31,15 +32,14 @@ abstract public class UpgradeDepartment {
     }
 
     public Upgrade getCurrentUpgrade() {
+        update();
         return upgrade;
     }
 
-    protected boolean update() {
-        boolean update = upgrade != null && upgrade.getTime().compareTo(Time.now()) <= 0;
-        if (update) {
-            upgrade.execute(Time.now());
+    public void update() {
+        if (upgrade != null && upgrade.getTime().compareTo(Time.now()) <= 0) {
+            upgrade.execute();
             upgrade = null;
         }
-        return update;
     }
 }

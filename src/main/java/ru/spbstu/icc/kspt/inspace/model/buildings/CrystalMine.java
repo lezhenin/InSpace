@@ -5,6 +5,7 @@ import ru.spbstu.icc.kspt.inspace.model.energy.EnergyConsumer;
 
 import java.time.Duration;
 
+
 public class CrystalMine extends Mine implements EnergyConsumer {
 
     private static final int PRODUCTION_SPEED_VALUE = 25;
@@ -33,7 +34,7 @@ public class CrystalMine extends Mine implements EnergyConsumer {
     }
 
     @Override
-    protected Resources getProductionPerPeriod(Duration duration) {
+    protected Resources getProductionPerDuration(Duration duration) {
         double crystals = PRODUCTION_SPEED_VALUE * (getLevel()+1) * Math.pow(1.1, getLevel()) * power;
         crystals *= duration.getSeconds()/3600.0;
         return new Resources(0, (int)Math.round(crystals), 0);

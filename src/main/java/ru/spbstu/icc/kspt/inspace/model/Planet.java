@@ -6,7 +6,7 @@ import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
-import ru.spbstu.icc.kspt.inspace.model.research.ResearchUpgrade;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
 import java.util.*;
 
@@ -83,7 +83,7 @@ public class Planet {
         return buildingDepartment.getBuildings();
     }
 
-    public BuildingUpgrade getCurrentBuildingUpgrade() {
+    public Upgrade getCurrentBuildingUpgrade() {
         return buildingDepartment.getCurrentUpgrade();
     }
 
@@ -95,7 +95,7 @@ public class Planet {
         return researchDepartment.getResearches();
     }
 
-    public ResearchUpgrade getCurrentResearchUpgrade() {
+    public Upgrade getCurrentResearchUpgrade() {
         return researchDepartment.getCurrentUpgrade();
     }
 
@@ -108,11 +108,11 @@ public class Planet {
 
     private void updateBuildings(){
         updateResearches();
-        buildingDepartment.updateBuildings();
+        buildingDepartment.update();
     }
 
     private void updateResearches() {
-        researchDepartment.updateResearches();
+        researchDepartment.update();
     }
 
     public void update() {

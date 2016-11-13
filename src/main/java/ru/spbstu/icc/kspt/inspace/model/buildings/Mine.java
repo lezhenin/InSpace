@@ -8,7 +8,8 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-abstract public class Mine extends Building implements EnergyConsumer {;
+
+abstract public class Mine extends Building implements EnergyConsumer {
 
     private LocalDateTime lastProductionGetting;
     private Resources temporaryStorage;
@@ -29,7 +30,7 @@ abstract public class Mine extends Building implements EnergyConsumer {;
     }
 
     public Resources getProduction() {
-        Resources resources = getProductionPerPeriod(Duration.between(lastProductionGetting, Time.now()));
+        Resources resources = getProductionPerDuration(Duration.between(lastProductionGetting, Time.now()));
         resources.addResources(temporaryStorage);
         temporaryStorage = new Resources(0,0,0);
         lastProductionGetting = Time.now();
@@ -49,5 +50,5 @@ abstract public class Mine extends Building implements EnergyConsumer {;
         }
     }
 
-    abstract protected Resources getProductionPerPeriod(Duration duration);
+    abstract protected Resources getProductionPerDuration(Duration duration);
 }
