@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Fleet {
 
-    private Map<ShipType, Integer> shipNumbers = new EnumMap<>(ShipType.class);
+    private Map<ShipType, Integer> numbersOfShips = new EnumMap<>(ShipType.class);
     private Planet planet;
 
     public Fleet(Planet planet) {
@@ -22,6 +22,5 @@ public class Fleet {
     public void add(Fleet fleet) {
 
     }
-
 
 }

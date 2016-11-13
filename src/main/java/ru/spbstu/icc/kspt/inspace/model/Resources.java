@@ -46,6 +46,10 @@ public class Resources {
         return new Resources(takenMetal, takenCrystals, takenDeuterium);
     }
 
+    public int getAmount() {
+        return metal + crystals + deuterium;
+    }
+
     @Override
     public String toString() {
         return "Resources{" +
