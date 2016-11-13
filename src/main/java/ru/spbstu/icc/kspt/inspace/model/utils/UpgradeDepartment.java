@@ -2,7 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.utils;
 
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
-
+import ru.spbstu.icc.kspt.inspace.model.Resources;
 
 
 abstract public class UpgradeDepartment {
@@ -16,7 +16,7 @@ abstract public class UpgradeDepartment {
 
     protected boolean canBeUpgraded(Upgradable upgradable) {
         update();
-        return (planet.getResources().areMoreThan(upgradable.getUpgradeCost()) && upgrade == null);
+        return (planet.getResources().compareTo(upgradable.getUpgradeCost()) != -1 && upgrade == null);
     }
 
     protected void startUpgrade(Upgrade upgrade) {

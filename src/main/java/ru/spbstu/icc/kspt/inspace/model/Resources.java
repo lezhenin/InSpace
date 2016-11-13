@@ -1,6 +1,10 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
-public class Resources {
+
+import java.util.Comparator;
+
+public class Resources implements Comparable<Resources>{
+
     private int metal;
     private int crystals;
     private int deuterium;
@@ -51,16 +55,23 @@ public class Resources {
     }
 
     @Override
+    public int compareTo(Resources o) {
+        if(metal == o.metal && crystals == o.crystals && deuterium == o.deuterium) {
+            return 0;
+        } else if (metal >= o.metal && crystals >= o.crystals && deuterium >= o.deuterium) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    @Override
     public String toString() {
         return "Resources{" +
                 "Metal:" + metal +
                 ", Crystals: " + crystals +
                 ", Deuterium: " + deuterium +
                 '}';
-    }
-
-    public boolean areMoreThan(Resources o) {
-        return  (metal >= o.metal && crystals >= o.crystals && deuterium >= o.deuterium);
     }
 
     @Override
