@@ -4,6 +4,9 @@ package ru.spbstu.icc.kspt.inspace.model;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+//TODO, наверное, можно добавить модульных тестов для других классов.
+//TODO хотя лучше бы их сразу писать. TDD же нам рекомендуют
+
 public class GalaxyTest {
 
     private Galaxy galaxy = new Galaxy();

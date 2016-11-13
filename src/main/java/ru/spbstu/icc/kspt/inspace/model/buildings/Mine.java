@@ -8,6 +8,7 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+//TODO Шахта это Постройка, Здание? Ну, в принципе, да.
 abstract public class Mine extends Building implements EnergyConsumer {;
 
     private LocalDateTime lastProductionGetting;
@@ -42,6 +43,7 @@ abstract public class Mine extends Building implements EnergyConsumer {;
         super.upgrade();
     }
 
+    //TODO вроде не нужна аннотация, когда реализуешь метод интерфейса. (?)
     @Override
     public void setProductionPower(double power) {
         if (power <= 1 && power >=0 ) {

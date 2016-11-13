@@ -2,6 +2,8 @@ package ru.spbstu.icc.kspt.inspace.model;
 
 
 public class Position {
+    //TODO по мелочи, мб будет более понятно так
+    //TODO numberOfSystem и numberOfPlanetInSystem
     private int systemNumber;
     private int planetNumber;
 
@@ -9,6 +11,7 @@ public class Position {
         this.systemNumber = systemNumber;
         this.planetNumber = planetNumber;
     }
+
 
     public int getSystemNumber() {
         return systemNumber;
@@ -33,6 +36,7 @@ public class Position {
 
         Position position = (Position) o;
 
+        //TODO идея подсказывает, что можно упростить конструкцию
         if (systemNumber != position.systemNumber) return false;
         return planetNumber == position.planetNumber;
 
