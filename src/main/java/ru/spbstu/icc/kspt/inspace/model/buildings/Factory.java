@@ -17,13 +17,6 @@ public class Factory extends Building {
         super(department);
     }
 
-
-    //TODO наверное, как-то можно избавиться от пустой реализации
-    @Override
-    public void updateDependencies() {
-
-    }
-
     @Override
     public Duration getUpgradeDuration() {
         Resources cost = getUpgradeCost();

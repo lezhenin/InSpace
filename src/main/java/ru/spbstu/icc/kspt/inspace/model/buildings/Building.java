@@ -3,6 +3,7 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +20,7 @@ abstract public class Building implements Upgradable {
         this.department = department;
     }
 
-    abstract public void updateDependencies();
+    public void updateDependencies() {}
 
     public boolean canBeUpgraded() {
         return department.canBeUpgraded(this);
@@ -32,10 +33,9 @@ abstract public class Building implements Upgradable {
             return;
         }
         LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());
-        department.startUpgrade(new BuildingUpgrade(this, upgradeTime) {
+        department.startUpgrade(new Upgrade(this, upgradeTime) {
             @Override
-            public void execute(LocalDateTime now) {
-                super.execute(now);
+            public void onExecute() {
                 upgrade();
             }
         });

@@ -3,6 +3,8 @@ package ru.spbstu.icc.kspt.inspace.model.research;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
 
 import java.util.EnumMap;
@@ -18,31 +20,27 @@ public class ResearchDepartment extends UpgradeDepartment {
         researches.put(ResearchType.ENERGY, new EnergyTechnology(this));
     }
 
-    boolean checkUpgradability(Research research){
-        updateResearches();
-        return super.canBeUpgraded(research);
-    }
-
-    void startUpgrade(ResearchUpgrade upgrade) {
-        super.startUpgrade(upgrade);
-    }
-
-    public ResearchUpgrade getCurrentUpgrade() {
-        updateResearches();
-        return (ResearchUpgrade)super.getCurrentUpgrade();
-    }
-
     public void updateDependencies() {
         researches.values().forEach(Research::updateDependencies);
     }
 
+    @Override
+    protected boolean canBeUpgraded(Upgradable upgradable) {
+        return super.canBeUpgraded(upgradable);
+    }
+
+    @Override
+    protected void startUpgrade(Upgrade upgrade) {
+        super.startUpgrade(upgrade);
+    }
+
     public Research getResearch(ResearchType researchType) {
-        updateResearches();
+        update();
         return researches.get(researchType);
     }
 
     public Set<Map.Entry<ResearchType, Research>> getResearches() {
-        updateResearches();
+        update();
         return researches.entrySet();
     }
 
@@ -50,7 +48,4 @@ public class ResearchDepartment extends UpgradeDepartment {
         return planet.getBuilding(buildingType);
     }
 
-    public void updateResearches() {
-        super.update();
-    }
 }

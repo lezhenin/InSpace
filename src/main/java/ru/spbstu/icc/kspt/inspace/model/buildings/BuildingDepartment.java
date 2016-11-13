@@ -3,6 +3,8 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
 
 import java.util.*;
@@ -33,21 +35,18 @@ public class BuildingDepartment extends UpgradeDepartment {
         buildings.values().forEach(Building::updateDependencies);
     }
 
-    boolean canBeUpgraded(Building building) {
+    @Override
+    protected boolean canBeUpgraded(Upgradable building) {
         return (super.canBeUpgraded(building) && planet.getSize() > occupiedFields);
     }
 
-    void startUpgrade(BuildingUpgrade upgrade) {
+    protected void startUpgrade(Upgrade upgrade) {
+        upgrade.addActionAfterExecution(() -> occupiedFields++);
         super.startUpgrade(upgrade);
     }
 
-    public BuildingUpgrade getCurrentUpgrade() {
-        updateBuildings();
-        return (BuildingUpgrade)super.getCurrentUpgrade();
-    }
-
     public int getFields() {
-        updateBuildings();
+        update();
         return occupiedFields;
     }
 
@@ -56,23 +55,18 @@ public class BuildingDepartment extends UpgradeDepartment {
     }
 
     public Building getBuilding(BuildingType type) {
-        updateBuildings();
+        update();
         return buildings.get(type);
     }
 
     public Set<Map.Entry<BuildingType, Building>> getBuildings() {
-        updateBuildings();
+        update();
         return buildings.entrySet();
     }
 
     public List<Mine> getMines() {
-        updateBuildings();
+        update();
         return mines;
     }
 
-   public void updateBuildings() {
-        if (super.update()) {
-            occupiedFields++;
-        }
-    }
 }
