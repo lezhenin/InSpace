@@ -7,7 +7,6 @@ import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 
 import java.time.Duration;
 
-//TODO см MetalMine ....
 
 public class PowerStation extends Building implements EnergyProducer {
 

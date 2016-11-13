@@ -6,12 +6,6 @@ import ru.spbstu.icc.kspt.inspace.model.buildings.Laboratory;
 
 import java.time.Duration;
 
-//TODO немного непонятно, почему EnergyTechnology в пакете research и наследует поведение от Research.
-//TODO по той логике, что я понял, логичнее, чтобы он был в пакете energy и там бы наследовался от чего-нибудь.
-//TODO мне кажется можно так. допустим, будет департамент исследований. абстрактный.
-//TODO а уже в каждой области будет свой департамент
-//TODO исследования чего-то по предметной области, который будет наследоваться от абстрактного департамента исследований.
-//TODO как вариант.
 
 public class EnergyTechnology extends Research {
 

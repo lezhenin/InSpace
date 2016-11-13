@@ -22,7 +22,7 @@ abstract public class Building implements Upgradable {
     abstract public void updateDependencies();
 
     public boolean canBeUpgraded() {
-        return department.checkUpgradability(this);
+        return department.canBeUpgraded(this);
     }
 
     @Override

@@ -3,7 +3,6 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
-import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
 
 import java.util.*;
@@ -34,8 +33,8 @@ public class BuildingDepartment extends UpgradeDepartment {
         buildings.values().forEach(Building::updateDependencies);
     }
 
-    boolean checkUpgradability(Building building) {
-        return (super.checkUpgradability(building) && planet.getSize() > occupiedFields);
+    boolean canBeUpgraded(Building building) {
+        return (super.canBeUpgraded(building) && planet.getSize() > occupiedFields);
     }
 
     void startUpgrade(BuildingUpgrade upgrade) {

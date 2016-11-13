@@ -20,7 +20,7 @@ public class ResearchDepartment extends UpgradeDepartment {
 
     boolean checkUpgradability(Research research){
         updateResearches();
-        return super.checkUpgradability(research);
+        return super.canBeUpgraded(research);
     }
 
     void startUpgrade(ResearchUpgrade upgrade) {

@@ -2,7 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.utils;
 
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
-//import ru.spbstu.icc.kspt.inspace.model.Resources;
+
 
 
 abstract public class UpgradeDepartment {
@@ -10,29 +10,18 @@ abstract public class UpgradeDepartment {
     protected Planet planet;
     private Upgrade upgrade;
 
-    //TODO подумать о том, чтобы хранить ссылку на Upgradable.
-    //TODO Upgradable используется в нескольких методах, поэтому, считаю, что добавление ссылки на него
-    //TODO повысило бы связность класса. И не пришлось бы в методах кроме startUpgrade иметь аргумент Upgradable.
-    //private Upgradable upgradable = null;
-
     public UpgradeDepartment(Planet planet) {
         this.planet = planet;
     }
 
-    protected boolean checkUpgradability(Upgradable upgradable) {
-        //return (areEnoughResourcesToUpgrade(upgradable) && upgrade == null);
+    protected boolean canBeUpgraded(Upgradable upgradable) {
         return (planet.getResources().areMoreThan(upgradable.getUpgradeCost()) && upgrade == null);
     }
 
     protected void startUpgrade(Upgrade upgrade) {
 
         Upgradable upgradable = upgrade.getUpgradable();
-        //TODO возможно стоит задуматься над тем, чтобы метод checkUpgradability выбрасывал сам исключение, если надо
-        //TODO по имени скорее подходит именно это, нежели возвращение boolean значения.
-
-        //TODO если оставить как есть, то, наверное, более понятно будет isReadyToUpgrade или isReady
-        //TODO или canBeUpgraded, как уже есть на более высоком уровне.
-        if (!checkUpgradability(upgradable)) {
+        if (!canBeUpgraded(upgradable)) {
             //TODO exception
             return;
         }
