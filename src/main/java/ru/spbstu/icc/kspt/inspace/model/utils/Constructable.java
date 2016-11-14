@@ -9,5 +9,7 @@ public interface Constructable {
 
     Resources getConstructCost();
 
+    void startConstruction(int number);
+
     Duration getConstructDuration();
 }

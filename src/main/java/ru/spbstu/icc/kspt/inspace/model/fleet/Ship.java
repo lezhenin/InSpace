@@ -5,6 +5,7 @@ import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Shipyard;
 import ru.spbstu.icc.kspt.inspace.model.research.LaserTechnology;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.utils.Construct;
 import ru.spbstu.icc.kspt.inspace.model.utils.Constructable;
 
 import java.time.Duration;
@@ -59,6 +60,16 @@ public class Ship implements Constructable {
     @Override
     public Resources getConstructCost() {
         return new Resources(type.metalCost, type.crystalCost, type.deuteriumCost);
+    }
+
+    @Override
+    public void startConstruction(int number) {
+        fleetDepartment.startConstruction(new Construct(this, number) {
+            @Override
+            public void onExecute() {
+
+            }
+        });
     }
 
     @Override

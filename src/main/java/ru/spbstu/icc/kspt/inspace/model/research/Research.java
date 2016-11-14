@@ -23,8 +23,7 @@ public abstract class Research implements Upgradable{
 
     @Override
     public void startUpgrade() {
-        LocalDateTime upgradeTime = Time.now().plus(getUpgradeDuration());
-        department.startUpgrade(new Upgrade(this, upgradeTime) {
+        department.startUpgrade(new Upgrade(this) {
             @Override
             public void onExecute() {
                 level++;

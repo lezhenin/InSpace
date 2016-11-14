@@ -3,6 +3,7 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.utils.Action;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
@@ -42,7 +43,12 @@ public class BuildingDepartment extends UpgradeDepartment {
     }
 
     protected void startUpgrade(Upgrade upgrade) {
-        upgrade.addActionAfterExecution(() -> occupiedFields++);
+        upgrade.addActionAfterExecution(new Action() {
+            @Override
+            protected void onExecute() {
+                occupiedFields ++;
+            }
+        });
         super.startUpgrade(upgrade);
     }
 
