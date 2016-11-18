@@ -3,6 +3,10 @@ package ru.spbstu.icc.kspt.inspace.model;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
+import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
+import ru.spbstu.icc.kspt.inspace.model.fleet.FleetDepartment;
+import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
+import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
@@ -20,6 +24,7 @@ public class Planet {
     private BuildingDepartment buildingDepartment;
     private EnergyDepartment energyDepartment;
     private ResearchDepartment researchDepartment;
+    private FleetDepartment fleetDepartment;
 
     public Planet(String name) {
         this.name = name;
@@ -28,6 +33,7 @@ public class Planet {
         researchDepartment = new ResearchDepartment(this);
         buildingDepartment = new BuildingDepartment(this);
         energyDepartment = new EnergyDepartment(this);
+        fleetDepartment = new FleetDepartment(this);
 
         buildingDepartment.updateDependencies();
         researchDepartment.updateDependencies();
@@ -99,6 +105,14 @@ public class Planet {
         return researchDepartment.getCurrentUpgrade();
     }
 
+    public Set<Map.Entry<ShipType, Ship>> getShips() {
+        return fleetDepartment.getShips().entrySet();
+    }
+
+    public Fleet getFleet() {
+        return fleetDepartment.getFleet();
+    }
+
     private void updateResources() {
         updateBuildings();
         for (Mine mine: buildingDepartment.getMines()) {
@@ -115,8 +129,13 @@ public class Planet {
         researchDepartment.update();
     }
 
+    private void updateFleet() {
+        fleetDepartment.update();
+    }
+
     public void update() {
         updateResources();
+        updateFleet();
     }
 
     public void rename(String newName) {

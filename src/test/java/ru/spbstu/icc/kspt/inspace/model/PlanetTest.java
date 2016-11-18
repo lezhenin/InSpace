@@ -2,6 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model;
 
 
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -9,6 +10,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.api.mockito.PowerMockito;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
+import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
+import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
@@ -19,6 +23,7 @@ import static org.powermock.api.mockito.PowerMockito.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -27,6 +32,7 @@ import java.util.Map;
 public class PlanetTest {
 
     private Planet planet = new Planet("Nibiru");
+    private Planet anotherPlanet = new Planet("Another");
 
     @Test
     public void testUpdate() {
@@ -131,6 +137,35 @@ public class PlanetTest {
         assertEquals(planet.getEnergyLevel(), 0);
         assertEquals(planet.getEnergyConsumption(), planet.getEnergyProduction());
         assertEquals(planet.getEnergyConsumption(), 100);
+
+
+    }
+
+    @Test
+    public void testFleets() {
+
+        planet.getResources().addResources(new Resources(100000, 100000, 100000));
+        Fleet fleet1 = planet.getFleet();
+        assertEquals(0,fleet1.getNumberOfShips());
+        Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().iterator();
+        iterator.next().getValue().startConstruction(15);
+
+        Fleet fleet2 = anotherPlanet.getFleet();
+        assertEquals(0,fleet2.getNumberOfShips());
+        iterator = anotherPlanet.getShips().iterator();
+        iterator.next().getValue().startConstruction(14);
+
+        PowerMockito.mockStatic(Time.class);
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
+
+        planet.update();
+        anotherPlanet.update();
+        assertEquals(15,fleet1.getNumberOfShips());
+        assertEquals(14,fleet2.getNumberOfShips());
+
+        fleet1.attack(fleet2);
+        assertEquals(13, fleet1.getNumberOfShips());
+        assertEquals(0, fleet2.getNumberOfShips());
 
 
     }
