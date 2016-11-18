@@ -18,6 +18,7 @@ public class ResearchDepartment extends UpgradeDepartment {
     public ResearchDepartment(Planet planet) {
         super(planet);
         researches.put(ResearchType.ENERGY, new EnergyTechnology(this));
+        researches.put(ResearchType.LASER, new LaserTechnology(this));
     }
 
     public void updateDependencies() {

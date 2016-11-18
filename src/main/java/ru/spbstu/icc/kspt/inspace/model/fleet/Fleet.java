@@ -1,6 +1,8 @@
 package ru.spbstu.icc.kspt.inspace.model.fleet;
 
 
+import ru.spbstu.icc.kspt.inspace.model.Resources;
+
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -9,10 +11,14 @@ public class Fleet {
     private Map<ShipType, Integer> numbersOfShips = new EnumMap<>(ShipType.class);
     private Map<ShipType, Ship> ships;
     private FleetDepartment department;
+    private Resources resources = new Resources(0, 0, 0);
 
     public Fleet(FleetDepartment department) {
-        ships = department.getShips();
         this.department = department;
+        ships = department.getShips();
+        for(ShipType value: ShipType.values()) {
+            numbersOfShips.put(value, 0);
+        }
     }
 
     private Fleet(Map<ShipType, Ship> ships) {
@@ -30,6 +36,29 @@ public class Fleet {
             addShips(entry.getKey(), entry.getValue());
             fleet.numbersOfShips.put(entry.getKey(), 0);
         }
+    }
+
+    public void addResources(Resources resources) {
+        if (resources.getAmount() > getCapacity()) {
+            //TODO exception
+        }
+        this.resources.addResources(resources);
+    }
+
+    public void takeResources(Resources resources) {
+        this.resources.takeResources(resources);
+    }
+
+    public Map<ShipType, Integer> getNumbersOfShips() {
+        return numbersOfShips;
+    }
+
+    public int getCapacity() {
+        int capacity = 0;
+        for (Map.Entry<ShipType, Integer> entry : numbersOfShips.entrySet()) {
+            capacity += entry.getValue() * entry.getKey().capacity;
+        }
+        return capacity;
     }
 
     public int getSpeed() {
@@ -94,9 +123,9 @@ public class Fleet {
         int enemyStructure = fleet.getSummaryStructure();
         int attack = getSummaryAttack();
         int structure = getSummaryStructure();
-        double tempStructure = 0;
 
-        while(structure > 0 || enemyStructure > 0) {
+        while(structure > 0 && enemyStructure > 0) {
+            double tempStructure;
 
             tempStructure = enemyStructure - attack;
             if (tempStructure < 0) {
@@ -112,26 +141,22 @@ public class Fleet {
             attack = (int)(attack * tempStructure / structure);
             structure = (int)tempStructure;
         }
-        //TODO finish
+
         if (enemyStructure == 0) {
-
-            for(Map.Entry<ShipType, Integer> entry: fleet.numbersOfShips.entrySet()) {
-                fleet.numbersOfShips.put(entry.getKey(), 0);
-            }
-            for(Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {
-                Integer number = entry.getValue();
-                numbersOfShips.put(entry.getKey(), number);
-            }
-
+            calculateNumbersOfShips(this, fleet, structure);
         } else {
-            for(Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {
-                numbersOfShips.put(entry.getKey(), 0);
-            }
+            calculateNumbersOfShips(fleet, this, structure);
+        }
+    }
 
-            for(Map.Entry<ShipType, Integer> entry: fleet.numbersOfShips.entrySet()) {
-                Integer number = entry.getValue();
-                fleet.numbersOfShips.put(entry.getKey(), number);
-            }
+    private void calculateNumbersOfShips(Fleet winner, Fleet looser, double winnerStructure) {
+        for(Map.Entry<ShipType, Integer> entry: winner.numbersOfShips.entrySet()) {
+            Integer number = entry.getValue();
+            number = (int)Math.round(number * winnerStructure/getSummaryStructure());
+            winner.numbersOfShips.put(entry.getKey(), number);
+        }
+        for(Map.Entry<ShipType, Integer> entry: looser.numbersOfShips.entrySet()) {
+            looser.numbersOfShips.put(entry.getKey(), 0);
         }
     }
 

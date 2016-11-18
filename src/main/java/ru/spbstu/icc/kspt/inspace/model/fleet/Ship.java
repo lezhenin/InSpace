@@ -15,14 +15,14 @@ public class Ship implements Constructable {
 
     private ShipType type;
 
-    private Resources resources = new Resources(0, 0, 0);
-
     private FleetDepartment fleetDepartment;
     private LaserTechnology laserTechnology;
     private Shipyard shipyard;
 
     public Ship(ShipType type, FleetDepartment fleetDepartment) {
+        this.type = type;
         this.fleetDepartment = fleetDepartment;
+        updateDependencies();
     }
 
     public ShipType getType() {
@@ -47,14 +47,6 @@ public class Ship implements Constructable {
 
     public int getResourcesCapacity() {
         return type.capacity;
-    }
-
-    public Resources getResources() {
-        return resources;
-    }
-
-    public void putResources(Resources resources) {
-        resources.addResources(resources);
     }
 
     @Override
