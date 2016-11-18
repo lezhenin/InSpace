@@ -17,6 +17,7 @@ import java.util.*;
 
 public class Planet {
 
+    private Position position;
     private int size = 200;
     private String name;
     private Resources resources;
@@ -26,7 +27,10 @@ public class Planet {
     private ResearchDepartment researchDepartment;
     private FleetDepartment fleetDepartment;
 
-    public Planet(String name) {
+    public Planet(String name, Position position) {
+
+        Galaxy.getInstance().addPlanet(this, position);
+
         this.name = name;
         this.resources = new Resources(0,0,0);
 
@@ -39,9 +43,13 @@ public class Planet {
         researchDepartment.updateDependencies();
     }
 
-    public Planet(String name, int size) {
-        this(name);
+    public Planet(String name, Position position, int size) {
+        this(name, position);
         this.size = size;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public Resources getResources() {

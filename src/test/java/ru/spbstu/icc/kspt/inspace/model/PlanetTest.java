@@ -31,8 +31,8 @@ import java.util.Map;
 @PrepareForTest(Time.class)
 public class PlanetTest {
 
-    private Planet planet = new Planet("Nibiru");
-    private Planet anotherPlanet = new Planet("Another");
+    private Planet planet = new Planet("Nibiru", new Position(2, 4));
+    private Planet anotherPlanet = new Planet("Another", new Position(3, 5));
 
     @Test
     public void testUpdate() {
