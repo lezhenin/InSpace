@@ -19,6 +19,9 @@ public class Resources implements Comparable<Resources>{
         metal += resources.metal;
         crystals += resources.crystals;
         deuterium += resources.deuterium;
+        resources.metal = 0;
+        resources.crystals = 0;
+        resources.deuterium = 0;
     }
 
     public int getMetal() {
