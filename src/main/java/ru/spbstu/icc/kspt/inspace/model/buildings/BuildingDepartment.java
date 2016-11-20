@@ -50,7 +50,6 @@ public class BuildingDepartment extends UpgradeDepartment {
     }
 
     public int getFields() {
-        update();
         return occupiedFields;
     }
 
@@ -59,17 +58,14 @@ public class BuildingDepartment extends UpgradeDepartment {
     }
 
     public Building getBuilding(BuildingType type) {
-        update();
         return buildings.get(type);
     }
 
     public Set<Map.Entry<BuildingType, Building>> getBuildings() {
-        update();
         return buildings.entrySet();
     }
 
     public List<Mine> getMines() {
-        update();
         return mines;
     }
 

@@ -108,10 +108,11 @@ public class PlanetTest {
     @Test
     public void testEnergySystem() {
         
-        PowerMockito.mockStatic(Time.class);
+
 
         assertEquals(planet.getEnergyLevel(), 0);
 
+        PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
         planet.getBuilding(BuildingType.POWER_STATION).startUpgrade();
 

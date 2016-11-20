@@ -36,12 +36,10 @@ public class ResearchDepartment extends UpgradeDepartment {
     }
 
     public Research getResearch(ResearchType researchType) {
-        update();
         return researches.get(researchType);
     }
 
     public Set<Map.Entry<ResearchType, Research>> getResearches() {
-        update();
         return researches.entrySet();
     }
 

@@ -43,11 +43,11 @@ public class Planet {
 
         researchDepartment = new ResearchDepartment(this);
         buildingDepartment = new BuildingDepartment(this);
-        energyDepartment = new EnergyDepartment(this);
-        fleetDepartment = new FleetDepartment(this);
-
         buildingDepartment.updateDependencies();
         researchDepartment.updateDependencies();
+        fleetDepartment = new FleetDepartment(this);
+        energyDepartment = new EnergyDepartment(this);
+
     }
 
     public Planet(String name, Position position, int size) {
@@ -153,28 +153,30 @@ public class Planet {
         }
     }
 
-    private void updateFleet() {
-        fleetDepartment.update();
-    }
 
     public void update() {
         List<TimeAction> actions = new ArrayList<>();
-        actions.add(buildingDepartment.getCurrentUpgrade());
-        actions.add(researchDepartment.getCurrentUpgrade());
-        actions.add(fleetDepartment.getCurrentConstruction());
-        actions.addAll(fleetDepartment.getMissions());
 
-        Stream<TimeAction> stream = actions.stream();
-        stream = stream.filter((a) -> a != null);
-        stream = stream.filter((a) -> a.getTime().compareTo(Time.now()) > 0);
-        stream.forEach((a) -> a.addActionBeforeExecution(new Action() {
+        try {
+            actions.add(buildingDepartment.getCurrentUpgrade());
+            actions.add(researchDepartment.getCurrentUpgrade());
+            actions.add(fleetDepartment.getCurrentConstruction());
+            actions.addAll(fleetDepartment.getMissions());
+        }catch (NullPointerException e) {
+            return;
+        }
+
+        actions.removeIf(Objects::isNull);
+        actions.removeIf(a -> a.getTime().compareTo(Time.now()) > 0);
+        actions.sort((a1, a2) -> a1.getTime().compareTo(a2.getTime()));
+        actions.forEach((a) -> a.addActionBeforeExecution(new Action() {
             private TimeAction action = a;
             @Override
             protected void onExecute() {
                 updateResources(action.getTime());
             }
         }));
-        stream.forEach(Action::execute);
+        actions.forEach(Action::execute);
         updateResources(Time.now());
     }
 
