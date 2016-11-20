@@ -11,9 +11,14 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.utils.Action;
+import ru.spbstu.icc.kspt.inspace.model.utils.Time;
+import ru.spbstu.icc.kspt.inspace.model.utils.TimeAction;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Stream;
 
 
 public class Planet {
@@ -27,6 +32,7 @@ public class Planet {
     private EnergyDepartment energyDepartment;
     private ResearchDepartment researchDepartment;
     private FleetDepartment fleetDepartment;
+
 
     public Planet(String name, Position position) {
 
@@ -54,27 +60,27 @@ public class Planet {
     }
 
     public Resources getResources() {
-        updateResources();
+        update();
         return resources;
     }
 
     public void balanceEnergyConsumption() {
-        updateBuildings();
+        update();
         energyDepartment.balanceEnergyConsumption();
     }
 
     public int getEnergyProduction() {
-        updateBuildings();
+        update();
         return energyDepartment.getTotalEnergyProduction();
     }
 
     public int getEnergyConsumption() {
-        updateBuildings();
+        update();
         return energyDepartment.getTotalEnergyConsumption();
     }
 
     public int getEnergyLevel() {
-        updateBuildings();
+        update();
         return energyDepartment.getEnergyLevel();
     }
 
@@ -83,7 +89,7 @@ public class Planet {
     }
 
     public int getNumberOfEmptyFields() {
-        return size - buildingDepartment.getFields();
+        return size - getNumberOfFields();
     }
 
     public String getName() {
@@ -91,57 +97,60 @@ public class Planet {
     }
 
     public Building getBuilding(BuildingType type) {
+        update();
         return buildingDepartment.getBuilding(type);
     }
 
     public Set<Map.Entry<BuildingType, Building>> getBuildings() {
+        update();
         return buildingDepartment.getBuildings();
     }
 
     public Upgrade getCurrentBuildingUpgrade() {
+        update();
         return buildingDepartment.getCurrentUpgrade();
     }
 
     public Research getResearch(ResearchType type) {
+        update();
         return researchDepartment.getResearch(type);
     }
 
     public Set<Map.Entry<ResearchType, Research>> getResearches() {
+        update();
         return researchDepartment.getResearches();
     }
 
     public Upgrade getCurrentResearchUpgrade() {
+        update();
         return researchDepartment.getCurrentUpgrade();
     }
 
     public Set<Map.Entry<ShipType, Ship>> getShips() {
+        update();
         return fleetDepartment.getShips().entrySet();
     }
 
     public Fleet getFleet() {
+        update();
         return fleetDepartment.getFleet();
     }
 
     public void startMission(Mission mission) {
-        //TODO implement
+        update();
+        fleetDepartment.startMission(mission);
     }
 
+    public List<Mission> getMissions() {
+        update();
+        return fleetDepartment.getMissions();
+    }
 
     //TODO new update system
-    private void updateResources() {
-        updateBuildings();
+    private void updateResources(LocalDateTime now) {
         for (Mine mine: buildingDepartment.getMines()) {
-            resources.addResources(mine.getProduction());
+            resources.addResources(mine.getProduction(now));
         }
-    }
-
-    private void updateBuildings(){
-        updateResearches();
-        buildingDepartment.update();
-    }
-
-    private void updateResearches() {
-        researchDepartment.update();
     }
 
     private void updateFleet() {
@@ -149,8 +158,24 @@ public class Planet {
     }
 
     public void update() {
-        updateResources();
-        updateFleet();
+        List<TimeAction> actions = new ArrayList<>();
+        actions.add(buildingDepartment.getCurrentUpgrade());
+        actions.add(researchDepartment.getCurrentUpgrade());
+        actions.add(fleetDepartment.getCurrentConstruction());
+        actions.addAll(fleetDepartment.getMissions());
+
+        Stream<TimeAction> stream = actions.stream();
+        stream = stream.filter((a) -> a != null);
+        stream = stream.filter((a) -> a.getTime().compareTo(Time.now()) > 0);
+        stream.forEach((a) -> a.addActionBeforeExecution(new Action() {
+            private TimeAction action = a;
+            @Override
+            protected void onExecute() {
+                updateResources(action.getTime());
+            }
+        }));
+        stream.forEach(Action::execute);
+        updateResources(Time.now());
     }
 
     public void rename(String newName) {

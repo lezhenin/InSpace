@@ -3,13 +3,13 @@ package ru.spbstu.icc.kspt.inspace.model.fleet.missions;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
-import ru.spbstu.icc.kspt.inspace.model.utils.Action;
+import ru.spbstu.icc.kspt.inspace.model.utils.TimeAction;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public abstract class Mission extends Action {
+public abstract class Mission extends TimeAction {
 
     private LocalDateTime time;
     private Planet source;
@@ -27,6 +27,11 @@ public abstract class Mission extends Action {
 
     public Mission(LocalDateTime time) {
         this.time = time;
+    }
+
+    @Override
+    public LocalDateTime getTime() {
+        return time;
     }
 
     public Planet getSource() {

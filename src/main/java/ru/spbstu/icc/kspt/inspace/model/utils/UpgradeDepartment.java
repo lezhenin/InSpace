@@ -26,9 +26,14 @@ abstract public class UpgradeDepartment {
             //TODO exception
             return;
         }
-
-        planet.getResources().takeResources(upgradable.getUpgradeCost());
+        upgrade.addActionAfterExecution(new Action() {
+            @Override
+            protected void onExecute() {
+                UpgradeDepartment.this.upgrade = null;
+            }
+        });
         this.upgrade = upgrade;
+        planet.getResources().takeResources(upgradable.getUpgradeCost());
     }
 
     public Upgrade getCurrentUpgrade() {

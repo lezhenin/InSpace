@@ -3,15 +3,17 @@ package ru.spbstu.icc.kspt.inspace.model.fleet;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Action;
+import ru.spbstu.icc.kspt.inspace.model.utils.TimeAction;
 import ru.spbstu.icc.kspt.inspace.model.utils.Construct;
-import ru.spbstu.icc.kspt.inspace.model.utils.Constructable;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
-import java.awt.datatransfer.FlavorListener;
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class FleetDepartment {
@@ -19,6 +21,7 @@ public class FleetDepartment {
     private Planet planet;
     private Map<ShipType, Ship> ships = new EnumMap<>(ShipType.class);
     private Fleet mainFleet = new Fleet(this);
+    private List<Mission> missions = new ArrayList<>();
 
     private Construct currentConstruction;
 
@@ -32,14 +35,24 @@ public class FleetDepartment {
     void startConstruction(Construct construct) {
         currentConstruction = construct;
         ShipType type = ((Ship)construct.getConstructable()).getType();
+
         construct.addActionAfterExecution(new Action() {
-            ShipType innerType = type;
-            Construct innerConstruct = construct;
+            private ShipType innerType = type;
+            private Construct innerConstruct = construct;
+
             @Override
             protected void onExecute() {
                 mainFleet.addShips(innerType, innerConstruct.getNumberOfUnits());
             }
         });
+    }
+
+    public void startMission(Mission mission) {
+        missions.add(mission);
+    }
+
+    public List<Mission> getMissions() {
+        return missions;
     }
 
     public Construct getCurrentConstruction() {

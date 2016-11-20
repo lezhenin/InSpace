@@ -1,10 +1,10 @@
 package ru.spbstu.icc.kspt.inspace.model.utils;
 
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public abstract class Action {
-
     private Queue<Action> beforeExecution = new LinkedList<>();
     private Queue<Action> afterExecution = new LinkedList<>();
 

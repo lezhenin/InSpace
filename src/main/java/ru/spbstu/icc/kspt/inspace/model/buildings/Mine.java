@@ -29,8 +29,8 @@ abstract public class Mine extends Building implements EnergyConsumer {
         factory = (Factory)department.getBuilding(BuildingType.FACTORY);
     }
 
-    public Resources getProduction() {
-        Resources resources = getProductionPerDuration(Duration.between(lastProductionGetting, Time.now()));
+    public Resources getProduction(LocalDateTime now) {
+        Resources resources = getProductionPerDuration(Duration.between(lastProductionGetting, now));
         resources.addResources(temporaryStorage);
         temporaryStorage = new Resources(0,0,0);
         lastProductionGetting = Time.now();
@@ -39,7 +39,7 @@ abstract public class Mine extends Building implements EnergyConsumer {
 
     @Override
     protected void upgrade() {
-        temporaryStorage.addResources(getProduction());
+        temporaryStorage.addResources(getProduction(Time.now()));
         super.upgrade();
     }
 

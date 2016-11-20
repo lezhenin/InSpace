@@ -2,9 +2,8 @@ package ru.spbstu.icc.kspt.inspace.model.utils;
 
 
 import java.time.LocalDateTime;
-import java.util.*;
 
-public abstract class Upgrade extends Action {
+public abstract class Upgrade extends TimeAction {
 
     private Upgradable upgradable;
     private LocalDateTime time;

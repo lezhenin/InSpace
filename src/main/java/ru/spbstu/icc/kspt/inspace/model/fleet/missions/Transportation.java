@@ -3,7 +3,6 @@ package ru.spbstu.icc.kspt.inspace.model.fleet.missions;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
-import ru.spbstu.icc.kspt.inspace.model.utils.Action;
 
 public class Transportation extends Mission {
 

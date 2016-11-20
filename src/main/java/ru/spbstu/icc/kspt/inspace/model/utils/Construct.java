@@ -2,7 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.utils;
 
 import java.time.LocalDateTime;
 
-public abstract class Construct extends Action {
+public abstract class Construct extends TimeAction {
 
     private Constructable constructable;
     private LocalDateTime time;
