@@ -18,6 +18,7 @@ public class Attack extends Mission{
         if (getFleet().getNumberOfShips() != 0) {
             int amount = getFleet().getCapacity() / 3;
             Resources loot = getDestination().getResources().takeResources(amount, amount, amount);
+            getFleet().addResources(loot);
             getDestination().startMission(new Comeback(getDestination(), getSource(), getFleet()));
         }
     }

@@ -11,6 +11,7 @@ public class Comeback extends Mission{
 
     @Override
     protected void onExecute() {
+        getDestination().getResources().addResources(getFleet().takeAllResources());
         getDestination().getFleet().addFleet(getFleet());
     }
 }

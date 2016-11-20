@@ -39,6 +39,7 @@ public class Planet {
         Galaxy.getInstance().addPlanet(this, position);
 
         this.name = name;
+        this.position = position;
         this.resources = new Resources(0,0,0);
 
         researchDepartment = new ResearchDepartment(this);
