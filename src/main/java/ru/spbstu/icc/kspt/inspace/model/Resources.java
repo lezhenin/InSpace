@@ -36,6 +36,10 @@ public class Resources implements Comparable<Resources>{
         return deuterium;
     }
 
+    public Resources takeAllResources() {
+        return takeResources(metal, crystals, deuterium);
+    }
+
     public Resources takeResources(Resources resources) {
         return takeResources(resources.metal, resources.crystals, resources.deuterium);
     }

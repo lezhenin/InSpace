@@ -19,6 +19,13 @@ public class Position {
         return numberOfPlanet;
     }
 
+    public int getDistanceTo(Position p) {
+        int distance = 0;
+        distance += Math.abs(numberOfPlanet - p.numberOfPlanet) * 100;
+        distance += Math.abs(numberOfSystem - p.numberOfSystem) * 1000;
+        return distance;
+    }
+
     @Override
     public String toString() {
         return "Position(" +

@@ -39,7 +39,7 @@ public class BuildingDepartment extends UpgradeDepartment {
 
     @Override
     protected boolean canBeUpgraded(Upgradable building) {
-        return (super.canBeUpgraded(building) && planet.getSize() > occupiedFields);
+        return (super.canBeUpgraded(building) && planet.getNumberOfFields() > occupiedFields);
     }
 
     protected void startUpgrade(Upgrade upgrade) {

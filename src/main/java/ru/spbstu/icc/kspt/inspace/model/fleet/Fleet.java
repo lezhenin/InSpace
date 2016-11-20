@@ -45,6 +45,10 @@ public class Fleet {
         this.resources.addResources(resources);
     }
 
+    public Resources takeAllResources() {
+        return resources.takeAllResources();
+    }
+
     public void takeResources(Resources resources) {
         this.resources.takeResources(resources);
     }

@@ -7,6 +7,7 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.FleetDepartment;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
@@ -77,11 +78,11 @@ public class Planet {
         return energyDepartment.getEnergyLevel();
     }
 
-    public int getSize() {
+    public int getNumberOfFields() {
         return size;
     }
 
-    public int getEmptyFields() {
+    public int getNumberOfEmptyFields() {
         return size - buildingDepartment.getFields();
     }
 
@@ -121,6 +122,12 @@ public class Planet {
         return fleetDepartment.getFleet();
     }
 
+    public void startMission(Mission mission) {
+        //TODO implement
+    }
+
+
+    //TODO new update system
     private void updateResources() {
         updateBuildings();
         for (Mine mine: buildingDepartment.getMines()) {

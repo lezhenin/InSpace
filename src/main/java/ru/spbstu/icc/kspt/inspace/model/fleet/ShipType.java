@@ -18,14 +18,14 @@ public enum ShipType {
         this.capacity = capacity;
     }
 
-    protected int attack;
-    protected int structure;
-    protected int shieldStructure;
-    protected int speed;
-    protected int metalCost;
-    protected int crystalCost;
-    protected int deuteriumCost;
-    protected double constructSpeedValue;
-    protected int capacity;
+    final protected int attack;
+    final protected int structure;
+    final protected int shieldStructure;
+    final protected int speed;
+    final protected int metalCost;
+    final protected int crystalCost;
+    final protected int deuteriumCost;
+    final protected double constructSpeedValue;
+    final protected int capacity;
 
 }

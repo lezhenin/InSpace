@@ -2,7 +2,6 @@ package ru.spbstu.icc.kspt.inspace.model;
 
 
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -52,7 +51,7 @@ public class PlanetTest {
         System.out.println("Planet: " + planet.getName());
         System.out.println("Resources: " + planet.getResources());
         System.out.println("Energy level: " + planet.getEnergyLevel());
-        System.out.println(planet.getEmptyFields() + " fields are empty");
+        System.out.println(planet.getNumberOfEmptyFields() + " fields are empty");
         System.out.println("Buildings:");
         System.out.println();
         for(Map.Entry<BuildingType, Building> entry: planet.getBuildings()) {
