@@ -12,6 +12,8 @@ import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
@@ -145,12 +147,48 @@ public class PlanetTest {
     public void testFleets() {
 
         planet.getResources().addResources(new Resources(100000, 100000, 100000));
-        Fleet fleet1 = planet.getFleet();
+        anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
+
+        Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().iterator();
+        iterator.next().getValue().startConstruction(15);
+
+        iterator = anotherPlanet.getShips().iterator();
+        iterator.next().getValue().startConstruction(14);
+
+        PowerMockito.mockStatic(Time.class);
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
+
+        Fleet fleet1 = planet.getFleetOnPlanet().detachFleet();
+        assertEquals(15, fleet1.getNumberOfShips());
+        assertEquals(0, planet.getFleetOnPlanet().getNumberOfShips());
+
+        Fleet fleet2 = anotherPlanet.getFleetOnPlanet().detachFleet();
+        assertEquals(14, fleet2.getNumberOfShips());
+        assertEquals(0, anotherPlanet.getFleetOnPlanet().getNumberOfShips());
+
+        fleet1.attack(fleet2);
+        assertEquals(13, fleet1.getNumberOfShips());
+        assertEquals(0, fleet2.getNumberOfShips());
+
+        planet.getFleetOnPlanet().addFleet(fleet1);
+        anotherPlanet.getFleetOnPlanet().addFleet(fleet2);
+        assertEquals(13, planet.getFleetOnPlanet().getNumberOfShips());
+        assertEquals(0, anotherPlanet.getFleetOnPlanet().getNumberOfShips());
+
+    }
+
+    @Test
+    public void testMissions() {
+
+        planet.getResources().addResources(new Resources(100000, 100000, 100000));
+        anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
+
+        Fleet fleet1 = planet.getFleetOnPlanet();
         assertEquals(0,fleet1.getNumberOfShips());
         Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().iterator();
         iterator.next().getValue().startConstruction(15);
 
-        Fleet fleet2 = anotherPlanet.getFleet();
+        Fleet fleet2 = anotherPlanet.getFleetOnPlanet();
         assertEquals(0,fleet2.getNumberOfShips());
         iterator = anotherPlanet.getShips().iterator();
         iterator.next().getValue().startConstruction(14);
@@ -160,13 +198,14 @@ public class PlanetTest {
 
         planet.update();
         anotherPlanet.update();
-        assertEquals(15,fleet1.getNumberOfShips());
-        assertEquals(14,fleet2.getNumberOfShips());
 
-        fleet1.attack(fleet2);
-        assertEquals(13, fleet1.getNumberOfShips());
-        assertEquals(0, fleet2.getNumberOfShips());
-
-
+        //TODO empty fleets
+        Mission attack = new Attack(planet, anotherPlanet, planet.getFleetOnPlanet());
+        planet.startMission(attack);
+        planet.getMissions().forEach((m) -> System.out.println(Duration.between(Time.now(), m.getTime())));
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(901)));
+        planet.update();
+        planet.getMissions().forEach((m) -> System.out.println(Duration.between(Time.now(), m.getTime())));
+        anotherPlanet.getMissions().forEach((m) -> System.out.println(Duration.between(Time.now(), m.getTime())));
     }
 }

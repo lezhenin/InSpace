@@ -13,7 +13,7 @@ public class Fleet {
     private FleetDepartment department;
     private Resources resources = new Resources(0, 0, 0);
 
-    public Fleet(FleetDepartment department) {
+    Fleet(FleetDepartment department) {
         this.department = department;
         ships = department.getShips();
         for(ShipType value: ShipType.values()) {
@@ -21,14 +21,36 @@ public class Fleet {
         }
     }
 
-    private Fleet(Map<ShipType, Ship> ships) {
-        this.ships = ships;
-
-    }
-
     void addShips(ShipType type, int number) {
         Integer currentNumber = numbersOfShips.get(type);
         numbersOfShips.put(type, currentNumber + number);
+    }
+
+    public Fleet detachFleet() {
+        Fleet fleet = new Fleet(department);
+        fleet.addFleet(this);
+        return fleet;
+    }
+
+    public Fleet detachFleet(Map<ShipType, Integer> numbersOfShips) {
+
+        for(Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {
+            if (this.numbersOfShips.get(entry.getKey()) < entry.getValue()) {
+                //TODO throw
+                return new Fleet(department);
+            }
+        }
+
+        Fleet fleet = new Fleet(department);
+
+        for(Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {
+            fleet.addShips(entry.getKey(), entry.getValue());
+            Integer number = this.numbersOfShips.get(entry.getKey());
+            this.numbersOfShips.put(entry.getKey(), number - entry.getValue());
+        }
+
+
+        return fleet;
     }
 
     public void addFleet(Fleet fleet) {

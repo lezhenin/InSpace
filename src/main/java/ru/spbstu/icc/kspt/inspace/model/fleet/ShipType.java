@@ -2,8 +2,8 @@ package ru.spbstu.icc.kspt.inspace.model.fleet;
 
 
 public enum ShipType {
-    FIGHTER(100, 100, 25, 200, 1000, 750, 0, 500, 3000),
-    SMALL_CARGO(10, 300, 100, 175, 1000, 1000, 100, 450, 5000);
+    FIGHTER(100, 100, 25, 200, 1000, 750, 0, 5000, 3000),
+    SMALL_CARGO(10, 300, 100, 175, 1000, 1000, 100, 4500, 5000);
 
     ShipType(int attack, int structure, int shieldStructure, int speed, int metalCost,
              int crystalCost, int deuteriumCost, double constructSpeedValue, int capacity) {

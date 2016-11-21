@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.fleet;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
+import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
@@ -33,9 +34,15 @@ public class FleetDepartment {
     }
 
     void startConstruction(Construct construct) {
+        Resources cost = construct.getConstructable().getConstructCost();
+        if (planet.getResources().compareTo(cost) < 0 || currentConstruction != null) {
+            //TODO checking system in all department
+            //TODO exception
+            return;
+        }
         currentConstruction = construct;
+        planet.getResources().takeResources(cost);
         ShipType type = ((Ship)construct.getConstructable()).getType();
-
         construct.addActionAfterExecution(new Action() {
             private ShipType innerType = type;
             private Construct innerConstruct = construct;
@@ -43,12 +50,21 @@ public class FleetDepartment {
             @Override
             protected void onExecute() {
                 mainFleet.addShips(innerType, innerConstruct.getNumberOfUnits());
+                FleetDepartment.this.currentConstruction = null;
             }
         });
     }
 
     public void startMission(Mission mission) {
         missions.add(mission);
+        mission.addActionBeforeExecution(new Action() {
+            private Mission missionToRemove = mission;
+
+            @Override
+            protected void onExecute() {
+                missions.remove(missionToRemove);
+            }
+        });
     }
 
     public List<Mission> getMissions() {
@@ -63,7 +79,7 @@ public class FleetDepartment {
         return ships;
     }
 
-    public Fleet getFleet() {
+    public Fleet getMainFleet() {
         return mainFleet;
     }
 

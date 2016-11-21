@@ -18,7 +18,6 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Stream;
 
 
 public class Planet {
@@ -132,9 +131,9 @@ public class Planet {
         return fleetDepartment.getShips().entrySet();
     }
 
-    public Fleet getFleet() {
+    public Fleet getFleetOnPlanet() {
         update();
-        return fleetDepartment.getFleet();
+        return fleetDepartment.getMainFleet();
     }
 
     public void startMission(Mission mission) {
@@ -147,7 +146,6 @@ public class Planet {
         return fleetDepartment.getMissions();
     }
 
-    //TODO new update system
     private void updateResources(LocalDateTime now) {
         for (Mine mine: buildingDepartment.getMines()) {
             resources.addResources(mine.getProduction(now));

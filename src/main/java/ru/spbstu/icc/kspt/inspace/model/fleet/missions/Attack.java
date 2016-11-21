@@ -13,13 +13,13 @@ public class Attack extends Mission{
 
     @Override
     protected void onExecute() {
-        getFleet().attack(getDestination().getFleet());
+        getFleet().attack(getDestination().getFleetOnPlanet());
 
         if (getFleet().getNumberOfShips() != 0) {
             int amount = getFleet().getCapacity() / 3;
             Resources loot = getDestination().getResources().takeResources(amount, amount, amount);
             getFleet().addResources(loot);
-            getDestination().startMission(new Comeback(getDestination(), getSource(), getFleet()));
+            getSource().startMission(new Comeback(getDestination(), getSource(), getFleet()));
         }
     }
 }

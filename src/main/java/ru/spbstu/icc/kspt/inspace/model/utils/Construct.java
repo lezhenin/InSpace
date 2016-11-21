@@ -15,7 +15,7 @@ public abstract class Construct extends TimeAction {
         this.constructable = constructable;
         this.time = Time.now();
         for (int i = 0; i < numberOfUnits; i++) {
-            time.plus(constructable.getConstructDuration());
+            time = time.plus(constructable.getConstructDuration());
         }
     }
 
