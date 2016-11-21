@@ -13,6 +13,7 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Comeback;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
@@ -183,13 +184,9 @@ public class PlanetTest {
         planet.getResources().addResources(new Resources(100000, 100000, 100000));
         anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
 
-        Fleet fleet1 = planet.getFleetOnPlanet();
-        assertEquals(0,fleet1.getNumberOfShips());
-        Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().iterator();
+        Iterator<Map.Entry<ShipType, Ship>> iterator;
+        iterator = planet.getShips().iterator();
         iterator.next().getValue().startConstruction(15);
-
-        Fleet fleet2 = anotherPlanet.getFleetOnPlanet();
-        assertEquals(0,fleet2.getNumberOfShips());
         iterator = anotherPlanet.getShips().iterator();
         iterator.next().getValue().startConstruction(14);
 
@@ -200,12 +197,23 @@ public class PlanetTest {
         anotherPlanet.update();
 
         //TODO empty fleets
-        Mission attack = new Attack(planet, anotherPlanet, planet.getFleetOnPlanet());
+        Mission attack = new Attack(planet, anotherPlanet, planet.getFleetOnPlanet().detachFleet());
         planet.startMission(attack);
-        planet.getMissions().forEach((m) -> System.out.println(Duration.between(Time.now(), m.getTime())));
-        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(901)));
-        planet.update();
-        planet.getMissions().forEach((m) -> System.out.println(Duration.between(Time.now(), m.getTime())));
-        anotherPlanet.getMissions().forEach((m) -> System.out.println(Duration.between(Time.now(), m.getTime())));
+
+        assertTrue(!planet.getMissions().isEmpty());
+        Mission currentMission = planet.getMissions().get(0);
+        assertTrue(currentMission.getClass().equals(Attack.class));
+        assertTrue(anotherPlanet == currentMission.getDestination());
+        assertTrue(planet == currentMission.getSource());
+        assertEquals(15, currentMission.getFleet().getNumberOfShips());
+
+        when(Time.now()).thenReturn(currentMission.getTime().plus(Duration.ofMinutes(1)));
+
+        currentMission = planet.getMissions().get(0);
+        assertTrue(currentMission.getClass().equals(Comeback.class));
+        assertTrue(anotherPlanet == currentMission.getSource());
+        assertTrue(planet == currentMission.getDestination());
+        assertEquals(13, currentMission.getFleet().getNumberOfShips());
+
     }
 }
