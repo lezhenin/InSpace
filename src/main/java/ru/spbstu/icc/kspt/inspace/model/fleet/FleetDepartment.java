@@ -8,9 +8,7 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Action;
-import ru.spbstu.icc.kspt.inspace.model.utils.TimeAction;
 import ru.spbstu.icc.kspt.inspace.model.utils.Construct;
-import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -23,6 +21,7 @@ public class FleetDepartment {
     private Map<ShipType, Ship> ships = new EnumMap<>(ShipType.class);
     private Fleet mainFleet = new Fleet(this);
     private List<Mission> missions = new ArrayList<>();
+    private List<Mission> externalMissions = new ArrayList<>();
 
     private Construct currentConstruction;
 
@@ -65,6 +64,22 @@ public class FleetDepartment {
                 missions.remove(missionToRemove);
             }
         });
+    }
+
+    public void addExternalMission(Mission mission) {
+        externalMissions.add(mission);
+        mission.addActionAfterExecution(new Action() {
+            private Mission missionToRemove = mission;
+            @Override
+            protected void onExecute() {
+                externalMissions.remove(missionToRemove);
+            }
+        });
+
+    }
+
+    public List<Mission> getExternalMissions() {
+        return externalMissions;
     }
 
     public List<Mission> getMissions() {

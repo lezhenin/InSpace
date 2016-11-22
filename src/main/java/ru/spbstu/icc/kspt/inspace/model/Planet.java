@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
+import org.mockito.internal.verification.checkers.MissingInvocationChecker;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
@@ -139,11 +140,24 @@ public class Planet {
     public void startMission(Mission mission) {
         update();
         fleetDepartment.startMission(mission);
+        if(mission.getDestination() != this) {
+            mission.getDestination().addExternalMission(mission);
+        }
+    }
+
+    private void addExternalMission(Mission mission) {
+        update();
+        fleetDepartment.addExternalMission(mission);
     }
 
     public List<Mission> getMissions() {
         update();
         return fleetDepartment.getMissions();
+    }
+
+    public List<Mission> getExternalMissions() {
+        update();
+        return fleetDepartment.getExternalMissions();
     }
 
     private void updateResources(LocalDateTime now) {

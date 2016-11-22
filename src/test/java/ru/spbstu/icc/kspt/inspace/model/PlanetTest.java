@@ -110,8 +110,6 @@ public class PlanetTest {
 
     @Test
     public void testEnergySystem() {
-        
-
 
         assertEquals(planet.getEnergyLevel(), 0);
 
@@ -202,6 +200,7 @@ public class PlanetTest {
 
         assertTrue(!planet.getMissions().isEmpty());
         Mission currentMission = planet.getMissions().get(0);
+        assertTrue(currentMission == anotherPlanet.getExternalMissions().get(0));
         assertTrue(currentMission.getClass().equals(Attack.class));
         assertTrue(anotherPlanet == currentMission.getDestination());
         assertTrue(planet == currentMission.getSource());
@@ -210,6 +209,8 @@ public class PlanetTest {
         when(Time.now()).thenReturn(currentMission.getTime().plus(Duration.ofMinutes(1)));
 
         currentMission = planet.getMissions().get(0);
+        assertTrue(anotherPlanet.getExternalMissions().isEmpty());
+        assertTrue(planet.getExternalMissions().isEmpty());
         assertTrue(currentMission.getClass().equals(Comeback.class));
         assertTrue(anotherPlanet == currentMission.getSource());
         assertTrue(planet == currentMission.getDestination());
