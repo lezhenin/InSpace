@@ -9,6 +9,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.api.mockito.PowerMockito;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
+import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
+import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Comeback;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
@@ -19,6 +25,7 @@ import static org.powermock.api.mockito.PowerMockito.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -26,7 +33,8 @@ import java.util.Map;
 @PrepareForTest(Time.class)
 public class PlanetTest {
 
-    private Planet planet = new Planet("Nibiru");
+    private Planet planet = new Planet("Nibiru", new Position(2, 4));
+    private Planet anotherPlanet = new Planet("Another", new Position(3, 5));
 
     @Test
     public void testUpdate() {
@@ -46,7 +54,7 @@ public class PlanetTest {
         System.out.println("Planet: " + planet.getName());
         System.out.println("Resources: " + planet.getResources());
         System.out.println("Energy level: " + planet.getEnergyLevel());
-        System.out.println(planet.getEmptyFields() + " fields are empty");
+        System.out.println(planet.getNumberOfEmptyFields() + " fields are empty");
         System.out.println("Buildings:");
         System.out.println();
         for(Map.Entry<BuildingType, Building> entry: planet.getBuildings()) {
@@ -102,11 +110,10 @@ public class PlanetTest {
 
     @Test
     public void testEnergySystem() {
-        
-        PowerMockito.mockStatic(Time.class);
 
         assertEquals(planet.getEnergyLevel(), 0);
 
+        PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
         planet.getBuilding(BuildingType.POWER_STATION).startUpgrade();
 
@@ -132,6 +139,82 @@ public class PlanetTest {
         assertEquals(planet.getEnergyConsumption(), planet.getEnergyProduction());
         assertEquals(planet.getEnergyConsumption(), 100);
 
+
+    }
+
+    @Test
+    public void testFleets() {
+
+        planet.getResources().addResources(new Resources(100000, 100000, 100000));
+        anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
+
+        Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().iterator();
+        iterator.next().getValue().startConstruction(15);
+
+        iterator = anotherPlanet.getShips().iterator();
+        iterator.next().getValue().startConstruction(14);
+
+        PowerMockito.mockStatic(Time.class);
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
+
+        Fleet fleet1 = planet.getFleetOnPlanet().detachFleet();
+        assertEquals(15, fleet1.getNumberOfShips());
+        assertEquals(0, planet.getFleetOnPlanet().getNumberOfShips());
+
+        Fleet fleet2 = anotherPlanet.getFleetOnPlanet().detachFleet();
+        assertEquals(14, fleet2.getNumberOfShips());
+        assertEquals(0, anotherPlanet.getFleetOnPlanet().getNumberOfShips());
+
+        fleet1.attack(fleet2);
+        assertEquals(13, fleet1.getNumberOfShips());
+        assertEquals(0, fleet2.getNumberOfShips());
+
+        planet.getFleetOnPlanet().addFleet(fleet1);
+        anotherPlanet.getFleetOnPlanet().addFleet(fleet2);
+        assertEquals(13, planet.getFleetOnPlanet().getNumberOfShips());
+        assertEquals(0, anotherPlanet.getFleetOnPlanet().getNumberOfShips());
+
+    }
+
+    @Test
+    public void testMissions() {
+
+        planet.getResources().addResources(new Resources(100000, 100000, 100000));
+        anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
+
+        Iterator<Map.Entry<ShipType, Ship>> iterator;
+        iterator = planet.getShips().iterator();
+        iterator.next().getValue().startConstruction(15);
+        iterator = anotherPlanet.getShips().iterator();
+        iterator.next().getValue().startConstruction(14);
+
+        PowerMockito.mockStatic(Time.class);
+        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
+
+        planet.update();
+        anotherPlanet.update();
+
+        //TODO empty fleets
+        Mission attack = new Attack(planet, anotherPlanet, planet.getFleetOnPlanet().detachFleet());
+        planet.startMission(attack);
+
+        assertTrue(!planet.getMissions().isEmpty());
+        Mission currentMission = planet.getMissions().get(0);
+        assertTrue(currentMission == anotherPlanet.getExternalMissions().get(0));
+        assertTrue(currentMission.getClass().equals(Attack.class));
+        assertTrue(anotherPlanet == currentMission.getDestination());
+        assertTrue(planet == currentMission.getSource());
+        assertEquals(15, currentMission.getFleet().getNumberOfShips());
+
+        when(Time.now()).thenReturn(currentMission.getTime().plus(Duration.ofMinutes(1)));
+
+        currentMission = planet.getMissions().get(0);
+        assertTrue(anotherPlanet.getExternalMissions().isEmpty());
+        assertTrue(planet.getExternalMissions().isEmpty());
+        assertTrue(currentMission.getClass().equals(Comeback.class));
+        assertTrue(anotherPlanet == currentMission.getSource());
+        assertTrue(planet == currentMission.getDestination());
+        assertEquals(13, currentMission.getFleet().getNumberOfShips());
 
     }
 }

@@ -3,9 +3,7 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
-import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
-import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
-import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
+import ru.spbstu.icc.kspt.inspace.model.utils.*;
 
 import java.util.*;
 
@@ -21,6 +19,7 @@ public class BuildingDepartment extends UpgradeDepartment {
 
         buildings.put(BuildingType.FACTORY, new Factory(this));
         buildings.put(BuildingType.LABORATORY, new Laboratory(this));
+        buildings.put(BuildingType.SHIPYARD, new Shipyard(this));
         buildings.put(BuildingType.CRYSTAL_MINE, new CrystalMine(this));
         buildings.put(BuildingType.DEUTERIUM_MINE, new DeuteriumMine(this));
         buildings.put(BuildingType.METAL_MINE, new MetalMine(this));
@@ -37,16 +36,20 @@ public class BuildingDepartment extends UpgradeDepartment {
 
     @Override
     protected boolean canBeUpgraded(Upgradable building) {
-        return (super.canBeUpgraded(building) && planet.getSize() > occupiedFields);
+        return (super.canBeUpgraded(building) && planet.getNumberOfFields() > occupiedFields);
     }
 
     protected void startUpgrade(Upgrade upgrade) {
-        upgrade.addActionAfterExecution(() -> occupiedFields++);
+        upgrade.addActionAfterExecution(new Action() {
+            @Override
+            protected void onExecute() {
+                occupiedFields ++;
+            }
+        });
         super.startUpgrade(upgrade);
     }
 
     public int getFields() {
-        update();
         return occupiedFields;
     }
 
@@ -55,17 +58,14 @@ public class BuildingDepartment extends UpgradeDepartment {
     }
 
     public Building getBuilding(BuildingType type) {
-        update();
         return buildings.get(type);
     }
 
     public Set<Map.Entry<BuildingType, Building>> getBuildings() {
-        update();
         return buildings.entrySet();
     }
 
     public List<Mine> getMines() {
-        update();
         return mines;
     }
 

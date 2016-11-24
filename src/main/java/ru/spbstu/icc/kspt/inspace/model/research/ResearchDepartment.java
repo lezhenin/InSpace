@@ -18,6 +18,7 @@ public class ResearchDepartment extends UpgradeDepartment {
     public ResearchDepartment(Planet planet) {
         super(planet);
         researches.put(ResearchType.ENERGY, new EnergyTechnology(this));
+        researches.put(ResearchType.LASER, new LaserTechnology(this));
     }
 
     public void updateDependencies() {
@@ -35,12 +36,10 @@ public class ResearchDepartment extends UpgradeDepartment {
     }
 
     public Research getResearch(ResearchType researchType) {
-        update();
         return researches.get(researchType);
     }
 
     public Set<Map.Entry<ResearchType, Research>> getResearches() {
-        update();
         return researches.entrySet();
     }
 

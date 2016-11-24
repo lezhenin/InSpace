@@ -7,13 +7,12 @@ import static org.junit.Assert.*;
 
 public class GalaxyTest {
 
-    private Galaxy galaxy = new Galaxy();
+    Galaxy galaxy = Galaxy.getInstance();
     private Position position = new Position(5, 7);
 
     @Test
     public void testAdd() {
-        Planet planet = new Planet("MyPlanet");
-        galaxy.addPlanet(planet, position);
+        Planet planet = new Planet("MyPlanet", position);
         Planet gottenPlanet = galaxy.getPlanet(position);
         assertTrue(planet == gottenPlanet);
     }

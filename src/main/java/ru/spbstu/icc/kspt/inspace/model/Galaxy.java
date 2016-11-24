@@ -5,12 +5,21 @@ import java.util.List;
 
 public class Galaxy {
 
+    private static Galaxy instance;
+
+    public static Galaxy getInstance() {
+        if (instance == null) {
+            instance = new Galaxy();
+        }
+        return instance;
+    }
+
     public static final int MAX_SYSTEM_NUMBER = 10;
     public static final int MAX_PLANET_NUMBER = 10;
 
     private List<List<Planet>> galaxy = new ArrayList<>();
 
-    public Galaxy() {
+    private Galaxy() {
         for (int i = 0; i < MAX_SYSTEM_NUMBER; i++) {
             galaxy.add(new ArrayList<>());
             for (int j = 0; j < MAX_PLANET_NUMBER; j++) {
