@@ -28,6 +28,8 @@ public class Planet {
     private String name;
     private Resources resources;
 
+    private boolean updating = false;
+
     private BuildingDepartment buildingDepartment;
     private EnergyDepartment energyDepartment;
     private ResearchDepartment researchDepartment;
@@ -168,6 +170,10 @@ public class Planet {
 
 
     public void update() {
+        if(updating) {
+            return;
+        }
+        updating = true;
         List<TimeAction> actions = new ArrayList<>();
 
         try {
@@ -175,7 +181,9 @@ public class Planet {
             actions.add(researchDepartment.getCurrentUpgrade());
             actions.add(fleetDepartment.getCurrentConstruction());
             actions.addAll(fleetDepartment.getMissions());
+            actions.addAll(fleetDepartment.getExternalMissions());
         }catch (NullPointerException e) {
+            updating = false;
             return;
         }
 
@@ -191,6 +199,7 @@ public class Planet {
         }));
         actions.forEach(Action::execute);
         updateResources(Time.now());
+        updating = false;
     }
 
     public void rename(String newName) {
