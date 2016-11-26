@@ -1,5 +1,6 @@
 version '1.0-SNAPSHOT'
 
+//apply plugin: 'javafx-gradle-plugin'
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -7,11 +8,10 @@ dependencies {
 
 }
 
-apply from: 'http://dl.bintray.com/content/shemnon/javafx-gradle/8.1.1/javafx.plugin'
-javafx {
+//javafx {
 //    appID 'SampleApp'
 //    appName 'Sample Application'
-      mainClass 'ru.spbstu.icc.kspt.inspace.app.InSpace'
+//      mainClass 'ru.spbstu.icc.kspt.inspace.app.InSpace'
 //
 //    jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
 //    systemProperties = [ 'prism.disableRegionCaching':'true' ]
@@ -70,4 +70,4 @@ javafx {
 //        height = 16
 //        scale = 1
 //    }
-}
+//}
