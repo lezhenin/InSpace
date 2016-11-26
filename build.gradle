@@ -1,42 +1,38 @@
-version '1.0-SNAPSHOT'
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'findbugs'
 
-apply plugin: 'java'
-apply plugin: 'jacoco'
-apply plugin: 'findbugs'
 
-sourceCompatibility = 1.8
-
-findbugs {
-    ignoreFailures = true
-}
-
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
+    repositories {
+        mavenCentral()
+        jcenter()
     }
-}
 
-jacoco {
-    reportsDir = file("$buildDir/reports/jacoco")
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.enabled true
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
     }
-}
+
+    jacoco {
+        reportsDir = file("$buildDir/reports/jacoco")
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html.enabled true
+        }
+    }
 
 
-repositories {
-    mavenCentral()
-    jcenter()
-}
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile group: 'org.powermock', name: 'powermock-mockito-release-full', version: '1.5.4'
+    findbugs {
+        ignoreFailures = true
+    }
 
+    sourceCompatibility = 1.8
 }
