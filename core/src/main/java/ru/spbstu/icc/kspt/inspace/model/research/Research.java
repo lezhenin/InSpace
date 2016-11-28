@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.research;
 
+import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
@@ -22,7 +23,7 @@ public abstract class Research implements Upgradable{
     }
 
     @Override
-    public void startUpgrade() {
+    public void startUpgrade() throws UpgradeException {
         department.startUpgrade(new Upgrade(this) {
             @Override
             public void onExecute() {

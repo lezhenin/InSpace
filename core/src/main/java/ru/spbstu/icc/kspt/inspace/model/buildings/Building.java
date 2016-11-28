@@ -1,11 +1,9 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
-import ru.spbstu.icc.kspt.inspace.model.utils.Time;
+import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
-
-import java.time.LocalDateTime;
 
 abstract public class Building implements Upgradable {
 
@@ -27,10 +25,9 @@ abstract public class Building implements Upgradable {
     }
 
     @Override
-    public void startUpgrade() {
+    public void startUpgrade() throws UpgradeException {
         if(!canBeUpgraded()) {
-            //TODO exception
-            return;
+            throw new UpgradeException(this);
         }
         department.startUpgrade(new Upgrade(this) {
             @Override

@@ -11,6 +11,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 
 public class InSpace extends Application{
     @Override

@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
+import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.*;
@@ -39,7 +40,7 @@ public class BuildingDepartment extends UpgradeDepartment {
         return (super.canBeUpgraded(building) && planet.getNumberOfFields() > occupiedFields);
     }
 
-    protected void startUpgrade(Upgrade upgrade) {
+    protected void startUpgrade(Upgrade upgrade) throws UpgradeException {
         upgrade.addActionAfterExecution(new Action() {
             @Override
             protected void onExecute() {

@@ -3,6 +3,7 @@ package ru.spbstu.icc.kspt.inspace.model.research;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
@@ -31,7 +32,7 @@ public class ResearchDepartment extends UpgradeDepartment {
     }
 
     @Override
-    protected void startUpgrade(Upgrade upgrade) {
+    protected void startUpgrade(Upgrade upgrade) throws UpgradeException {
         super.startUpgrade(upgrade);
     }
 

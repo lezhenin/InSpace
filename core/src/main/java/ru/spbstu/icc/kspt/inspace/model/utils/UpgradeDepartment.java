@@ -2,7 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.utils;
 
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
-import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 
 
 abstract public class UpgradeDepartment {
@@ -18,11 +18,10 @@ abstract public class UpgradeDepartment {
         return (planet.getResources().compareTo(upgradable.getUpgradeCost()) != -1 && upgrade == null);
     }
 
-    protected void startUpgrade(Upgrade upgrade) {
+    protected void startUpgrade(Upgrade upgrade) throws UpgradeException {
         Upgradable upgradable = upgrade.getUpgradable();
         if (!canBeUpgraded(upgradable)) {
-            //TODO exception
-            return;
+            throw new UpgradeException(upgradable);
         }
         upgrade.addActionAfterExecution(new Action() {
             @Override
