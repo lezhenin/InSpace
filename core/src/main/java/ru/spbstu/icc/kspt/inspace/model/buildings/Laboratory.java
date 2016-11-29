@@ -6,7 +6,6 @@ import java.time.Duration;
 
 public class Laboratory extends Building {
 
-    //TODO мб подумать об вынесении каких-то общих констант в Building (?)
     private static final int METAL_COST_VALUE = 50;
     private static final int CRYSTAL_COST_VALUE = 60;
     private final static int UPGRADE_SPEED_VALUE = 2900;

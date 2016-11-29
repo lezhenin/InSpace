@@ -2,6 +2,8 @@ package ru.spbstu.icc.kspt.inspace.model.fleet;
 
 
 import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.exception.ExcessCapacityException;
+import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -32,12 +34,11 @@ public class Fleet {
         return fleet;
     }
 
-    public Fleet detachFleet(Map<ShipType, Integer> numbersOfShips) {
+    public Fleet detachFleet(Map<ShipType, Integer> numbersOfShips) throws FleetDetachException {
 
         for(Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {
             if (this.numbersOfShips.get(entry.getKey()) < entry.getValue()) {
-                //TODO throw
-                return new Fleet(department);
+                throw new FleetDetachException(this.numbersOfShips, numbersOfShips);
             }
         }
 
@@ -60,9 +61,9 @@ public class Fleet {
         }
     }
 
-    public void addResources(Resources resources) {
+    public void addResources(Resources resources) throws ExcessCapacityException {
         if (resources.getAmount() > getCapacity()) {
-            //TODO exception
+            throw new ExcessCapacityException(getCapacity(), resources.getAmount());
         }
         this.resources.addResources(resources);
     }
@@ -137,12 +138,10 @@ public class Fleet {
 
         //TODO make smaller methods
 
+        assert (department != fleet.department);
+
         if (getNumberOfShips() == 0 || fleet.getNumberOfShips() == 0) {
             return;
-        }
-
-        if (department == fleet.department) {
-            //TODO exception
         }
 
         int enemyAttack = fleet.getSummaryAttack();

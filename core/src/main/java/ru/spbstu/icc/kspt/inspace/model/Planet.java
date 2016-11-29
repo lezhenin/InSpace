@@ -1,6 +1,5 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
-import org.mockito.internal.verification.checkers.MissingInvocationChecker;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
