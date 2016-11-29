@@ -9,6 +9,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.api.mockito.PowerMockito;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
@@ -144,7 +145,7 @@ public class PlanetTest {
     }
 
     @Test
-    public void testFleets() {
+    public void testFleets() throws ConstructException {
 
         planet.getResources().addResources(new Resources(100000, 100000, 100000));
         anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
@@ -178,7 +179,7 @@ public class PlanetTest {
     }
 
     @Test
-    public void testMissions() {
+    public void testMissions() throws ConstructException {
 
         planet.getResources().addResources(new Resources(100000, 100000, 100000));
         anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));

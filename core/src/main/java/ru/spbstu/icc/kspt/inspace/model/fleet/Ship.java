@@ -3,6 +3,7 @@ package ru.spbstu.icc.kspt.inspace.model.fleet;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Shipyard;
+import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
 import ru.spbstu.icc.kspt.inspace.model.research.LaserTechnology;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Construct;
@@ -55,7 +56,7 @@ public class Ship implements Constructable {
     }
 
     @Override
-    public void startConstruction(int number) {
+    public void startConstruction(int number) throws ConstructException {
         fleetDepartment.startConstruction(new Construct(this, number) {
             @Override
             public void onExecute() {

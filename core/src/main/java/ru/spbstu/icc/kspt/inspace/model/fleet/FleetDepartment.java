@@ -4,6 +4,7 @@ import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
@@ -32,12 +33,10 @@ public class FleetDepartment {
         ships.put(ShipType.SMALL_CARGO, new Ship(ShipType.SMALL_CARGO, this));
     }
 
-    void startConstruction(Construct construct) {
+    void startConstruction(Construct construct) throws ConstructException {
         Resources cost = construct.getConstructable().getConstructCost();
         if (planet.getResources().compareTo(cost) < 0 || currentConstruction != null) {
-            //TODO checking system in all department
-            //TODO exception
-            return;
+            throw new ConstructException(construct.getConstructable());
         }
         currentConstruction = construct;
         planet.getResources().takeResources(cost);
