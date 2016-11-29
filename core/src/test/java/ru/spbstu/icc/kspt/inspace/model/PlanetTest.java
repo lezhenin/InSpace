@@ -9,6 +9,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.api.mockito.PowerMockito;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
@@ -68,7 +69,7 @@ public class PlanetTest {
     }
 
     @Test
-    public void testResearchUpgrade() {
+    public void testResearchUpgrade() throws UpgradeException {
         PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
 
@@ -88,7 +89,7 @@ public class PlanetTest {
     }
 
     @Test
-    public void testBuildingUpgrade() {
+    public void testBuildingUpgrade() throws UpgradeException {
 
         PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
@@ -109,7 +110,7 @@ public class PlanetTest {
     }
 
     @Test
-    public void testEnergySystem() {
+    public void testEnergySystem() throws UpgradeException {
 
         assertEquals(planet.getEnergyLevel(), 0);
 
