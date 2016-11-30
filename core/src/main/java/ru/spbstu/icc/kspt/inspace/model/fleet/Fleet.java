@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.fleet;
 
 
+import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.exception.ExcessCapacityException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
@@ -14,6 +15,14 @@ public class Fleet {
     private Map<ShipType, Ship> ships;
     private FleetDepartment department;
     private Resources resources = new Resources(0, 0, 0);
+
+    public Resources getResources() {
+        return resources;
+    }
+
+    public Planet getOwner() {
+       return department.getPlanet();
+    }
 
     Fleet(FleetDepartment department) {
         this.department = department;

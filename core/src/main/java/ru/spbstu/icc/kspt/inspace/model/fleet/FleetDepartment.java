@@ -109,10 +109,8 @@ public class FleetDepartment {
         ships.values().forEach(Ship::updateDependencies);
     }
 
-//    public void update() {
-//        if (currentConstruction != null && currentConstruction.getTime().compareTo(Time.now()) <= 0) {
-//            currentConstruction.execute();
-//            currentConstruction = null;
-//        }
-//    }
+    public Planet getPlanet() {
+        return planet;
+    }
+
 }
