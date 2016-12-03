@@ -11,10 +11,7 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
-import ru.spbstu.icc.kspt.inspace.model.utils.Action;
-import ru.spbstu.icc.kspt.inspace.model.utils.Time;
-import ru.spbstu.icc.kspt.inspace.model.utils.TimeAction;
-import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
+import ru.spbstu.icc.kspt.inspace.model.utils.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -135,6 +132,11 @@ public class Planet {
         return researchDepartment.getCurrentUpgrade();
     }
 
+    public Construct getCurrentConstuct(){
+        update();
+        return fleetDepartment.getCurrentConstruct();
+    }
+
     public Map<ShipType, Ship> getShips() {
         update();
         return fleetDepartment.getShips();
@@ -183,7 +185,7 @@ public class Planet {
 
         actions.add(buildingDepartment.getCurrentUpgrade());
         actions.add(researchDepartment.getCurrentUpgrade());
-        actions.add(fleetDepartment.getCurrentConstruction());
+        actions.add(fleetDepartment.getCurrentConstruct());
         actions.addAll(fleetDepartment.getMissions());
         actions.addAll(fleetDepartment.getExternalMissions());
 

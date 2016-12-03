@@ -24,7 +24,7 @@ public class FleetDepartment {
     private List<Mission> missions = new ArrayList<>();
     private List<Mission> externalMissions = new ArrayList<>();
 
-    private Construct currentConstruction;
+    private Construct currentConstruct;
 
 
     public FleetDepartment(Planet planet) {
@@ -35,10 +35,10 @@ public class FleetDepartment {
 
     void startConstruction(Construct construct) throws ConstructException {
         Resources cost = construct.getConstructable().getConstructCost();
-        if (planet.getResources().compareTo(cost) < 0 || currentConstruction != null) {
+        if (planet.getResources().compareTo(cost) < 0 || currentConstruct != null) {
             throw new ConstructException(construct.getConstructable());
         }
-        currentConstruction = construct;
+        currentConstruct = construct;
         planet.getResources().takeResources(cost);
         ShipType type = ((Ship)construct.getConstructable()).getType();
         construct.addActionAfterExecution(new Action() {
@@ -48,7 +48,7 @@ public class FleetDepartment {
             @Override
             protected void onExecute() {
                 mainFleet.addShips(innerType, innerConstruct.getNumberOfUnits());
-                FleetDepartment.this.currentConstruction = null;
+                FleetDepartment.this.currentConstruct = null;
             }
         });
     }
@@ -85,8 +85,8 @@ public class FleetDepartment {
         return missions;
     }
 
-    public Construct getCurrentConstruction() {
-        return currentConstruction;
+    public Construct getCurrentConstruct() {
+        return currentConstruct;
     }
 
     public Map<ShipType, Ship> getShips() {
