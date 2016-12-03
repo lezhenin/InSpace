@@ -3,19 +3,20 @@ package ru.spbstu.icc.kspt.inspace.model.energy;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.utils.Department;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class EnergyDepartment {
+public class EnergyDepartment extends Department{
 
     private List<EnergyConsumer> consumers = new ArrayList<>();
     private List<EnergyProducer> producers = new ArrayList<>();
     private double power = 1;
 
     public EnergyDepartment(Planet planet) {
-
+        super(planet);
         //TODO find alternative way to get consumers and producers
         for(Map.Entry<BuildingType, Building> building: planet.getBuildings().entrySet()){
             if (building.getValue() instanceof EnergyConsumer) {

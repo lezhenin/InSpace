@@ -5,13 +5,12 @@ import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 
 
-abstract public class UpgradeDepartment {
+abstract public class UpgradeDepartment extends Department {
 
-    protected Planet planet;
     private Upgrade upgrade;
 
     public UpgradeDepartment(Planet planet) {
-        this.planet = planet;
+        super(planet);
     }
 
     protected boolean canBeUpgraded(Upgradable upgradable) {
@@ -37,10 +36,4 @@ abstract public class UpgradeDepartment {
         return upgrade;
     }
 
-//    public void update() {
-//        if (upgrade != null && upgrade.getTime().compareTo(Time.now()) <= 0) {
-//            upgrade.execute();
-//            upgrade = null;
-//        }
-//    }
 }

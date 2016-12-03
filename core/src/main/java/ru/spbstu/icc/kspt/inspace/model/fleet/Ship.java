@@ -4,7 +4,7 @@ import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Shipyard;
 import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
-import ru.spbstu.icc.kspt.inspace.model.research.LaserTechnology;
+import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Construct;
 import ru.spbstu.icc.kspt.inspace.model.utils.Constructable;
@@ -17,7 +17,7 @@ public class Ship implements Constructable {
     private ShipType type;
 
     private FleetDepartment fleetDepartment;
-    private LaserTechnology laserTechnology;
+    private Research laserTechnology;
     private Shipyard shipyard;
 
     public Ship(ShipType type, FleetDepartment fleetDepartment) {
@@ -31,28 +31,28 @@ public class Ship implements Constructable {
     }
 
     public int getAttack() {
-        return (int)Math.round(type.attack * (1 + laserTechnology.getLevel() * 0.02));
+        return (int)Math.round(type.ATTACK * (1 + laserTechnology.getLevel() * 0.02));
     }
 
     public int getStructure() {
-        return type.structure;
+        return type.STRUCTURE;
     }
 
     public int getShieldStructure() {
-        return type.shieldStructure;
+        return type.SHIELD_STRUCTURE;
     }
 
     public int getSpeed() {
-        return type.speed;
+        return type.SPEED;
     }
 
     public int getResourcesCapacity() {
-        return type.capacity;
+        return type.CAPACITY;
     }
 
     @Override
     public Resources getConstructCost() {
-        return new Resources(type.metalCost, type.crystalCost, type.deuteriumCost);
+        return new Resources(type.METAL_COST, type.CRYSTALS_COST, type.DEUTERIUM_COST);
     }
 
     @Override
@@ -67,13 +67,13 @@ public class Ship implements Constructable {
 
     @Override
     public Duration getConstructDuration() {
-        double hours = getConstructCost().getAmount() / (type.constructSpeedValue * (1 + shipyard.getLevel()));
+        double hours = getConstructCost().getAmount() / (type.CONSTRUCT_SPEED_VALUE * (1 + shipyard.getLevel()));
         return Duration.ofSeconds(Math.round(hours * 3600));
 
     }
 
     public void updateDependencies() {
-        laserTechnology = (LaserTechnology) fleetDepartment.getResearch(ResearchType.LASER);
+        laserTechnology = fleetDepartment.getResearch(ResearchType.LASER);
         shipyard = (Shipyard) fleetDepartment.getBuilding(BuildingType.SHIPYARD);
     }
 }

@@ -86,7 +86,7 @@ public class PlanetTest {
                 .plus(research.getUpgradeDuration()));
         planet.update();
         assertEquals(research.getLevel(), 1);
-        assertEquals(planet.getResources(), new Resources(231, 160, 115));
+        assertEquals(planet.getResources(), new Resources(226, 160, 130));
     }
 
     @Test

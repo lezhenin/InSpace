@@ -70,4 +70,8 @@ public class BuildingDepartment extends UpgradeDepartment {
         return mines;
     }
 
+    protected void updatePlanet() {
+        super.updatePlanet();
+    }
+
 }

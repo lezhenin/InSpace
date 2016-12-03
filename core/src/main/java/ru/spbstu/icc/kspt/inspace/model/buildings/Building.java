@@ -23,6 +23,7 @@ abstract public class Building implements Upgradable {
     void updateDependencies() {}
 
     public boolean canBeUpgraded() {
+        department.updatePlanet();
         return department.canBeUpgraded(this);
     }
 

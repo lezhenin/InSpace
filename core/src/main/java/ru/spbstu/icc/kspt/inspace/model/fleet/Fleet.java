@@ -92,7 +92,7 @@ public class Fleet {
     public int getCapacity() {
         int capacity = 0;
         for (Map.Entry<ShipType, Integer> entry : numbersOfShips.entrySet()) {
-            capacity += entry.getValue() * entry.getKey().capacity;
+            capacity += entry.getValue() * entry.getKey().CAPACITY;
         }
         return capacity;
     }

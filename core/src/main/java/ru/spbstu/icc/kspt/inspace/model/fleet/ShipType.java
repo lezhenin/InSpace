@@ -7,25 +7,25 @@ public enum ShipType {
 
     ShipType(int attack, int structure, int shieldStructure, int speed, int metalCost,
              int crystalCost, int deuteriumCost, double constructSpeedValue, int capacity) {
-        this.attack = attack;
-        this.structure = structure;
-        this.shieldStructure = shieldStructure;
-        this.speed = speed;
-        this.metalCost = metalCost;
-        this.crystalCost = crystalCost;
-        this.deuteriumCost = deuteriumCost;
-        this.constructSpeedValue = constructSpeedValue;
-        this.capacity = capacity;
+        this.ATTACK = attack;
+        this.STRUCTURE = structure;
+        this.SHIELD_STRUCTURE = shieldStructure;
+        this.SPEED = speed;
+        this.METAL_COST = metalCost;
+        this.CRYSTALS_COST = crystalCost;
+        this.DEUTERIUM_COST = deuteriumCost;
+        this.CONSTRUCT_SPEED_VALUE = constructSpeedValue;
+        this.CAPACITY = capacity;
     }
 
-    final protected int attack;
-    final protected int structure;
-    final protected int shieldStructure;
-    final protected int speed;
-    final protected int metalCost;
-    final protected int crystalCost;
-    final protected int deuteriumCost;
-    final protected double constructSpeedValue;
-    final protected int capacity;
+    final protected int ATTACK;
+    final protected int STRUCTURE;
+    final protected int SHIELD_STRUCTURE;
+    final protected int SPEED;
+    final protected int METAL_COST;
+    final protected int CRYSTALS_COST;
+    final protected int DEUTERIUM_COST;
+    final protected double CONSTRUCT_SPEED_VALUE;
+    final protected int CAPACITY;
 
 }

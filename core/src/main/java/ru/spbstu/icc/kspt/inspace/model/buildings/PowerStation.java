@@ -2,7 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyProducer;
-import ru.spbstu.icc.kspt.inspace.model.research.EnergyTechnology;
+import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 
 import java.time.Duration;
@@ -16,7 +16,7 @@ public class PowerStation extends Building implements EnergyProducer {
     private static final int UPGRADE_SPEED_VALUE = 2300;
 
     private Factory factory;
-    private EnergyTechnology energyTechnology;
+    private Research energyTechnology;
 
     public PowerStation(BuildingDepartment department) {
         super(department, BuildingType.POWER_STATION);
@@ -25,7 +25,7 @@ public class PowerStation extends Building implements EnergyProducer {
     @Override
     public void updateDependencies() {
         factory = (Factory)department.getBuilding(BuildingType.FACTORY);
-        energyTechnology = (EnergyTechnology)department.getResearch(ResearchType.ENERGY);
+        energyTechnology = department.getResearch(ResearchType.ENERGY);
     }
 
     public int getEnergyProduction() {
