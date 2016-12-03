@@ -19,7 +19,7 @@ public class PowerStation extends Building implements EnergyProducer {
     private EnergyTechnology energyTechnology;
 
     public PowerStation(BuildingDepartment department) {
-        super(department);
+        super(department, BuildingType.POWER_STATION);
     }
 
     @Override

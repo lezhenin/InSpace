@@ -14,7 +14,7 @@ public class Factory extends Building {
 
     public Factory(BuildingDepartment department)
     {
-        super(department);
+        super(department, BuildingType.FACTORY);
     }
 
     @Override

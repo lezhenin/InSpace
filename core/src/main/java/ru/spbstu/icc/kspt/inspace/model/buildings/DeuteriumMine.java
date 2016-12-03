@@ -13,7 +13,7 @@ public class DeuteriumMine extends Mine {
     private static final int ENERGY_CONSUMPTION_VALUE = 45;
 
     public DeuteriumMine(BuildingDepartment department) {
-        super(department);
+        super(department, BuildingType.DEUTERIUM_MINE);
     }
 
     @Override

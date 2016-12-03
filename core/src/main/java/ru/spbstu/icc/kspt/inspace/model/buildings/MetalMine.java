@@ -14,7 +14,7 @@ public class MetalMine extends Mine {
     private static final int ENERGY_CONSUMPTION_VALUE = 30;
 
     public MetalMine(BuildingDepartment department) {
-        super(department);
+        super(department, BuildingType.METAL_MINE);
     }
 
 

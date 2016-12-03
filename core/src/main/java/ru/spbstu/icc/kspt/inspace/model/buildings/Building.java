@@ -9,16 +9,18 @@ abstract public class Building implements Upgradable {
 
     protected BuildingDepartment department;
     private int level;
+    private BuildingType type;
 
     protected void upgrade() {
         level++;
     }
 
-    public Building(BuildingDepartment department) {
+    public Building(BuildingDepartment department, BuildingType type) {
         this.department = department;
+        this.type = type;
     }
 
-    public void updateDependencies() {}
+    void updateDependencies() {}
 
     public boolean canBeUpgraded() {
         return department.canBeUpgraded(this);
@@ -35,6 +37,10 @@ abstract public class Building implements Upgradable {
                 upgrade();
             }
         });
+    }
+
+    public BuildingType getType() {
+        return type;
     }
 
     public int getLevel() {

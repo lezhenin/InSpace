@@ -17,8 +17,8 @@ abstract public class Mine extends Building implements EnergyConsumer {
 
     protected Factory factory;
 
-    public Mine(BuildingDepartment department) {
-        super(department);
+    public Mine(BuildingDepartment department, BuildingType type) {
+        super(department, type);
 
         lastProductionGetting = Time.now();
         temporaryStorage = new Resources(0,0,0);

@@ -11,9 +11,11 @@ public abstract class Research implements Upgradable{
 
     protected int level;
     protected ResearchDepartment department;
+    private ResearchType type;
 
-    public Research(ResearchDepartment department) {
+    public Research(ResearchDepartment department, ResearchType type) {
         this.department = department;
+        this.type = type;
     }
 
     abstract void updateDependencies();
@@ -30,6 +32,10 @@ public abstract class Research implements Upgradable{
                 level++;
             }
         });
+    }
+
+    public ResearchType getType() {
+        return type;
     }
 
     public int getLevel() {

@@ -13,7 +13,7 @@ public class Laboratory extends Building {
     private Factory factory;
 
     public Laboratory(BuildingDepartment department) {
-        super(department);
+        super(department, BuildingType.LABORATORY);
     }
 
     @Override

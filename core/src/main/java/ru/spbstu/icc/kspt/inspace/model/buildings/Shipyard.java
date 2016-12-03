@@ -14,7 +14,7 @@ public class Shipyard extends Building {
     private Factory factory;
 
     public Shipyard(BuildingDepartment department) {
-        super(department);
+        super(department, BuildingType.POWER_STATION);
     }
 
     @Override

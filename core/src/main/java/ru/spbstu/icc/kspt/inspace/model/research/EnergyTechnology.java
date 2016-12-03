@@ -18,7 +18,7 @@ public class EnergyTechnology extends Research {
     private Laboratory laboratory;
 
     public EnergyTechnology(ResearchDepartment department) {
-        super(department);
+        super(department, ResearchType.ENERGY);
     }
 
     @Override

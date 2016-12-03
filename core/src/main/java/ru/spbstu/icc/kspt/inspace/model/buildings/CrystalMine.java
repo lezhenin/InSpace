@@ -15,7 +15,7 @@ public class CrystalMine extends Mine implements EnergyConsumer {
     private static final int ENERGY_CONSUMPTION_VALUE = 40;
 
     public CrystalMine(BuildingDepartment department) {
-        super(department);
+        super(department, BuildingType.CRYSTAL_MINE);
     }
 
     @Override

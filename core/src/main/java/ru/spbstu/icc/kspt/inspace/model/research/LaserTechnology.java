@@ -16,7 +16,7 @@ public class LaserTechnology extends Research {
     private Laboratory laboratory;
 
     public LaserTechnology(ResearchDepartment department) {
-        super(department);
+        super(department, ResearchType.LASER);
     }
 
     @Override
