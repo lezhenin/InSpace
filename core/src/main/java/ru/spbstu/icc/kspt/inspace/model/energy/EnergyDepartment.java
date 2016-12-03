@@ -12,6 +12,7 @@ public class EnergyDepartment {
 
     private List<EnergyConsumer> consumers = new ArrayList<>();
     private List<EnergyProducer> producers = new ArrayList<>();
+    private double power = 1;
 
     public EnergyDepartment(Planet planet) {
 
@@ -27,7 +28,10 @@ public class EnergyDepartment {
     }
 
     public void balanceEnergyConsumption() {
-        double power = (double)getTotalEnergyProduction() / getTotalEnergyConsumption();
+        power = ((double)getTotalEnergyProduction()  / getTotalEnergyConsumption()) * power;
+        if (power > 1 || Double.isNaN(power)) {
+            power = 1;
+        }
         for (EnergyConsumer consumer: consumers) {
             consumer.setProductionPower(power);
         }
@@ -69,5 +73,7 @@ public class EnergyDepartment {
         return consumers;
     }
 
-
+    public double getProductionPower() {
+        return power;
+    }
 }

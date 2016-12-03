@@ -36,7 +36,7 @@ public class Planet {
 
 
     public Planet(String name, Position position) {
-
+        updating = true;
         Galaxy.getInstance().addPlanet(this, position);
 
         this.name = name;
@@ -49,7 +49,7 @@ public class Planet {
         researchDepartment.updateDependencies();
         fleetDepartment = new FleetDepartment(this);
         energyDepartment = new EnergyDepartment(this);
-
+        updating = false;
     }
 
     public Planet(String name, Position position, int size) {
@@ -84,6 +84,11 @@ public class Planet {
     public int getEnergyLevel() {
         update();
         return energyDepartment.getEnergyLevel();
+    }
+
+    public double getProductionPower() {
+        update();
+        return energyDepartment.getProductionPower();
     }
 
     public int getNumberOfFields() {
@@ -175,16 +180,12 @@ public class Planet {
         updating = true;
         List<TimeAction> actions = new ArrayList<>();
 
-        try {
-            actions.add(buildingDepartment.getCurrentUpgrade());
-            actions.add(researchDepartment.getCurrentUpgrade());
-            actions.add(fleetDepartment.getCurrentConstruction());
-            actions.addAll(fleetDepartment.getMissions());
-            actions.addAll(fleetDepartment.getExternalMissions());
-        }catch (NullPointerException e) {
-            updating = false;
-            return;
-        }
+        actions.add(buildingDepartment.getCurrentUpgrade());
+        actions.add(researchDepartment.getCurrentUpgrade());
+        actions.add(fleetDepartment.getCurrentConstruction());
+        actions.addAll(fleetDepartment.getMissions());
+        actions.addAll(fleetDepartment.getExternalMissions());
+
 
         actions.removeIf(Objects::isNull);
         actions.removeIf(a -> a.getTime().compareTo(Time.now()) > 0);
@@ -198,6 +199,9 @@ public class Planet {
         }));
         actions.forEach(Action::execute);
         updateResources(Time.now());
+
+        energyDepartment.balanceEnergyConsumption();
+
         updating = false;
     }
 

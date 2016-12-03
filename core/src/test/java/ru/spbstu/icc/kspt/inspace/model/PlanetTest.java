@@ -132,9 +132,10 @@ public class PlanetTest {
         planet.getBuilding(BuildingType.CRYSTAL_MINE).startUpgrade();
 
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(560)));
-        assertEquals(planet.getEnergyLevel(), -18);
+        assertEquals(planet.getEnergyLevel(), 0);
         assertEquals(planet.getEnergyProduction(), 100);
-        assertEquals(planet.getEnergyConsumption(), 118);
+        assertEquals(planet.getEnergyConsumption(), 100);
+        assertTrue(planet.getProductionPower() < 1);
 
         planet.balanceEnergyConsumption();
         assertEquals(planet.getEnergyLevel(), 0);

@@ -1,7 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.api;
 
 
-import ru.spbstu.icc.kspt.inspace.model.Resources;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 
