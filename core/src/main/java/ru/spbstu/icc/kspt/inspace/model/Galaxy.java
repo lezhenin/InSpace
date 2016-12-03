@@ -1,7 +1,9 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Galaxy {
 
@@ -17,16 +19,9 @@ public class Galaxy {
     public static final int MAX_SYSTEM_NUMBER = 10;
     public static final int MAX_PLANET_NUMBER = 10;
 
-    private List<List<Planet>> galaxy = new ArrayList<>();
+    private Map<Position, Planet> galaxy = new HashMap<>();
 
-    private Galaxy() {
-        for (int i = 0; i < MAX_SYSTEM_NUMBER; i++) {
-            galaxy.add(new ArrayList<>());
-            for (int j = 0; j < MAX_PLANET_NUMBER; j++) {
-                galaxy.get(i).add(null);
-            }
-        }
-    }
+    private Galaxy() { }
 
     private void checkPosition(Position position) {
         int planetNumber = position.getNumberOfPlanet();
@@ -40,19 +35,19 @@ public class Galaxy {
         }
     }
 
-    public void addPlanet(Planet planet, Position position) {
+    void addPlanet(Planet planet, Position position) {
         checkPosition(position);
-        galaxy.get(position.getNumberOfSystem()).add(position.getNumberOfPlanet(), planet);
+        galaxy.put(position, planet);
     }
 
     public Planet getPlanet(Position position) {
         checkPosition(position);
-        return galaxy.get(position.getNumberOfSystem()).get(position.getNumberOfPlanet());
+        return galaxy.get(position);
     }
 
     public void deletePlanet(Position position) {
         checkPosition(position);
-        galaxy.get(position.getNumberOfSystem()).set(position.getNumberOfPlanet(), null);
+        galaxy.remove(position);
     }
 
 
