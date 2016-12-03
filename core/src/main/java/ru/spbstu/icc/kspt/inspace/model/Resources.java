@@ -1,7 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
 
-import java.util.Comparator;
 
 public class Resources implements Comparable<Resources>{
 

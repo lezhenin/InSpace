@@ -62,8 +62,8 @@ public class BuildingDepartment extends UpgradeDepartment {
         return buildings.get(type);
     }
 
-    public Set<Map.Entry<BuildingType, Building>> getBuildings() {
-        return buildings.entrySet();
+    public Map<BuildingType, Building> getBuildings() {
+        return buildings;
     }
 
     public List<Mine> getMines() {

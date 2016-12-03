@@ -40,8 +40,8 @@ public class ResearchDepartment extends UpgradeDepartment {
         return researches.get(researchType);
     }
 
-    public Set<Map.Entry<ResearchType, Research>> getResearches() {
-        return researches.entrySet();
+    public Map<ResearchType, Research> getResearches() {
+        return researches;
     }
 
     Building getBuilding(BuildingType buildingType) {

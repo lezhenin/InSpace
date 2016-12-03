@@ -59,7 +59,7 @@ public class PlanetTest {
         System.out.println(planet.getNumberOfEmptyFields() + " fields are empty");
         System.out.println("Buildings:");
         System.out.println();
-        for(Map.Entry<BuildingType, Building> entry: planet.getBuildings()) {
+        for(Map.Entry<BuildingType, Building> entry: planet.getBuildings().entrySet()) {
             Building building = entry.getValue();
             System.out.println(entry.getKey());
             System.out.println("Level: " + building.getLevel());
@@ -151,10 +151,10 @@ public class PlanetTest {
         planet.getResources().addResources(new Resources(100000, 100000, 100000));
         anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
 
-        Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().iterator();
+        Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().entrySet().iterator();
         iterator.next().getValue().startConstruction(15);
 
-        iterator = anotherPlanet.getShips().iterator();
+        iterator = anotherPlanet.getShips().entrySet().iterator();
         iterator.next().getValue().startConstruction(14);
 
         PowerMockito.mockStatic(Time.class);
@@ -186,9 +186,9 @@ public class PlanetTest {
         anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
 
         Iterator<Map.Entry<ShipType, Ship>> iterator;
-        iterator = planet.getShips().iterator();
+        iterator = planet.getShips().entrySet().iterator();
         iterator.next().getValue().startConstruction(15);
-        iterator = anotherPlanet.getShips().iterator();
+        iterator = anotherPlanet.getShips().entrySet().iterator();
         iterator.next().getValue().startConstruction(14);
 
         PowerMockito.mockStatic(Time.class);

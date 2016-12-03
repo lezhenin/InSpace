@@ -17,7 +17,7 @@ public class EnergyDepartment {
     public EnergyDepartment(Planet planet) {
 
         //TODO find alternative way to get consumers and producers
-        for(Map.Entry<BuildingType, Building> building: planet.getBuildings()){
+        for(Map.Entry<BuildingType, Building> building: planet.getBuildings().entrySet()){
             if (building.getValue() instanceof EnergyConsumer) {
                 addConsumer((EnergyConsumer)building.getValue());
             }

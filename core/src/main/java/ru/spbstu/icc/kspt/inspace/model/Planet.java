@@ -45,10 +45,12 @@ public class Planet {
 
         researchDepartment = new ResearchDepartment(this);
         buildingDepartment = new BuildingDepartment(this);
-        buildingDepartment.updateDependencies();
-        researchDepartment.updateDependencies();
         fleetDepartment = new FleetDepartment(this);
         energyDepartment = new EnergyDepartment(this);
+        buildingDepartment.updateDependencies();
+        researchDepartment.updateDependencies();
+        fleetDepartment.updateDependencies();
+
         updating = false;
     }
 
@@ -108,7 +110,7 @@ public class Planet {
         return buildingDepartment.getBuilding(type);
     }
 
-    public Set<Map.Entry<BuildingType, Building>> getBuildings() {
+    public Map<BuildingType, Building> getBuildings() {
         update();
         return buildingDepartment.getBuildings();
     }
@@ -123,7 +125,7 @@ public class Planet {
         return researchDepartment.getResearch(type);
     }
 
-    public Set<Map.Entry<ResearchType, Research>> getResearches() {
+    public Map<ResearchType, Research> getResearches() {
         update();
         return researchDepartment.getResearches();
     }
@@ -133,9 +135,9 @@ public class Planet {
         return researchDepartment.getCurrentUpgrade();
     }
 
-    public Set<Map.Entry<ShipType, Ship>> getShips() {
+    public Map<ShipType, Ship> getShips() {
         update();
-        return fleetDepartment.getShips().entrySet();
+        return fleetDepartment.getShips();
     }
 
     public Fleet getFleetOnPlanet() {
@@ -171,7 +173,6 @@ public class Planet {
             resources.addResources(mine.getProduction(now));
         }
     }
-
 
     public void update() {
         if(updating) {
