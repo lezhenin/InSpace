@@ -6,7 +6,7 @@ public class Resources {
     final private int crystals;
     final private int deuterium;
 
-    Resources(ru.spbstu.icc.kspt.inspace.model.Resources resources) {
+    Resources(ru.spbstu.icc.kspt.inspace.model.resources.Resources resources) {
         metal = resources.getMetal();
         crystals = resources.getCrystals();
         deuterium = resources.getDeuterium();

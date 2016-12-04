@@ -1,6 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.fleet;
 
-import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Shipyard;
 import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;

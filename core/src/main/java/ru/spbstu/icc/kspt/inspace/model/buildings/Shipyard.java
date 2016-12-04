@@ -1,7 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
-import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 
 import java.time.Duration;
 

@@ -19,6 +19,7 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Comeback;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import static org.junit.Assert.*;

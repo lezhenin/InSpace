@@ -2,7 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.fleet.missions;
 
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
-import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.exception.ExcessCapacityException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 

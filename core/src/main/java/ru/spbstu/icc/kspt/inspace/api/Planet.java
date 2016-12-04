@@ -103,7 +103,7 @@ public class Planet {
     }
 
     public Construct getCurrentConstruct(){
-        return new Construct(planet.getCurrentConstuct());
+        return new Construct(planet.getCurrentConstruct());
     }
 
     public Fleet getFleetOnPlanet() {
@@ -131,8 +131,8 @@ public class Planet {
     public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium ) throws FleetDetachException, ExcessCapacityException {
         ru.spbstu.icc.kspt.inspace.model.fleet.Fleet fleet =
                 planet.getFleetOnPlanet().detachFleet(numbersOfShips);
-        ru.spbstu.icc.kspt.inspace.model.Resources resources =
-                new ru.spbstu.icc.kspt.inspace.model.Resources(metal, crystal, deuterium);
+        ru.spbstu.icc.kspt.inspace.model.resources.Resources resources =
+                new ru.spbstu.icc.kspt.inspace.model.resources.Resources(metal, crystal, deuterium);
         fleet.addResources(resources);
         new Transportation(planet, Galaxy.getInstance().getPlanet(destination), fleet);
     }

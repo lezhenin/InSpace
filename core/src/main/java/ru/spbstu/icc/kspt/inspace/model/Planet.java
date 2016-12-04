@@ -11,6 +11,8 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.resources.ResourceDepartment;
+import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.*;
 
 import java.time.LocalDateTime;
@@ -22,7 +24,6 @@ public class Planet {
     private Position position;
     private int size = 200;
     private String name;
-    private Resources resources;
 
     private boolean updating = false;
 
@@ -30,6 +31,7 @@ public class Planet {
     private EnergyDepartment energyDepartment;
     private ResearchDepartment researchDepartment;
     private FleetDepartment fleetDepartment;
+    private ResourceDepartment resourceDepartment;
 
 
     public Planet(String name, Position position) {
@@ -38,12 +40,12 @@ public class Planet {
 
         this.name = name;
         this.position = position;
-        this.resources = new Resources(0,0,0);
 
         researchDepartment = new ResearchDepartment(this);
         buildingDepartment = new BuildingDepartment(this);
         fleetDepartment = new FleetDepartment(this);
         energyDepartment = new EnergyDepartment(this);
+        resourceDepartment = new ResourceDepartment(this);
         buildingDepartment.updateDependencies();
         researchDepartment.updateDependencies();
         fleetDepartment.updateDependencies();
@@ -62,7 +64,7 @@ public class Planet {
 
     public Resources getResources() {
         update();
-        return resources;
+        return resourceDepartment.getResources();
     }
 
     public void balanceEnergyConsumption() {
@@ -132,7 +134,7 @@ public class Planet {
         return researchDepartment.getCurrentUpgrade();
     }
 
-    public Construct getCurrentConstuct(){
+    public Construct getCurrentConstruct(){
         update();
         return fleetDepartment.getCurrentConstruct();
     }
@@ -171,9 +173,7 @@ public class Planet {
     }
 
     private void updateResources(LocalDateTime now) {
-        for (Mine mine: buildingDepartment.getMines()) {
-            resources.addResources(mine.getProduction(now));
-        }
+        resourceDepartment.updateResources(now);
     }
 
     public void update() {

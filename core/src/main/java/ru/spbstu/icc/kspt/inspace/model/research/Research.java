@@ -1,15 +1,13 @@
 package ru.spbstu.icc.kspt.inspace.model.research;
 
-import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Laboratory;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
-import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 
 public class Research implements Upgradable{
 

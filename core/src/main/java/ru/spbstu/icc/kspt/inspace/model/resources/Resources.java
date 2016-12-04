@@ -1,4 +1,4 @@
-package ru.spbstu.icc.kspt.inspace.model;
+package ru.spbstu.icc.kspt.inspace.model.resources;
 
 
 

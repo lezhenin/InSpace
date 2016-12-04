@@ -1,7 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
-import ru.spbstu.icc.kspt.inspace.model.Resources;
+import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyConsumer;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
