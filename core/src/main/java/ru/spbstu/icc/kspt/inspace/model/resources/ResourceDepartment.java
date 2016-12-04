@@ -9,6 +9,8 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ResourceDepartment extends Department{
@@ -17,34 +19,56 @@ public class ResourceDepartment extends Department{
     private final static int CRYSTAL_PRODUCTION_VALUE = 25;
     private final static int DEUTERIUM_PRODUCTION_VALUE = 20;
 
+    private final static double PRODUCTION_GROW_VALUE = 1.1;
+
     private Resources resources = new Resources(0, 0, 0);
     private LocalDateTime lastUpdating;
-    private Building metalMine;
-    private Building crystalMine;
-    private Building deuteriumMine;
+    private List<ResourceProducer> producers = new ArrayList<>();
 
     public ResourceDepartment(Planet planet) {
         super(planet);
         lastUpdating = Time.now();
-        metalMine = planet.getBuilding(BuildingType.METAL_MINE);
-        crystalMine = planet.getBuilding(BuildingType.CRYSTAL_MINE);
-        deuteriumMine = planet.getBuilding(BuildingType.DEUTERIUM_MINE);
+        producers.add(
+                createResourceProducer(planet.getBuilding(BuildingType.METAL_MINE), METAL_PRODUCTION_VALUE, 0, 0));
+        producers.add(
+                createResourceProducer(planet.getBuilding(BuildingType.CRYSTAL_MINE), 0, CRYSTAL_PRODUCTION_VALUE, 0));
+        producers.add(
+                createResourceProducer(planet.getBuilding(BuildingType.DEUTERIUM_MINE), 0, 0, DEUTERIUM_PRODUCTION_VALUE));
     }
 
-    private double getProduction(Duration duration, int productionValue, int level) {
-        double production = productionValue * (level+1) * Math.pow(1.1, level);
-        production *= duration.getSeconds() / 3600.0;
-        return production;
+    private ResourceProducer createResourceProducer(Building building, int metalProductionValue,
+                                                    int crystalsProductionValue, int deuteriumProductionValue) {
+        return new ResourceProducer() {
+
+            private Building producer = building;
+            private int metalProduction = metalProductionValue;
+            private int crystalsProduction = crystalsProductionValue;
+            private int deuteriumProduction = deuteriumProductionValue;
+
+            private double getProduction(Duration duration, int productionValue, int level) {
+                double production = productionValue * (level + 1) * Math.pow(PRODUCTION_GROW_VALUE, level);
+                production *= duration.getSeconds() / 3600.0;
+                return production;
+            }
+
+            @Override
+            public Resources getProduction(Duration duration) {
+                double metal = getProduction(duration, metalProduction, producer.getLevel()) * planet.getProductionPower();
+                double crystals = getProduction(duration, crystalsProduction, producer.getLevel()) * planet.getProductionPower();
+                double deuterium = getProduction(duration, deuteriumProduction, producer.getLevel()) * planet.getProductionPower();
+                return new Resources((int)Math.round(metal), (int)Math.round(crystals), (int)Math.round(deuterium));
+            }
+        };
     }
+
+
 
     public void updateResources(LocalDateTime now) {
         Duration duration = Duration.between(lastUpdating, now);
-        double power = planet.getProductionPower();
-        assert (power >= 0.0 && power <= 1.0);
-        int metal = (int)Math.round(getProduction(duration, METAL_PRODUCTION_VALUE, metalMine.getLevel()) * power);
-        int crystals = (int)Math.round(getProduction(duration, CRYSTAL_PRODUCTION_VALUE, crystalMine.getLevel()) * power);
-        int deuterium = (int)Math.round(getProduction(duration, DEUTERIUM_PRODUCTION_VALUE, deuteriumMine.getLevel()) * power);
-        Resources resources = new Resources(metal, crystals, deuterium);
+        Resources resources = new Resources(0, 0, 0);
+        for (ResourceProducer producer: producers) {
+            resources.addResources(producer.getProduction(duration));
+        }
         lastUpdating = Time.now();
         this.resources.addResources(resources);
     }
