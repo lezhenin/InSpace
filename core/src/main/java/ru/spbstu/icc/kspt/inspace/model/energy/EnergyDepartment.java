@@ -10,6 +10,11 @@ import java.util.List;
 
 public class EnergyDepartment extends Department{
 
+    private static final int POWER_STATION_PRODUCING = 100;
+    private static final int METAL_MINE_CONSUMPTION = 30;
+    private static final int CRYSTAL_MINE_CONSUMPTION = 40;
+    private static final int DEUTERIUM_MINE_CONSUMPTION = 45;
+
     private static final double CONSUMPTION_GROW_VALUE = 1.4;
     private static final double PRODUCTION_GROW_VALUE = 1.35;
 
@@ -19,10 +24,10 @@ public class EnergyDepartment extends Department{
 
     public EnergyDepartment(Planet planet) {
         super(planet);
-        producers.add(createEnergyProducer(planet.getBuilding(BuildingType.POWER_STATION), 100));
-        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.METAL_MINE), 30));
-        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.CRYSTAL_MINE), 40));
-        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.DEUTERIUM_MINE), 45));
+        producers.add(createEnergyProducer(planet.getBuilding(BuildingType.POWER_STATION), POWER_STATION_PRODUCING));
+        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.METAL_MINE), METAL_MINE_CONSUMPTION));
+        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.CRYSTAL_MINE), CRYSTAL_MINE_CONSUMPTION));
+        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.DEUTERIUM_MINE), DEUTERIUM_MINE_CONSUMPTION));
 
     }
 

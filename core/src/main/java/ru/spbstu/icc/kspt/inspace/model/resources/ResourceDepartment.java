@@ -36,6 +36,8 @@ public class ResourceDepartment extends Department{
                 createResourceProducer(planet.getBuilding(BuildingType.DEUTERIUM_MINE), 0, 0, DEUTERIUM_PRODUCTION_VALUE));
     }
 
+
+    //TODO возможно стоит сделать отдельный класс, а не анонимный, надо подумать
     private ResourceProducer createResourceProducer(Building building, int metalProductionValue,
                                                     int crystalsProductionValue, int deuteriumProductionValue) {
         return new ResourceProducer() {
@@ -60,8 +62,6 @@ public class ResourceDepartment extends Department{
             }
         };
     }
-
-
 
     public void updateResources(LocalDateTime now) {
         Duration duration = Duration.between(lastUpdating, now);

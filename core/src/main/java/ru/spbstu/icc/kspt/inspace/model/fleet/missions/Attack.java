@@ -3,7 +3,7 @@ package ru.spbstu.icc.kspt.inspace.model.fleet.missions;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
-import ru.spbstu.icc.kspt.inspace.model.exception.ExcessCapacityException;
+import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 
 public class Attack extends Mission{
@@ -21,7 +21,7 @@ public class Attack extends Mission{
             Resources loot = getDestination().getResources().takeResources(amount, amount, amount);
             try {
                 getFleet().addResources(loot);
-            } catch (ExcessCapacityException e) {
+            } catch (CapacityExcessException e) {
                 throw new AssertionError();
             }
             getSource().startMission(new Comeback(getDestination(), getSource(), getFleet()));

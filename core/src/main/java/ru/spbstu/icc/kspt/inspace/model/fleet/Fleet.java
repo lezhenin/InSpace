@@ -3,7 +3,7 @@ package ru.spbstu.icc.kspt.inspace.model.fleet;
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
-import ru.spbstu.icc.kspt.inspace.model.exception.ExcessCapacityException;
+import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 
 import java.util.EnumMap;
@@ -70,9 +70,9 @@ public class Fleet {
         }
     }
 
-    public void addResources(Resources resources) throws ExcessCapacityException {
+    public void addResources(Resources resources) throws CapacityExcessException {
         if (resources.getAmount() > getCapacity()) {
-            throw new ExcessCapacityException(getCapacity(), resources.getAmount());
+            throw new CapacityExcessException(getCapacity(), resources.getAmount());
         }
         this.resources.addResources(resources);
     }

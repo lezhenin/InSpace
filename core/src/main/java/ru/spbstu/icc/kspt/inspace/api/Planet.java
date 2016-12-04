@@ -3,7 +3,7 @@ package ru.spbstu.icc.kspt.inspace.api;
 import ru.spbstu.icc.kspt.inspace.model.Galaxy;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
-import ru.spbstu.icc.kspt.inspace.model.exception.ExcessCapacityException;
+import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
@@ -128,7 +128,7 @@ public class Planet {
         planet.startMission(new Attack(planet, Galaxy.getInstance().getPlanet(destination), fleet));
     }
 
-    public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium ) throws FleetDetachException, ExcessCapacityException {
+    public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium ) throws FleetDetachException, CapacityExcessException {
         ru.spbstu.icc.kspt.inspace.model.fleet.Fleet fleet =
                 planet.getFleetOnPlanet().detachFleet(numbersOfShips);
         ru.spbstu.icc.kspt.inspace.model.resources.Resources resources =
