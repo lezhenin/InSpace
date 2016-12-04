@@ -1,8 +1,8 @@
 package ru.spbstu.icc.kspt.inspace.model.research;
 
+import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
-import ru.spbstu.icc.kspt.inspace.model.buildings.Laboratory;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
@@ -17,7 +17,7 @@ public class Research implements Upgradable{
     protected ResearchDepartment department;
     private ResearchType type;
 
-    private Laboratory laboratory;
+    private Building laboratory;
 
     public Research(ResearchDepartment department, ResearchType type) {
         this.department = department;
@@ -25,7 +25,7 @@ public class Research implements Upgradable{
     }
 
     void updateDependencies() {
-        laboratory = (Laboratory)department.getBuilding(BuildingType.LABORATORY);
+        laboratory = department.getBuilding(BuildingType.LABORATORY);
     }
 
     public boolean canBeUpgraded() {

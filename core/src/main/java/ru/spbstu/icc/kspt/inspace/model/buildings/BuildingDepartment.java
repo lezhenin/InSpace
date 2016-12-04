@@ -13,22 +13,13 @@ public class BuildingDepartment extends UpgradeDepartment {
     private int occupiedFields = 0;
 
     private Map<BuildingType, Building> buildings = new EnumMap<>(BuildingType.class);
-    private List<Mine> mines = new ArrayList<>();
 
     public BuildingDepartment(Planet planet) {
         super(planet);
+        for (BuildingType type: BuildingType.values()) {
+            buildings.put(type, new Building(this, type));
+        }
 
-        buildings.put(BuildingType.FACTORY, new Factory(this));
-        buildings.put(BuildingType.LABORATORY, new Laboratory(this));
-        buildings.put(BuildingType.SHIPYARD, new Shipyard(this));
-        buildings.put(BuildingType.CRYSTAL_MINE, new CrystalMine(this));
-        buildings.put(BuildingType.DEUTERIUM_MINE, new DeuteriumMine(this));
-        buildings.put(BuildingType.METAL_MINE, new MetalMine(this));
-        buildings.put(BuildingType.POWER_STATION, new PowerStation(this));
-
-        mines.add((Mine)buildings.get(BuildingType.METAL_MINE));
-        mines.add((Mine)buildings.get(BuildingType.CRYSTAL_MINE));
-        mines.add((Mine)buildings.get(BuildingType.DEUTERIUM_MINE));
     }
 
     public void updateDependencies() {
@@ -64,10 +55,6 @@ public class BuildingDepartment extends UpgradeDepartment {
 
     public Map<BuildingType, Building> getBuildings() {
         return buildings;
-    }
-
-    public List<Mine> getMines() {
-        return mines;
     }
 
     protected void updatePlanet() {

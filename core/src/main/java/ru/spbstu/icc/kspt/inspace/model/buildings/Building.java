@@ -2,10 +2,13 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
+import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
-abstract public class Building implements Upgradable {
+import java.time.Duration;
+
+public class Building implements Upgradable {
 
     protected BuildingDepartment department;
     private int level;
@@ -38,6 +41,21 @@ abstract public class Building implements Upgradable {
                 upgrade();
             }
         });
+    }
+
+    @Override
+    public Duration getUpgradeDuration() {
+        Resources cost = getUpgradeCost();
+        double summaryCost = cost.getMetal() + cost.getCrystals();
+        double hours = summaryCost / (type.UPGRADE_SPEED_VALUE * (1 + getLevel()));
+        return Duration.ofSeconds(Math.round(hours * 3600));
+    }
+
+    @Override
+    public Resources getUpgradeCost() {
+        int metal = (int)Math.round(type.METAL_COST_VALUE * Math.pow(1.6, getLevel()));
+        int crystal = (int)Math.round(type.CRYSTAL_COST_VALUE * Math.pow(1.6, getLevel()));
+        return new Resources(metal, crystal, 0);
     }
 
     public BuildingType getType() {

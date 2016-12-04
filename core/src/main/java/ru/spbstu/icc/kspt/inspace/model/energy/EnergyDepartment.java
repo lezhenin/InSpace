@@ -7,9 +7,11 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Department;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class EnergyDepartment extends Department{
+
+    private static final double CONSUMPTION_GROW_VALUE = 1.4;
+    private static final double PRODUCTION_GROW_VALUE = 1.35;
 
     private List<EnergyConsumer> consumers = new ArrayList<>();
     private List<EnergyProducer> producers = new ArrayList<>();
@@ -17,24 +19,45 @@ public class EnergyDepartment extends Department{
 
     public EnergyDepartment(Planet planet) {
         super(planet);
-        //TODO find alternative way to get consumers and producers
-        for(Map.Entry<BuildingType, Building> building: planet.getBuildings().entrySet()){
-            if (building.getValue() instanceof EnergyConsumer) {
-                addConsumer((EnergyConsumer)building.getValue());
+        producers.add(createEnergyProducer(planet.getBuilding(BuildingType.POWER_STATION), 100));
+        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.METAL_MINE), 30));
+        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.CRYSTAL_MINE), 40));
+        consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.DEUTERIUM_MINE), 45));
+
+    }
+
+    private EnergyProducer createEnergyProducer(Building building, int productionValue) {
+        return new EnergyProducer() {
+
+            private final Building consumer = building;
+            private final int production = productionValue;
+
+            @Override
+            public int getEnergyProduction() {
+                return (int)Math.round(production * consumer.getLevel() *
+                        Math.pow(PRODUCTION_GROW_VALUE, consumer.getLevel() - 1));
             }
-            if (building.getValue() instanceof EnergyProducer) {
-                addProducer((EnergyProducer)building.getValue());
+        };
+    }
+
+    private EnergyConsumer createEnergyConsumer(Building building, int consumptionValue) {
+        return new EnergyConsumer() {
+
+            private final Building consumer = building;
+            private final int consumption = consumptionValue;
+
+            @Override
+            public int getEnergyConsumption() {
+                return (int)Math.round(consumption * consumer.getLevel() *
+                        Math.pow(CONSUMPTION_GROW_VALUE, consumer.getLevel()) * power);
             }
-        }
+        };
     }
 
     public void balanceEnergyConsumption() {
         power = ((double)getTotalEnergyProduction()  / getTotalEnergyConsumption()) * power;
         if (power > 1 || Double.isNaN(power)) {
             power = 1;
-        }
-        for (EnergyConsumer consumer: consumers) {
-            consumer.setProductionPower(power);
         }
     }
 

@@ -1,8 +1,8 @@
 package ru.spbstu.icc.kspt.inspace.model.fleet;
 
+import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
-import ru.spbstu.icc.kspt.inspace.model.buildings.Shipyard;
 import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
@@ -18,7 +18,7 @@ public class Ship implements Constructable {
 
     private FleetDepartment fleetDepartment;
     private Research laserTechnology;
-    private Shipyard shipyard;
+    private Building shipyard;
 
     public Ship(ShipType type, FleetDepartment fleetDepartment) {
         this.type = type;
@@ -74,6 +74,6 @@ public class Ship implements Constructable {
 
     public void updateDependencies() {
         laserTechnology = fleetDepartment.getResearch(ResearchType.LASER);
-        shipyard = (Shipyard) fleetDepartment.getBuilding(BuildingType.SHIPYARD);
+        shipyard = fleetDepartment.getBuilding(BuildingType.SHIPYARD);
     }
 }

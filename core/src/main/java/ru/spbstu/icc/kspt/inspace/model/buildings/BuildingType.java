@@ -10,10 +10,10 @@ public enum BuildingType {
     LABORATORY(50, 60, 0, 2800),
     SHIPYARD(55, 55, 0, 2900);
 
-    private final int METAL_COST_VALUE;
-    private final int CRYSTAL_COST_VALUE;
-    private final int DEUTERIUM_COST_VALUE;
-    private final int UPGRADE_SPEED_VALUE;
+    protected final int METAL_COST_VALUE;
+    protected final int CRYSTAL_COST_VALUE;
+    protected final int DEUTERIUM_COST_VALUE;
+    protected final int UPGRADE_SPEED_VALUE;
 
 
     BuildingType(int metalCostValue, int crystalCostValue, int deuteriumCostValue, int upgradeSpeedValue) {
@@ -21,22 +21,6 @@ public enum BuildingType {
         this.CRYSTAL_COST_VALUE = crystalCostValue;
         this.DEUTERIUM_COST_VALUE = deuteriumCostValue;
         this.UPGRADE_SPEED_VALUE = upgradeSpeedValue;
-    }
-
-    public int getMetalCostValue() {
-        return METAL_COST_VALUE;
-    }
-
-    public int getCrystalCostValue() {
-        return CRYSTAL_COST_VALUE;
-    }
-
-    public int getDeuteriumCostValue() {
-        return DEUTERIUM_COST_VALUE;
-    }
-
-    public int getUpgradeSpeedValue() {
-        return UPGRADE_SPEED_VALUE;
     }
 }
 

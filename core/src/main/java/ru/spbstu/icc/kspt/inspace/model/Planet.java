@@ -46,6 +46,7 @@ public class Planet {
         fleetDepartment = new FleetDepartment(this);
         energyDepartment = new EnergyDepartment(this);
         resourceDepartment = new ResourceDepartment(this);
+
         buildingDepartment.updateDependencies();
         researchDepartment.updateDependencies();
         fleetDepartment.updateDependencies();
@@ -200,10 +201,14 @@ public class Planet {
                 updateResources(action.getTime());
             }
         }));
+        actions.forEach((a) -> a.addActionAfterExecution(new Action() {
+            @Override
+            protected void onExecute() {
+                energyDepartment.balanceEnergyConsumption();
+            }
+        }));
         actions.forEach(Action::execute);
         updateResources(Time.now());
-
-        energyDepartment.balanceEnergyConsumption();
 
         updating = false;
     }

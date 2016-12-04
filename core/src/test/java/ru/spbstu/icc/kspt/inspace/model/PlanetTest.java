@@ -108,7 +108,7 @@ public class PlanetTest {
                 .plus(building.getUpgradeDuration()));
         planet.update();
         assertEquals(building.getLevel(), 1);
-        assertEquals(planet.getResources(), new Resources(208, 172, 178));
+        assertEquals(planet.getResources(), new Resources(207, 172, 178));
     }
 
     @Test
@@ -127,9 +127,9 @@ public class PlanetTest {
         planet.getBuilding(BuildingType.DEUTERIUM_MINE).startUpgrade();
 
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(550)));
-        assertEquals(planet.getEnergyLevel(), 38);
+        assertEquals(planet.getEnergyLevel(), 37);
         assertEquals(planet.getEnergyProduction(), 100);
-        assertEquals(planet.getEnergyConsumption(), 62);
+        assertEquals(planet.getEnergyConsumption(), 63);
         planet.getBuilding(BuildingType.CRYSTAL_MINE).startUpgrade();
 
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(560)));
