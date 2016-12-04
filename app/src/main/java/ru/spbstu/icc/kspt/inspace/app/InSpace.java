@@ -3,21 +3,24 @@ package ru.spbstu.icc.kspt.inspace.app;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
-import jdk.nashorn.internal.runtime.OptimisticReturnFilters;
-import ru.spbstu.icc.kspt.inspace.model.Planet;
+import ru.spbstu.icc.kspt.inspace.api.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 
 import java.util.ArrayList;
@@ -47,7 +50,8 @@ public class InSpace extends Application {
             root.add(menuButtons.get(i), 0, i);
         }
 
-        root.add(getOverviewPane(10, 645), 1, 0, 1, menuButtons.size());
+     //   root.add(getOverviewPane(10, 645), 1, 0, 1, menuButtons.size());
+        root.add(getBuildingsPane(), 1, 0, 1, menuButtons.size());
 
 
         Scene scene = new Scene(root, 800, 800);
@@ -133,13 +137,23 @@ public class InSpace extends Application {
     }
 
     private ListView getBuildingsPane() {
-        ListView buildingList = new ListView();
-        buildingList.setCellFactory(new Callback<ListView, ListCell>() {
+        ObservableList<String> data = FXCollections.observableArrayList(
+                "chocolate", "salmon", "gold", "coral", "darkorchid",
+                "darkgoldenrod", "lightsalmon", "black", "rosybrown", "blue",
+                "blueviolet", "brown");
+
+        ListView<String> buildingList = new ListView<>();
+
+        buildingList.setItems(data);
+        buildingList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override
-            public ListCell call(ListView param) {
-                return null;
+            public ListCell<String> call(ListView<String> param) {
+                ListCell<String> cell = new ListCell<String>();
+                cell.setGraphic(new Text("123"));
+                return cell;
             }
         });
+
         return buildingList;
     }
 
