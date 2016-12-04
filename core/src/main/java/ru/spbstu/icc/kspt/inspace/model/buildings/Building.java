@@ -10,13 +10,10 @@ import java.time.Duration;
 
 public class Building implements Upgradable {
 
-    protected BuildingDepartment department;
+    private static final double UPGRADE_COST_GROW_VALUE = 1.6;
+    private BuildingDepartment department;
     private int level;
     private BuildingType type;
-
-    protected void upgrade() {
-        level++;
-    }
 
     public Building(BuildingDepartment department, BuildingType type) {
         this.department = department;
@@ -37,8 +34,8 @@ public class Building implements Upgradable {
         }
         department.startUpgrade(new Upgrade(this) {
             @Override
-            public void onExecute() {
-                upgrade();
+            public void onExecute(){
+                level++;
             }
         });
     }
@@ -53,8 +50,8 @@ public class Building implements Upgradable {
 
     @Override
     public Resources getUpgradeCost() {
-        int metal = (int)Math.round(type.METAL_COST_VALUE * Math.pow(1.6, getLevel()));
-        int crystal = (int)Math.round(type.CRYSTAL_COST_VALUE * Math.pow(1.6, getLevel()));
+        int metal = (int)Math.round(type.METAL_COST_VALUE * Math.pow(UPGRADE_COST_GROW_VALUE, getLevel()));
+        int crystal = (int)Math.round(type.CRYSTAL_COST_VALUE * Math.pow(UPGRADE_COST_GROW_VALUE, getLevel()));
         return new Resources(metal, crystal, 0);
     }
 

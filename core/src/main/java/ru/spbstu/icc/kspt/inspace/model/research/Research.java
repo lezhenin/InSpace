@@ -14,7 +14,7 @@ public class Research implements Upgradable{
     private static final double COST_GROWING_SPEED = 1.6;
 
     private int level;
-    protected ResearchDepartment department;
+    private ResearchDepartment department;
     private ResearchType type;
 
     private Building laboratory;
