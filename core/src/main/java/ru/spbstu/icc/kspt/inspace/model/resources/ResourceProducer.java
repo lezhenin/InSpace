@@ -3,7 +3,8 @@ package ru.spbstu.icc.kspt.inspace.model.resources;
 
 import java.time.Duration;
 
-public interface ResourceProducer {
+@FunctionalInterface
+interface ResourceProducer {
 
     Resources getProduction(Duration duration);
 }

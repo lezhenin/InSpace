@@ -68,6 +68,10 @@ public class Planet {
         return planet.getName();
     }
 
+    public void rename(String name) {
+        planet.rename(name);
+    }
+
     public Building getBuilding(BuildingType type) {
         return new Building(planet.getBuilding(type));
     }

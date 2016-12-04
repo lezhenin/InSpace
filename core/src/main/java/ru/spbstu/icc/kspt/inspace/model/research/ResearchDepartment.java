@@ -10,7 +10,6 @@ import ru.spbstu.icc.kspt.inspace.model.utils.UpgradeDepartment;
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Set;
 
 public class ResearchDepartment extends UpgradeDepartment {
 

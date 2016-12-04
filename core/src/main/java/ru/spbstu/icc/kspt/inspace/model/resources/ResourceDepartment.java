@@ -2,10 +2,10 @@ package ru.spbstu.icc.kspt.inspace.model.resources;
 
 
 import ru.spbstu.icc.kspt.inspace.model.Planet;
-import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Department;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -37,15 +37,9 @@ public class ResourceDepartment extends Department{
     }
 
 
-    //TODO возможно стоит сделать отдельный класс, а не анонимный, надо подумать
-    private ResourceProducer createResourceProducer(Building building, int metalProductionValue,
+    private ResourceProducer createResourceProducer(Upgradable upgradable, int metalProductionValue,
                                                     int crystalsProductionValue, int deuteriumProductionValue) {
         return new ResourceProducer() {
-
-            private Building producer = building;
-            private int metalProduction = metalProductionValue;
-            private int crystalsProduction = crystalsProductionValue;
-            private int deuteriumProduction = deuteriumProductionValue;
 
             private double getProduction(Duration duration, int productionValue, int level) {
                 double production = productionValue * (level + 1) * Math.pow(PRODUCTION_GROW_VALUE, level);
@@ -55,13 +49,16 @@ public class ResourceDepartment extends Department{
 
             @Override
             public Resources getProduction(Duration duration) {
-                double metal = getProduction(duration, metalProduction, producer.getLevel()) * planet.getProductionPower();
-                double crystals = getProduction(duration, crystalsProduction, producer.getLevel()) * planet.getProductionPower();
-                double deuterium = getProduction(duration, deuteriumProduction, producer.getLevel()) * planet.getProductionPower();
+                double metal = getProduction(
+                        duration,  metalProductionValue,  upgradable.getLevel()) * planet.getProductionPower();
+                double crystals = getProduction(
+                        duration, crystalsProductionValue, upgradable.getLevel()) * planet.getProductionPower();
+                double deuterium = getProduction(
+                        duration, deuteriumProductionValue, upgradable.getLevel()) * planet.getProductionPower();
                 return new Resources((int)Math.round(metal), (int)Math.round(crystals), (int)Math.round(deuterium));
-            }
-        };
+            }};
     }
+
 
     public void updateResources(LocalDateTime now) {
         Duration duration = Duration.between(lastUpdating, now);

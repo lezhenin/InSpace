@@ -190,23 +190,24 @@ public class Planet {
         actions.addAll(fleetDepartment.getMissions());
         actions.addAll(fleetDepartment.getExternalMissions());
 
-
         actions.removeIf(Objects::isNull);
         actions.removeIf(a -> a.getTime().compareTo(Time.now()) > 0);
         actions.sort((a1, a2) -> a1.getTime().compareTo(a2.getTime()));
+
         actions.forEach((a) -> a.addActionBeforeExecution(new Action() {
-            private TimeAction action = a;
             @Override
             protected void onExecute() {
-                updateResources(action.getTime());
+                updateResources(a.getTime());
             }
         }));
+
         actions.forEach((a) -> a.addActionAfterExecution(new Action() {
             @Override
             protected void onExecute() {
                 energyDepartment.balanceEnergyConsumption();
             }
         }));
+
         actions.forEach(Action::execute);
         updateResources(Time.now());
 

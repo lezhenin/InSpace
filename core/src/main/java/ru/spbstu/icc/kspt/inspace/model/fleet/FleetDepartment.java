@@ -42,12 +42,9 @@ public class FleetDepartment {
         planet.getResources().takeResources(cost);
         ShipType type = ((Ship)construct.getConstructable()).getType();
         construct.addActionAfterExecution(new Action() {
-            private ShipType innerType = type;
-            private Construct innerConstruct = construct;
-
             @Override
             protected void onExecute() {
-                mainFleet.addShips(innerType, innerConstruct.getNumberOfUnits());
+                mainFleet.addShips(type, construct.getNumberOfUnits());
                 FleetDepartment.this.currentConstruct = null;
             }
         });
@@ -56,11 +53,9 @@ public class FleetDepartment {
     public void startMission(Mission mission) {
         missions.add(mission);
         mission.addActionBeforeExecution(new Action() {
-            private Mission missionToRemove = mission;
-
             @Override
             protected void onExecute() {
-                missions.remove(missionToRemove);
+                missions.remove(mission);
             }
         });
     }
@@ -68,10 +63,9 @@ public class FleetDepartment {
     public void addExternalMission(Mission mission) {
         externalMissions.add(mission);
         mission.addActionAfterExecution(new Action() {
-            private Mission missionToRemove = mission;
             @Override
             protected void onExecute() {
-                externalMissions.remove(missionToRemove);
+                externalMissions.remove(mission);
             }
         });
 

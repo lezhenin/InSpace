@@ -4,6 +4,7 @@ import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Department;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,32 +32,14 @@ public class EnergyDepartment extends Department{
 
     }
 
-    private EnergyProducer createEnergyProducer(Building building, int productionValue) {
-        return new EnergyProducer() {
-
-            private final Building consumer = building;
-            private final int production = productionValue;
-
-            @Override
-            public int getEnergyProduction() {
-                return (int)Math.round(production * consumer.getLevel() *
-                        Math.pow(PRODUCTION_GROW_VALUE, consumer.getLevel() - 1));
-            }
-        };
+    private EnergyProducer createEnergyProducer(Upgradable upgradable, int productionValue) {
+        return () -> (int)Math.round(productionValue * upgradable.getLevel() *
+                Math.pow(PRODUCTION_GROW_VALUE, upgradable.getLevel() - 1));
     }
 
-    private EnergyConsumer createEnergyConsumer(Building building, int consumptionValue) {
-        return new EnergyConsumer() {
-
-            private final Building consumer = building;
-            private final int consumption = consumptionValue;
-
-            @Override
-            public int getEnergyConsumption() {
-                return (int)Math.round(consumption * consumer.getLevel() *
-                        Math.pow(CONSUMPTION_GROW_VALUE, consumer.getLevel()) * power);
-            }
-        };
+    private EnergyConsumer createEnergyConsumer(Upgradable upgradable, int consumptionValue) {
+        return () -> (int)Math.round(consumptionValue * upgradable.getLevel() *
+                Math.pow(CONSUMPTION_GROW_VALUE, upgradable.getLevel()) * power);
     }
 
     public void balanceEnergyConsumption() {
@@ -84,22 +67,6 @@ public class EnergyDepartment extends Department{
 
     public int getEnergyLevel() {
         return getTotalEnergyProduction() - getTotalEnergyConsumption();
-    }
-
-    public void addConsumer(EnergyConsumer consumer) {
-        consumers.add(consumer);
-    }
-
-    public void addProducer(EnergyProducer producer) {
-        producers.add(producer);
-    }
-
-    public List<EnergyProducer> getProducers() {
-        return producers;
-    }
-
-    public List<EnergyConsumer> getConsumers() {
-        return consumers;
     }
 
     public double getProductionPower() {
