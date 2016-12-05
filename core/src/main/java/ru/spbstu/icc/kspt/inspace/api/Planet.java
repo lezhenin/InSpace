@@ -82,8 +82,15 @@ public class Planet {
         return map;
     }
 
-    public Upgrade getCurrentBuildingUpgrade() {
-        return new Upgrade(planet.getCurrentBuildingUpgrade());
+    public Optional<Upgrade> getCurrentBuildingUpgrade() {
+        Optional<Upgrade> upgrade;
+        ru.spbstu.icc.kspt.inspace.model.utils.Upgrade currentBuildingUpgrade = planet.getCurrentBuildingUpgrade();
+        if (currentBuildingUpgrade != null) {
+            upgrade = Optional.of(new Upgrade(currentBuildingUpgrade));
+        } else {
+            upgrade = Optional.empty();
+        }
+        return upgrade;
     }
 
     public Research getResearch(ResearchType type) {
@@ -96,8 +103,15 @@ public class Planet {
         return map;
     }
 
-    public Upgrade getCurrentResearchUpgrade() {
-        return new Upgrade(planet.getCurrentResearchUpgrade());
+    public Optional<Upgrade> getCurrentResearchUpgrade() {
+        Optional<Upgrade> upgrade;
+        ru.spbstu.icc.kspt.inspace.model.utils.Upgrade currentResearchUpgrade = planet.getCurrentResearchUpgrade();
+        if (currentResearchUpgrade != null) {
+            upgrade = Optional.of(new Upgrade(currentResearchUpgrade));
+        } else {
+            upgrade = Optional.empty();
+        }
+        return upgrade;
     }
 
     public Map<ShipType, Ship> getShips() {
@@ -106,8 +120,15 @@ public class Planet {
         return map;
     }
 
-    public Construct getCurrentConstruct(){
-        return new Construct(planet.getCurrentConstruct());
+    public Optional<Construct> getCurrentConstruct(){
+        Optional<Construct> construct;
+        ru.spbstu.icc.kspt.inspace.model.utils.Construct currentConstruct = planet.getCurrentConstruct();
+        if(currentConstruct != null) {
+            construct = Optional.of(new Construct(currentConstruct));
+        } else {
+            construct = Optional.empty();
+        }
+        return construct;
     }
 
     public Fleet getFleetOnPlanet() {
