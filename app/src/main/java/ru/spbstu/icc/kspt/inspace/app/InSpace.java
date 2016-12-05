@@ -4,25 +4,31 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
-import ru.spbstu.icc.kspt.inspace.api.Planet;
+import ru.spbstu.icc.kspt.inspace.api.*;
+import ru.spbstu.icc.kspt.inspace.api.Mission;
 import ru.spbstu.icc.kspt.inspace.model.Position;
+import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
+import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
+import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +38,14 @@ public class InSpace extends Application {
     private List<Button> menuButtons = new ArrayList<>();
 
     private Planet planet = new Planet("Nibiru", new Position(5, 3));
+    {
+        try {
+            planet.getBuilding(BuildingType.FACTORY).upgrade();
+            planet.getShips().get(ShipType.FIGHTER).construct(2);
+        } catch (UpgradeException | ConstructException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -50,8 +64,8 @@ public class InSpace extends Application {
             root.add(menuButtons.get(i), 0, i);
         }
 
-     //   root.add(getOverviewPane(10, 645), 1, 0, 1, menuButtons.size());
-        root.add(getBuildingsPane(), 1, 0, 1, menuButtons.size());
+        root.add(getOverviewPane(10, 645), 1, 0, 1, menuButtons.size());
+     //   root.add(getBuildingsPane(), 1, 0, 1, menuButtons.size());
 
 
         Scene scene = new Scene(root, 800, 800);
@@ -122,6 +136,39 @@ public class InSpace extends Application {
         overview.add(new Text(String.valueOf(planet.getNumberOfFields())), 1, 5);
         overview.add(new Text("Number of empty fields:"), 0, 6);
         overview.add(new Text(String.valueOf(planet.getNumberOfEmptyFields())), 1, 6);
+        overview.add(new Separator(Orientation.HORIZONTAL), 0, 7, 3, 1);
+
+        Text actions = new Text("Current actions");
+        actions.setTextAlignment(TextAlignment.CENTER);
+        actions.setWrappingWidth(realWidth);
+        actions.setFont(new Font("Arial", 25));
+        overview.add(actions, 0, 8, 3, 1);
+
+        Text buildingUpgrade = new Text("Building upgrade");
+        buildingUpgrade.setWrappingWidth(realWidth/3);
+        buildingUpgrade.setTextAlignment(TextAlignment.CENTER);
+        overview.add(buildingUpgrade, 0, 9);
+
+        Text researchUpgrade = new Text("Research upgrade");
+        researchUpgrade.setWrappingWidth(realWidth/3);
+        researchUpgrade.setTextAlignment(TextAlignment.CENTER);
+        overview.add(researchUpgrade, 1, 9);
+
+        Text fleetConstruction = new Text("Fleet construction");
+        fleetConstruction.setWrappingWidth(realWidth/3);
+        fleetConstruction.setTextAlignment(TextAlignment.CENTER);
+        overview.add(fleetConstruction, 2, 9);
+
+        ActionNodeFactory factory = new ActionNodeFactory(realWidth/3);
+
+        Optional<Upgrade> upgrade = planet.getCurrentBuildingUpgrade();
+        overview.add(factory.getUpgradeNode(upgrade.isPresent() ? upgrade.get(): null), 0, 10);
+        upgrade = planet.getCurrentResearchUpgrade();
+        overview.add(factory.getUpgradeNode(upgrade.isPresent() ? upgrade.get(): null), 1, 10);
+
+        Optional<Construct> construct = planet.getCurrentConstruct();
+        overview.add(factory.getConstructNode(construct.isPresent() ? construct.get() : null), 2, 10);
+
 
         Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
             System.out.println("upd");
@@ -135,6 +182,8 @@ public class InSpace extends Application {
 
         return overview;
     }
+
+
 
     private ListView getBuildingsPane() {
         ObservableList<String> data = FXCollections.observableArrayList(
@@ -161,6 +210,111 @@ public class InSpace extends Application {
     public void stop() throws Exception {
         super.stop();
         System.out.println("STOP");
+    }
+
+    private class ActionNodeFactory {
+
+        private double width;
+        private Timeline timeline;
+
+        public ActionNodeFactory(double width) {
+            this.width = width;
+            timeline = new Timeline();
+            timeline.setCycleCount(Timeline.INDEFINITE);
+        }
+
+        Node getUpgradeNode(Upgrade upgrade) {
+            Node node;
+            if (upgrade == null) {
+                node = createEmptyActionNode();
+            } else {
+                node = createUpgradeNode(upgrade);
+            }
+            return node;
+        }
+
+        Node getConstructNode(Construct construct) {
+            Node node;
+            if (construct == null) {
+                node = createEmptyActionNode();
+            } else {
+                node = createConstructNode(construct);
+            }
+            return node;
+        }
+
+        Node getMissionNode(Mission mission) {
+            GridPane gridPane = new GridPane();
+            gridPane.setVgap(3);
+            gridPane.setMinWidth(width);
+            //TODO src and dest
+            Text endTime = new Text("Finish time: " + mission.getEndTime().format(DateTimeFormatter.ISO_TIME));
+            gridPane.add(endTime, 0, 0);
+            return gridPane;
+        }
+
+        private Node createConstructNode(Construct construct) {
+            GridPane gridPane = new GridPane();
+            gridPane.setVgap(3);
+            gridPane.setMinWidth(width);
+
+            Text name = new Text("Type: " + ((Ship)(construct.getConstructable())).getType().toString());
+            gridPane.add(name, 0, 0);
+
+            Text number = new Text("Number of units: " + construct.getNumberOfUnits());
+            gridPane.add(number, 0, 1);
+
+            Text endTime = new Text("Finish time: " + construct.getEndTime().format(DateTimeFormatter.ISO_TIME));
+            gridPane.add(endTime, 0, 2);
+
+            Text remainingTime = new Text("Remaining time: " +
+                    java.time.Duration.between(LocalDateTime.now(), construct.getEndTime()).getSeconds() + " second(s)");
+            gridPane.add(remainingTime, 0, 3);
+
+            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
+                remainingTime.setText("Remaining time: " +
+                        java.time.Duration.between(LocalDateTime.now(), construct.getEndTime()).getSeconds() + " second(s)");
+            }));
+            timeline.play();
+
+            return gridPane;
+        }
+
+        private Node createUpgradeNode(Upgrade upgrade) {
+            GridPane gridPane = new GridPane();
+            gridPane.setVgap(3);
+            gridPane.setMinWidth(width);
+            Upgradable upgradable = upgrade.getUpgradable();
+
+            Text name = new Text();
+            if (upgradable instanceof Building) {
+                name.setText("Type: " + ((Building)upgradable).getType().toString());
+            } else {
+                name.setText("Type: " + ((Research)upgradable).getType().toString());
+            }
+            gridPane.add(name, 0, 0);
+
+            Text endTime = new Text("Finish time: " + upgrade.getEndTime().format(DateTimeFormatter.ISO_TIME));
+            gridPane.add(endTime, 0, 1);
+
+            Text remainingTime = new Text("Remaining time: " +
+                    java.time.Duration.between(LocalDateTime.now(), upgrade.getEndTime()).getSeconds() + " second(s)");
+            gridPane.add(remainingTime, 0, 2);
+
+            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
+                remainingTime.setText("Remaining time: " +
+                        java.time.Duration.between(LocalDateTime.now(), upgrade.getEndTime()).getSeconds() + " second(s)");
+            }));
+            timeline.play();
+            return gridPane;
+        }
+
+        private Node createEmptyActionNode() {
+            Text message = new Text("none");
+            message.setWrappingWidth(width);
+            message.setTextAlignment(TextAlignment.CENTER);
+            return message;
+        }
     }
 
     public static void main(String[] args) {

@@ -21,7 +21,7 @@ public class ResourceDepartment extends Department{
 
     private final static double PRODUCTION_GROW_VALUE = 1.1;
 
-    private Resources resources = new Resources(0, 0, 0);
+    private Resources resources = new Resources(3000, 2000, 1000);
     private LocalDateTime lastUpdating;
     private List<ResourceProducer> producers = new ArrayList<>();
 
