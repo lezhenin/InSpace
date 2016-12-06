@@ -14,7 +14,7 @@ public class Resources implements Comparable<Resources>{
         this.deuterium = deuterium;
     }
 
-    public void addResources(Resources resources) {
+    public void putResources(Resources resources) {
         metal += resources.metal;
         crystals += resources.crystals;
         deuterium += resources.deuterium;

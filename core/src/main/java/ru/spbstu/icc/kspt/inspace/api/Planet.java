@@ -36,10 +36,6 @@ public class Planet {
         return new Resources(planet.getResources());
     }
 
-    public void balanceEnergyConsumption() {
-        planet.balanceEnergyConsumption();
-    }
-
     public int getEnergyProduction() {
         return planet.getEnergyProduction();
     }
@@ -158,7 +154,7 @@ public class Planet {
                 planet.getFleetOnPlanet().detachFleet(numbersOfShips);
         ru.spbstu.icc.kspt.inspace.model.resources.Resources resources =
                 new ru.spbstu.icc.kspt.inspace.model.resources.Resources(metal, crystal, deuterium);
-        fleet.addResources(resources);
+        fleet.putResources(resources);
         new Transportation(planet, Galaxy.getInstance().getPlanet(destination), fleet);
     }
 }

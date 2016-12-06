@@ -12,7 +12,7 @@ public class Transportation extends Mission {
 
     @Override
     protected void onExecute() {
-        getDestination().getResources().addResources(getFleet().takeAllResources());
+        getDestination().getResources().putResources(getFleet().takeAllResources());
         getSource().startMission(new Comeback(getDestination(), getSource(), getFleet()));
     }
 }

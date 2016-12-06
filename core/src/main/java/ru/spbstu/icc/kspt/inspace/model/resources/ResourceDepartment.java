@@ -64,10 +64,10 @@ public class ResourceDepartment extends Department{
         Duration duration = Duration.between(lastUpdating, now);
         Resources resources = new Resources(0, 0, 0);
         for (ResourceProducer producer: producers) {
-            resources.addResources(producer.getProduction(duration));
+            resources.putResources(producer.getProduction(duration));
         }
         lastUpdating = Time.now();
-        this.resources.addResources(resources);
+        this.resources.putResources(resources);
     }
 
     public Resources getResources() {

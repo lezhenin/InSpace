@@ -20,7 +20,7 @@ public class Attack extends Mission{
             int amount = getFleet().getCapacity() / 3;
             Resources loot = getDestination().getResources().takeResources(amount, amount, amount);
             try {
-                getFleet().addResources(loot);
+                getFleet().putResources(loot);
             } catch (CapacityExcessException e) {
                 throw new AssertionError();
             }

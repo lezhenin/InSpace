@@ -68,7 +68,7 @@ public class Planet {
         return resourceDepartment.getResources();
     }
 
-    public void balanceEnergyConsumption() {
+    private void balanceEnergyConsumption() {
         update();
         energyDepartment.balanceEnergyConsumption();
     }
