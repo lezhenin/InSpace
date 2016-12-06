@@ -23,15 +23,13 @@ import ru.spbstu.icc.kspt.inspace.api.Mission;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
+import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
-import ru.spbstu.icc.kspt.inspace.model.fleet.missions.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class InSpace extends Application {
 
@@ -39,9 +37,18 @@ public class InSpace extends Application {
 
     private Planet planet = new Planet("Nibiru", new Position(5, 3));
     {
+        new Planet("test", new Position(6,7));
         try {
             planet.getBuilding(BuildingType.FACTORY).upgrade();
             planet.getShips().get(ShipType.FIGHTER).construct(2);
+            try {
+                Map<ShipType, Integer> fleetToAttack = new HashMap<>();
+                fleetToAttack.put(ShipType.SMALL_CARGO, 1);
+                fleetToAttack.put(ShipType.FIGHTER, 2);
+                planet.startAttack(new Position(6,7),fleetToAttack);
+            } catch (FleetDetachException e) {
+                e.printStackTrace();
+            }
         } catch (UpgradeException | ConstructException e) {
             e.printStackTrace();
         }
@@ -65,7 +72,6 @@ public class InSpace extends Application {
         }
 
         root.add(getOverviewPane(10, 645), 1, 0, 1, menuButtons.size());
-     //   root.add(getBuildingsPane(), 1, 0, 1, menuButtons.size());
 
 
         Scene scene = new Scene(root, 800, 800);
@@ -78,44 +84,56 @@ public class InSpace extends Application {
     private GridPane getOverviewPane(int padding, int width) {
         int realWidth = width - 2 * padding;
         GridPane overview = new GridPane();
-        //overview.setGridLinesVisible(true);
         overview.setHgap(10);
         overview.setVgap(5);
         overview.setPadding(new Insets(padding));
+
+        int row = -1;
 
         Text resources = new Text("Resources");
         resources.setTextAlignment(TextAlignment.CENTER);
         resources.setWrappingWidth(realWidth);
         resources.setFont(new Font("Arial", 25));
-        overview.add(resources, 0, 0, 3, 1);
+        overview.add(resources, 0, ++row, 3, 1);
 
         Text metal = new Text("Metal: " + planet.getResources().getMetal());
         metal.setWrappingWidth(realWidth / 3);
         metal.setTextAlignment(TextAlignment.CENTER);
-        overview.add(metal, 0, 1);
+        overview.add(metal, 0, ++row);
 
         Text crystals = new Text("Crystals: " + planet.getResources().getCrystals());
         crystals.setWrappingWidth(realWidth / 3);
         crystals.setTextAlignment(TextAlignment.CENTER);
-        overview.add(crystals, 1, 1);
+        overview.add(crystals, 1, row);
 
         Text deuterium = new Text("Deuterium:  " + planet.getResources().getCrystals());
         deuterium.setWrappingWidth(realWidth / 3);
         deuterium.setTextAlignment(TextAlignment.CENTER);
-        overview.add(deuterium, 2, 1);
+        overview.add(deuterium, 2, row);
+
+        Text energy = new Text("Energy: " + planet.getEnergyLevel());
+        energy.setWrappingWidth(realWidth / 3);
+        energy.setTextAlignment(TextAlignment.CENTER);
+        overview.add(energy, 0, ++row);
+
+        Text power = new Text("Power: " + (int)(planet.getProductionPower() * 100) + "%");
+        power.setWrappingWidth(realWidth / 3);
+        power.setTextAlignment(TextAlignment.CENTER);
+        overview.add(power, 1, row);
+
 
         Separator separator = new Separator(Orientation.HORIZONTAL);
-        overview.add(separator, 0, 2, 3, 1);
+        overview.add(separator, 0, ++row, 3, 1);
 
         Text properties = new Text("Properties");
         properties.setWrappingWidth(realWidth);
         properties.setTextAlignment(TextAlignment.CENTER);
         properties.setFont(new Font("Arial", 25));
-        overview.add(properties, 0, 3, 3, 1);
+        overview.add(properties, 0, ++row, 3, 1);
 
-        overview.add(new Text("Name:"), 0, 4);
+        overview.add(new Text("Name:"), 0, ++row);
         Text name = new Text(planet.getName());
-        overview.add(name, 1, 4);
+        overview.add(name, 1, row);
         Button rename = new Button("Rename");
         rename.setOnAction((ActionEvent e) -> {
             TextInputDialog dialog = new TextInputDialog("New name...");
@@ -129,46 +147,59 @@ public class InSpace extends Application {
             });
 
         });
-        overview.add(rename, 2, 4);
+        overview.add(rename, 2, row);
 
 
-        overview.add(new Text("Number of fields:"), 0, 5);
-        overview.add(new Text(String.valueOf(planet.getNumberOfFields())), 1, 5);
-        overview.add(new Text("Number of empty fields:"), 0, 6);
-        overview.add(new Text(String.valueOf(planet.getNumberOfEmptyFields())), 1, 6);
-        overview.add(new Separator(Orientation.HORIZONTAL), 0, 7, 3, 1);
+        overview.add(new Text("Number of fields:"), 0, ++row);
+        overview.add(new Text(String.valueOf(planet.getNumberOfFields())), 1, row);
+        overview.add(new Text("Number of empty fields:"), 0, ++row);
+        overview.add(new Text(String.valueOf(planet.getNumberOfEmptyFields())), 1, row);
+        overview.add(new Separator(Orientation.HORIZONTAL), 0, ++row, 3, 1);
 
         Text actions = new Text("Current actions");
         actions.setTextAlignment(TextAlignment.CENTER);
         actions.setWrappingWidth(realWidth);
         actions.setFont(new Font("Arial", 25));
-        overview.add(actions, 0, 8, 3, 1);
+        overview.add(actions, 0, ++row, 3, 1);
 
         Text buildingUpgrade = new Text("Building upgrade");
         buildingUpgrade.setWrappingWidth(realWidth/3);
         buildingUpgrade.setTextAlignment(TextAlignment.CENTER);
-        overview.add(buildingUpgrade, 0, 9);
+        overview.add(buildingUpgrade, 0, ++row);
 
         Text researchUpgrade = new Text("Research upgrade");
         researchUpgrade.setWrappingWidth(realWidth/3);
         researchUpgrade.setTextAlignment(TextAlignment.CENTER);
-        overview.add(researchUpgrade, 1, 9);
+        overview.add(researchUpgrade, 1, row);
 
         Text fleetConstruction = new Text("Fleet construction");
         fleetConstruction.setWrappingWidth(realWidth/3);
         fleetConstruction.setTextAlignment(TextAlignment.CENTER);
-        overview.add(fleetConstruction, 2, 9);
+        overview.add(fleetConstruction, 2, row);
 
         ActionNodeFactory factory = new ActionNodeFactory(realWidth/3);
 
         Optional<Upgrade> upgrade = planet.getCurrentBuildingUpgrade();
-        overview.add(factory.getUpgradeNode(upgrade.isPresent() ? upgrade.get(): null), 0, 10);
+        overview.add(factory.getUpgradeNode(upgrade.isPresent() ? upgrade.get(): null), 0, ++row);
         upgrade = planet.getCurrentResearchUpgrade();
-        overview.add(factory.getUpgradeNode(upgrade.isPresent() ? upgrade.get(): null), 1, 10);
+        overview.add(factory.getUpgradeNode(upgrade.isPresent() ? upgrade.get(): null), 1, row);
 
         Optional<Construct> construct = planet.getCurrentConstruct();
-        overview.add(factory.getConstructNode(construct.isPresent() ? construct.get() : null), 2, 10);
+        overview.add(factory.getConstructNode(construct.isPresent() ? construct.get() : null), 2, row);
 
+        overview.add(new Separator(Orientation.HORIZONTAL), 0, ++row, 3, 1);
+
+        Text missions = new Text("Missions");
+        missions.setTextAlignment(TextAlignment.CENTER);
+        missions.setWrappingWidth(realWidth);
+        missions.setFont(new Font("Arial", 25));
+        overview.add(missions, 0, ++row, 3, 1);
+
+        for (Mission mission: planet.getMissions()) {
+            overview.add(factory.getMissionNode(mission), 0, ++row, 3, 1);
+        }
+
+        overview.add(new Separator(Orientation.HORIZONTAL), 0, ++row, 3, 1);
 
         Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
             System.out.println("upd");
@@ -246,10 +277,37 @@ public class InSpace extends Application {
         Node getMissionNode(Mission mission) {
             GridPane gridPane = new GridPane();
             gridPane.setVgap(3);
+            gridPane.setHgap(15);
             gridPane.setMinWidth(width);
-            //TODO src and dest
-            Text endTime = new Text("Finish time: " + mission.getEndTime().format(DateTimeFormatter.ISO_TIME));
-            gridPane.add(endTime, 0, 0);
+            Text destination = new Text("Destination: " +
+                    mission.getDestination().getName() + " " + mission.getDestination().getPosition());
+            Text endTime = new Text("Finish time: " +
+                    mission.getEndTime().format(DateTimeFormatter.ISO_TIME));
+            Text remainingTime = new Text("Remaining time: " +
+                    java.time.Duration.between(LocalDateTime.now(), mission.getEndTime()).getSeconds() + " second(s)");
+            gridPane.add(remainingTime, 0, 2);
+            gridPane.add(destination, 0, 0);
+            gridPane.add(endTime, 0, 1);
+
+            gridPane.add(new Text("Fleet: "), 1, 0);
+            int i = 0;
+            for(Map.Entry<ShipType, Integer> number: mission.getFleet().getNumbersOfShips().entrySet()) {
+                if(number.getValue() != 0) {
+                    gridPane.add(new Text(number.getKey().toString() + " : " + number.getValue().toString()), 1, ++i);
+                }
+            }
+
+            gridPane.add(new Text("Resources: "), 2, 0);
+            gridPane.add(new Text("Metal:  " + mission.getFleet().getResources().getMetal()), 2, 1);
+            gridPane.add(new Text("Crystals: " + mission.getFleet().getResources().getCrystals()), 2, 2);
+            gridPane.add(new Text("Deuterium:  " + mission.getFleet().getResources().getDeuterium()), 2, 3);
+
+            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
+                remainingTime.setText("Remaining time: " +
+                        java.time.Duration.between(LocalDateTime.now(), mission.getEndTime()).getSeconds() + " second(s)");
+            }));
+            timeline.play();
+
             return gridPane;
         }
 
