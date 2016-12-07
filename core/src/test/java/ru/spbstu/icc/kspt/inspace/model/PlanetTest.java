@@ -138,7 +138,7 @@ public class PlanetTest {
         assertEquals(planet.getEnergyConsumption(), 100);
         assertTrue(planet.getProductionPower() < 1);
 
-        planet.balanceEnergyConsumption();
+        planet.update();
         assertEquals(planet.getEnergyLevel(), 0);
         assertEquals(planet.getEnergyConsumption(), planet.getEnergyProduction());
         assertEquals(planet.getEnergyConsumption(), 100);
@@ -149,8 +149,8 @@ public class PlanetTest {
     @Test
     public void testFleets() throws ConstructException {
 
-        planet.getResources().addResources(new Resources(100000, 100000, 100000));
-        anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
+        planet.getResources().putResources(new Resources(100000, 100000, 100000));
+        anotherPlanet.getResources().putResources(new Resources(100000, 100000, 100000));
 
         Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().entrySet().iterator();
         iterator.next().getValue().startConstruction(15);
@@ -173,8 +173,8 @@ public class PlanetTest {
         assertEquals(13, fleet1.getNumberOfShips());
         assertEquals(0, fleet2.getNumberOfShips());
 
-        planet.getFleetOnPlanet().addFleet(fleet1);
-        anotherPlanet.getFleetOnPlanet().addFleet(fleet2);
+        planet.getFleetOnPlanet().attachFleet(fleet1);
+        anotherPlanet.getFleetOnPlanet().attachFleet(fleet2);
         assertEquals(13, planet.getFleetOnPlanet().getNumberOfShips());
         assertEquals(0, anotherPlanet.getFleetOnPlanet().getNumberOfShips());
 
@@ -183,8 +183,8 @@ public class PlanetTest {
     @Test
     public void testMissions() throws ConstructException {
 
-        planet.getResources().addResources(new Resources(100000, 100000, 100000));
-        anotherPlanet.getResources().addResources(new Resources(100000, 100000, 100000));
+        planet.getResources().putResources(new Resources(100000, 100000, 100000));
+        anotherPlanet.getResources().putResources(new Resources(100000, 100000, 100000));
 
         Iterator<Map.Entry<ShipType, Ship>> iterator;
         iterator = planet.getShips().entrySet().iterator();

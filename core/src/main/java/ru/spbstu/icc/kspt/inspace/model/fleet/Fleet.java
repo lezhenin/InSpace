@@ -39,7 +39,7 @@ public class Fleet {
 
     public Fleet detachFleet() {
         Fleet fleet = new Fleet(department);
-        fleet.addFleet(this);
+        fleet.attachFleet(this);
         return fleet;
     }
 
@@ -63,18 +63,18 @@ public class Fleet {
         return fleet;
     }
 
-    public void addFleet(Fleet fleet) {
+    public void attachFleet(Fleet fleet) {
         for(Map.Entry<ShipType, Integer> entry: fleet.numbersOfShips.entrySet()) {
             addShips(entry.getKey(), entry.getValue());
             fleet.numbersOfShips.put(entry.getKey(), 0);
         }
     }
 
-    public void addResources(Resources resources) throws CapacityExcessException {
+    public void putResources(Resources resources) throws CapacityExcessException {
         if (resources.getAmount() > getCapacity()) {
             throw new CapacityExcessException(getCapacity(), resources.getAmount());
         }
-        this.resources.addResources(resources);
+        this.resources.putResources(resources);
     }
 
     public Resources takeAllResources() {
