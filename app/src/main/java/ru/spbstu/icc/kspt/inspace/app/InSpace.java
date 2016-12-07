@@ -10,14 +10,15 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ru.spbstu.icc.kspt.inspace.api.*;
+import ru.spbstu.icc.kspt.inspace.api.Construct;
 import ru.spbstu.icc.kspt.inspace.api.Mission;
+import ru.spbstu.icc.kspt.inspace.api.Upgrade;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
@@ -70,7 +71,11 @@ public class InSpace extends Application {
         Button buildings = new Button("Buildings");
         buildings.setOnAction(event -> changeNode(getBuildingsNode(10, 645)));
         menuButtons.add(buildings);
-        menuButtons.add(new Button("Research"));
+
+        Button research = new Button("Research");
+        research.setOnAction(event -> changeNode(getResearchNode(10, 645)));
+        menuButtons.add(research);
+
         menuButtons.add(new Button("Fleet"));
         menuButtons.forEach(button -> button.setPrefWidth(100));
 
@@ -98,29 +103,37 @@ public class InSpace extends Application {
         buildings.setFont(new Font("Arial", 25));
         gridPane.add(buildings, 0, 0);
 
-        GridPane innerPane = new GridPane();
-        innerPane.setHgap(5);
-        innerPane.setVgap(5);
-        innerPane.setMinWidth(width);
-        innerPane.setPadding(new Insets(padding));
-        ObjectsNodeFactory factory = new ObjectsNodeFactory(this);
-        int row = 0;
-
-        innerPane.add(new Separator(Orientation.HORIZONTAL), 0, row++, 2, 1);
-        for (Building building: planet.getBuildings().values()){
-            innerPane.add(factory.createBuildingNode(building), 0, row++);
-            innerPane.add(new Separator(Orientation.HORIZONTAL), 0, row++, 2, 1);
-        }
-        ScrollPane scrollPane = new ScrollPane(innerPane);
-        scrollPane.setMinWidth(width);
+        ObjectsNodeFactory objectsNodeFactory = new ObjectsNodeFactory();
+        ScrollPane scrollPane = objectsNodeFactory.getScrollPaneWithObjects(padding, width, planet.getBuildings().values());
 
         gridPane.add(scrollPane, 0, 1);
-        ActionNodeFactory factory1 = new ActionNodeFactory(width);
+        ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
         Upgrade upgrade = planet.getCurrentBuildingUpgrade().isPresent() ?
                 planet.getCurrentBuildingUpgrade().get() : null;
-        gridPane.add(factory1.getUpgradeNode(upgrade), 0, 2);
+        gridPane.add(actionNodeFactory.getUpgradeNode(upgrade), 0, 2);
         return gridPane;
     }
+    //TODO избавиться от дублирования кода
+    private Node getResearchNode(int padding, int width) {
+        GridPane gridPane = new GridPane();
+        gridPane.setVgap(10);
+        Text buildings = new Text("Research");
+        buildings.setWrappingWidth(width);
+        buildings.setTextAlignment(TextAlignment.CENTER);
+        buildings.setFont(new Font("Arial", 25));
+        gridPane.add(buildings, 0, 0);
+
+        ObjectsNodeFactory objectsNodeFactory = new ObjectsNodeFactory();
+        ScrollPane scrollPane = objectsNodeFactory.getScrollPaneWithObjects(padding, width, planet.getResearches().values());
+
+        gridPane.add(scrollPane, 0, 1);
+        ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
+        Upgrade upgrade = planet.getCurrentResearchUpgrade().isPresent() ?
+                planet.getCurrentBuildingUpgrade().get() : null;
+        gridPane.add(actionNodeFactory.getUpgradeNode(upgrade), 0, 2);
+        return gridPane;
+    }
+
 
     private Node getOverviewNode(int padding, int width) {
         int realWidth = width - 2 * padding;
