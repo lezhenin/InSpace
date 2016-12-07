@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -53,7 +54,7 @@ public class InSpace extends Application {
 
     private void changeNode(Node newNode) {
         root.getChildren().remove(currentNode);
-        root.add(newNode, 1, 0, 1, menuButtons.size());
+        root.add(newNode, 1, 0, 1, menuButtons.size() + 1);
         currentNode = newNode;
     }
 
@@ -82,6 +83,7 @@ public class InSpace extends Application {
         for (int i = 0; i < menuButtons.size(); i++) {
             root.add(menuButtons.get(i), 0, i);
         }
+        root.add(new VBox(1), 0, menuButtons.size());
 
         //root.add(getBuildingsNode(10, 645), 1, 0, 1, menuButtons.size());
 
