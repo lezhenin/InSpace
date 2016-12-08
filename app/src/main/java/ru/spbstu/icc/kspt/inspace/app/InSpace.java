@@ -37,7 +37,6 @@ public class InSpace extends Application {
     {
         new Planet("test", new Position(6,7));
         try {
-            //planet.getBuilding(BuildingType.FACTORY).upgrade();
             planet.getShips().get(ShipType.FIGHTER).construct(2);
             try {
                 Map<ShipType, Integer> fleetToAttack = new HashMap<>();
@@ -84,8 +83,6 @@ public class InSpace extends Application {
             root.add(menuButtons.get(i), 0, i);
         }
         root.add(new VBox(1), 0, menuButtons.size());
-
-        //root.add(getBuildingsNode(10, 645), 1, 0, 1, menuButtons.size());
 
 
         Scene scene = new Scene(root, 800, 800);
