@@ -68,11 +68,6 @@ public class Planet {
         return resourceDepartment.getResources();
     }
 
-    private void balanceEnergyConsumption() {
-        update();
-        energyDepartment.balanceEnergyConsumption();
-    }
-
     public int getEnergyProduction() {
         update();
         return energyDepartment.getTotalEnergyProduction();

@@ -68,7 +68,6 @@ public class FleetDepartment {
                 externalMissions.remove(mission);
             }
         });
-
     }
 
     public List<Mission> getExternalMissions() {
