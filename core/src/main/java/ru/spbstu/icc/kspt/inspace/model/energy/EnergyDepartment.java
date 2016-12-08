@@ -3,6 +3,8 @@ package ru.spbstu.icc.kspt.inspace.model.energy;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.research.Research;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Department;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
 
@@ -21,6 +23,7 @@ public class EnergyDepartment extends Department{
 
     private List<EnergyConsumer> consumers = new ArrayList<>();
     private List<EnergyProducer> producers = new ArrayList<>();
+    private Research energyTechnology;
     private double power = 1;
 
     public EnergyDepartment(Planet planet) {
@@ -29,7 +32,10 @@ public class EnergyDepartment extends Department{
         consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.METAL_MINE), METAL_MINE_CONSUMPTION));
         consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.CRYSTAL_MINE), CRYSTAL_MINE_CONSUMPTION));
         consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.DEUTERIUM_MINE), DEUTERIUM_MINE_CONSUMPTION));
+    }
 
+    public void updateDependencies() {
+        energyTechnology = planet.getResearch(ResearchType.ENERGY);
     }
 
     private EnergyProducer createEnergyProducer(Upgradable upgradable, int productionValue) {
@@ -54,7 +60,7 @@ public class EnergyDepartment extends Department{
         for(EnergyProducer producer: producers) {
             production += producer.getEnergyProduction();
         }
-        return production;
+        return (int)Math.round(production * (1 + 0.1 * energyTechnology.getLevel()));
     }
 
     public int getTotalEnergyConsumption() {

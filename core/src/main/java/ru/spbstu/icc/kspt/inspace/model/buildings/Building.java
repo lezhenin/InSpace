@@ -14,13 +14,16 @@ public class Building implements Upgradable {
     private BuildingDepartment department;
     private int level;
     private BuildingType type;
+    private Building factory;
 
     public Building(BuildingDepartment department, BuildingType type) {
         this.department = department;
         this.type = type;
     }
 
-    void updateDependencies() {}
+    void updateDependencies() {
+        factory = department.getBuilding(BuildingType.FACTORY);
+    }
 
     public boolean canBeUpgraded() {
         department.updatePlanet();
@@ -44,7 +47,7 @@ public class Building implements Upgradable {
     public Duration getUpgradeDuration() {
         Resources cost = getUpgradeCost();
         double summaryCost = cost.getMetal() + cost.getCrystals();
-        double hours = summaryCost / (type.UPGRADE_SPEED_VALUE * (1 + getLevel()));
+        double hours = summaryCost / (type.UPGRADE_SPEED_VALUE * (1 + factory.getLevel()));
         return Duration.ofSeconds(Math.round(hours * 3600));
     }
 

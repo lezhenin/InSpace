@@ -50,6 +50,8 @@ public class Planet {
         buildingDepartment.updateDependencies();
         researchDepartment.updateDependencies();
         fleetDepartment.updateDependencies();
+        energyDepartment.updateDependencies();
+        resourceDepartment.updateDependencies();
 
         updating = false;
     }
@@ -66,11 +68,6 @@ public class Planet {
     public Resources getResources() {
         update();
         return resourceDepartment.getResources();
-    }
-
-    private void balanceEnergyConsumption() {
-        update();
-        energyDepartment.balanceEnergyConsumption();
     }
 
     public int getEnergyProduction() {
