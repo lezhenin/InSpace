@@ -95,7 +95,7 @@ public class Planet {
     }
 
     public int getNumberOfEmptyFields() {
-        return size - getNumberOfFields();
+        return size - buildingDepartment.getFields();
     }
 
     public String getName() {
