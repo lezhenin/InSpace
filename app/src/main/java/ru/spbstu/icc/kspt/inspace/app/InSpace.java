@@ -131,7 +131,7 @@ public class InSpace extends Application {
         gridPane.add(scrollPane, 0, 1);
         ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
         Upgrade upgrade = planet.getCurrentResearchUpgrade().isPresent() ?
-                planet.getCurrentBuildingUpgrade().get() : null;
+                planet.getCurrentResearchUpgrade().get() : null;
         gridPane.add(actionNodeFactory.getUpgradeNode(upgrade), 0, 2);
         return gridPane;
     }
