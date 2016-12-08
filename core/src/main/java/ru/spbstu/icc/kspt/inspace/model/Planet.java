@@ -50,6 +50,8 @@ public class Planet {
         buildingDepartment.updateDependencies();
         researchDepartment.updateDependencies();
         fleetDepartment.updateDependencies();
+        energyDepartment.updateDependencies();
+        resourceDepartment.updateDependencies();
 
         updating = false;
     }

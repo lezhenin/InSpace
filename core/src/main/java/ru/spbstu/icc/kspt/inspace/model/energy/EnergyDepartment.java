@@ -60,7 +60,7 @@ public class EnergyDepartment extends Department{
         for(EnergyProducer producer: producers) {
             production += producer.getEnergyProduction();
         }
-        return production;
+        return (int)Math.round(production * (1 + 0.1 * energyTechnology.getLevel()));
     }
 
     public int getTotalEnergyConsumption() {
