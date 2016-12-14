@@ -29,6 +29,9 @@ import java.util.*;
 
 public class InSpace extends Application {
 
+    private static final int WIDTH = 645;
+    private static final int PADDING = 10;
+
     private Node currentNode;
     private GridPane root = new GridPane();
     private List<Button> menuButtons = new ArrayList<>();
@@ -50,6 +53,8 @@ public class InSpace extends Application {
             e.printStackTrace();
         }
     }
+
+    private GalaxyNodeFactory galaxyNodeFactory = new GalaxyNodeFactory(planet, WIDTH, PADDING);
 
     private void changeNode(Node newNode) {
         root.getChildren().remove(currentNode);
@@ -77,13 +82,19 @@ public class InSpace extends Application {
         menuButtons.add(research);
 
         menuButtons.add(new Button("Fleet"));
+
+
+        Button galaxy = new Button("Galaxy");
+        galaxy.setOnAction(event -> changeNode(galaxyNodeFactory.getGalaxyNode()));
+        menuButtons.add(galaxy);
+
         menuButtons.forEach(button -> button.setPrefWidth(100));
+
 
         for (int i = 0; i < menuButtons.size(); i++) {
             root.add(menuButtons.get(i), 0, i);
         }
         root.add(new VBox(1), 0, menuButtons.size());
-
 
         Scene scene = new Scene(root, 800, 800);
 
@@ -91,6 +102,8 @@ public class InSpace extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+
 
 
     private Node getBuildingsNode(int padding, int width) {
