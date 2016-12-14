@@ -99,7 +99,6 @@ class GalaxyNodeFactory {
         }
         GridPane gridPane = new GridPane();
         gridPane.setHgap(5);
-        gridPane.setVgap(15);
         Text name = new Text(planet.getName());
         name.setWrappingWidth(width * 3 / 4);
         gridPane.add(name, 0, 0, 1, 2);

@@ -38,15 +38,15 @@ public class InSpace extends Application {
 
     private Planet planet = new Planet("Nibiru", new Position(5, 3));
     {
-        new Planet("test", new Position(6,7));
-
-        try {
-            Map<ShipType, Integer> fleetToAttack = new HashMap<>();
-            fleetToAttack.put(ShipType.SMALL_CARGO, 1);
-            fleetToAttack.put(ShipType.FIGHTER, 2);
-            planet.startAttack(new Position(6,7),fleetToAttack);
-        } catch (FleetDetachException e) {
-            e.printStackTrace();
+        Random random = new Random(214);
+        for (int i = 0; i < 30; i++) {
+            int numberOfSystem;
+            int numberOfPlanet;
+            do {
+                numberOfPlanet = random.nextInt(10);
+                numberOfSystem = random.nextInt(10);
+            } while (numberOfPlanet == 3 && numberOfSystem == 5);
+            new Planet("planet" + random.nextInt(), new Position(numberOfSystem, numberOfPlanet));
         }
     }
 
