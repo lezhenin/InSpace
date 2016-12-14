@@ -55,6 +55,7 @@ public class InSpace extends Application {
     }
 
     private GalaxyNodeFactory galaxyNodeFactory = new GalaxyNodeFactory(planet, WIDTH, PADDING);
+    private ObjectsNodeFactory objectsNodeFactory = new ObjectsNodeFactory(planet, WIDTH, PADDING);
 
     private void changeNode(Node newNode) {
         root.getChildren().remove(currentNode);
@@ -74,14 +75,17 @@ public class InSpace extends Application {
         menuButtons.add(overview);
 
         Button buildings = new Button("Buildings");
-        buildings.setOnAction(event -> changeNode(getBuildingsNode(10, 645)));
+        buildings.setOnAction(event -> changeNode(objectsNodeFactory.getBuildingsNode()));
         menuButtons.add(buildings);
 
         Button research = new Button("Research");
-        research.setOnAction(event -> changeNode(getResearchNode(10, 645)));
+        research.setOnAction(event -> changeNode(objectsNodeFactory.getResearchNode()));
         menuButtons.add(research);
 
-        menuButtons.add(new Button("Fleet"));
+        Button fleet = new Button("Fleet");
+        fleet.setOnAction(event -> changeNode(objectsNodeFactory.getShipsNode()));
+        menuButtons.add(fleet);
+
 
 
         Button galaxy = new Button("Galaxy");
@@ -101,49 +105,6 @@ public class InSpace extends Application {
         primaryStage.setTitle("My JavaFX Application");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-
-
-
-    private Node getBuildingsNode(int padding, int width) {
-        GridPane gridPane = new GridPane();
-        gridPane.setVgap(10);
-        Text buildings = new Text("Buildings");
-        buildings.setWrappingWidth(width);
-        buildings.setTextAlignment(TextAlignment.CENTER);
-        buildings.setFont(new Font("Arial", 25));
-        gridPane.add(buildings, 0, 0);
-
-        ObjectsNodeFactory objectsNodeFactory = new ObjectsNodeFactory();
-        ScrollPane scrollPane = objectsNodeFactory.getScrollPaneWithObjects(padding, width, planet.getBuildings().values());
-
-        gridPane.add(scrollPane, 0, 1);
-        ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
-        Upgrade upgrade = planet.getCurrentBuildingUpgrade().isPresent() ?
-                planet.getCurrentBuildingUpgrade().get() : null;
-        gridPane.add(actionNodeFactory.getUpgradeNode(upgrade), 0, 2);
-        return gridPane;
-    }
-    //TODO избавиться от дублирования кода
-    private Node getResearchNode(int padding, int width) {
-        GridPane gridPane = new GridPane();
-        gridPane.setVgap(10);
-        Text buildings = new Text("Research");
-        buildings.setWrappingWidth(width);
-        buildings.setTextAlignment(TextAlignment.CENTER);
-        buildings.setFont(new Font("Arial", 25));
-        gridPane.add(buildings, 0, 0);
-
-        ObjectsNodeFactory objectsNodeFactory = new ObjectsNodeFactory();
-        ScrollPane scrollPane = objectsNodeFactory.getScrollPaneWithObjects(padding, width, planet.getResearches().values());
-
-        gridPane.add(scrollPane, 0, 1);
-        ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
-        Upgrade upgrade = planet.getCurrentResearchUpgrade().isPresent() ?
-                planet.getCurrentResearchUpgrade().get() : null;
-        gridPane.add(actionNodeFactory.getUpgradeNode(upgrade), 0, 2);
-        return gridPane;
     }
 
 
