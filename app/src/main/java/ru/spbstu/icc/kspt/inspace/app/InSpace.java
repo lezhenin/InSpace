@@ -39,17 +39,13 @@ public class InSpace extends Application {
     private Planet planet = new Planet("Nibiru", new Position(5, 3));
     {
         new Planet("test", new Position(6,7));
+
         try {
-            planet.getShips().get(ShipType.FIGHTER).construct(2);
-            try {
-                Map<ShipType, Integer> fleetToAttack = new HashMap<>();
-                fleetToAttack.put(ShipType.SMALL_CARGO, 1);
-                fleetToAttack.put(ShipType.FIGHTER, 2);
-                planet.startAttack(new Position(6,7),fleetToAttack);
-            } catch (FleetDetachException e) {
-                e.printStackTrace();
-            }
-        } catch (ConstructException e) {
+            Map<ShipType, Integer> fleetToAttack = new HashMap<>();
+            fleetToAttack.put(ShipType.SMALL_CARGO, 1);
+            fleetToAttack.put(ShipType.FIGHTER, 2);
+            planet.startAttack(new Position(6,7),fleetToAttack);
+        } catch (FleetDetachException e) {
             e.printStackTrace();
         }
     }

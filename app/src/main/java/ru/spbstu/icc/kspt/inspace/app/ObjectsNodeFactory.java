@@ -3,15 +3,13 @@ package ru.spbstu.icc.kspt.inspace.app;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import ru.spbstu.icc.kspt.inspace.api.*;
+import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 
 import java.time.LocalDateTime;
@@ -81,9 +79,9 @@ class ObjectsNodeFactory {
         ScrollPane scrollPane = getScrollPaneWithShips(planet.getShips().values());
         gridPane.add(scrollPane, 0, 1);
         ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
-        Upgrade upgrade = planet.getCurrentBuildingUpgrade().isPresent() ?
-                planet.getCurrentBuildingUpgrade().get() : null;
-        gridPane.add(actionNodeFactory.getUpgradeNode(upgrade), 0, 2);
+        Construct construction = planet.getCurrentConstruct().isPresent() ?
+                planet.getCurrentConstruct().get() : null;
+        gridPane.add(actionNodeFactory.getConstructNode(construction), 0, 2);
         return gridPane;
     }
 
@@ -136,6 +134,55 @@ class ObjectsNodeFactory {
                 + cost.getMetal() + " : " + cost.getCrystals() + " : " + cost.getDeuterium()), 0, row++);
         gridPane.add(new Text("Duration of construction: "
                 + ship.getConstructDuration().getSeconds() + " second(s)"), 0, row++);
+
+        row = 0;
+        gridPane.add(new Text("Attack: " + ship.getAttack()), 1, row++);
+        gridPane.add(new Text("Structure: " + ship.getStructure()), 1, row++);
+        gridPane.add(new Text("Shields: " + ship.getShieldStructure()), 1, row++);
+        gridPane.add(new Text("Speed: " + ship.getSpeed()), 1, row++);
+        gridPane.add(new Text("Capacity: " + ship.getResourcesCapacity()), 1, row++);
+
+        row = 0;
+        Button construct = new Button("Construct");
+        construct.setOnAction(event -> {
+            TextInputDialog input = new TextInputDialog("1");
+            input.setTitle("Construct ships");
+            input.setContentText("Input number of ships");
+            input.showAndWait().ifPresent(s ->
+            {
+                try {
+                    int number = Integer.parseInt(s);
+                    ship.construct(number);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Construction");
+                    alert.setHeaderText("Construction has started");
+                    alert.setContentText("Construction will be completed at "
+                         + LocalDateTime.now().plus(ship.getConstructDuration()).format(DateTimeFormatter.ISO_TIME));
+                    alert.showAndWait();
+                }
+                catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Incorrect input");
+                    alert.show();
+                    return;
+                } catch (ConstructException e) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Construction");
+                    alert.setHeaderText("Can not construct " + ship.getType().toString());
+                    alert.setContentText("It can not be construct at this moment");
+                    alert.showAndWait();
+                }
+
+            });
+        });
+        gridPane.add(construct, 2, row++);
+        Button infoButton = new Button("Information");
+        infoButton.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(ship.getType().toString());
+            alert.setHeaderText("There will be information about ship");
+            alert.show();
+        });
+        gridPane.add(infoButton, 2, row);
 
         return gridPane;
     }
