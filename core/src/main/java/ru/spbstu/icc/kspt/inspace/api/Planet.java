@@ -155,6 +155,6 @@ public class Planet {
         ru.spbstu.icc.kspt.inspace.model.resources.Resources resources =
                 new ru.spbstu.icc.kspt.inspace.model.resources.Resources(metal, crystal, deuterium);
         fleet.putResources(resources);
-        new Transportation(planet, Galaxy.getInstance().getPlanet(destination), fleet);
+        planet.startMission(new Transportation(planet, Galaxy.getInstance().getPlanet(destination), fleet));
     }
 }

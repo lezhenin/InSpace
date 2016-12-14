@@ -4,6 +4,7 @@ package ru.spbstu.icc.kspt.inspace.app;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
@@ -12,6 +13,12 @@ import javafx.scene.text.TextAlignment;
 import ru.spbstu.icc.kspt.inspace.api.Galaxy;
 import ru.spbstu.icc.kspt.inspace.api.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
+import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
+import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
+import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 class GalaxyNodeFactory {
 
@@ -97,12 +104,40 @@ class GalaxyNodeFactory {
         name.setWrappingWidth(width * 3 / 4);
         gridPane.add(name, 0, 0, 1, 2);
         Button attack = new Button("Attack");
+        attack.setMinWidth(width / 4);
         attack.setOnAction(event -> {
-            //TODO
+            Map<ShipType, Integer>  map = new HashMap<>();
+            boolean[] result = {false};
+            new MissionDialogsFactory(400, 400).makeFleetPickerDialog(map, result).showAndWait();
+            if (result[0]) {
+                try {
+                    this.planet.startAttack(planet.getPosition(), map);
+                    showSuccessDialog();
+                } catch (FleetDetachException e) {
+                    showDetachErrorDialog();
+                }
+            }
         });
         Button transport = new Button("Transport");
+        transport.setMinWidth(width / 4);
         transport.setOnAction(event -> {
-            //TODO
+            Map<ShipType, Integer>  map = new HashMap<>();
+            boolean[] results = {false};
+            new MissionDialogsFactory(400, 400).makeFleetPickerDialog(map, results).showAndWait();
+            if (results[0]) {
+                int[] resource = new int[3];
+                new MissionDialogsFactory(400, 400).makeResourcePickerDialog(resource, results).showAndWait();
+                if (results[0]) {
+                    try {
+                        this.planet.startTransportation(planet.getPosition(), map, resource[0], resource[1], resource[2]);
+                        showSuccessDialog();
+                    } catch (FleetDetachException e) {
+                        showDetachErrorDialog();
+                    } catch (CapacityExcessException e) {
+                        showCapacityExcessDialog();
+                    }
+                }
+            }
         });
         if (planet.getPosition().equals(this.planet.getPosition())) {
             return gridPane;
@@ -110,5 +145,28 @@ class GalaxyNodeFactory {
         gridPane.add(attack, 1, 0);
         gridPane.add(transport, 1, 1);
         return gridPane;
+    }
+
+    private void showSuccessDialog() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Mission has started");
+        alert.setHeaderText("Mission has started successfully");
+        alert.show();
+    }
+
+    private void showDetachErrorDialog() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Fleet detach error");
+        alert.setHeaderText("Can not detach fleet");
+        alert.setContentText("Check number of ships");
+        alert.show();
+    }
+
+    private void showCapacityExcessDialog() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Fleet capacity excess");
+        alert.setHeaderText("Can not put resources on ships");
+        alert.setContentText("Check capacity of ships");
+        alert.show();
     }
 }
