@@ -15,6 +15,7 @@ import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Map;
 
 
 class ObjectsNodeFactory {
@@ -127,7 +128,7 @@ class ObjectsNodeFactory {
         gridPane.setVgap(10);
 
         int row = 0;
-        gridPane.add(new Text("Type: " + ship.getType().toString()), 0, row++);
+        gridPane.add(new Text("Type: " + InSpace.shipTypeTable.get(ship.getType())), 0, row++);
         gridPane.add(new Text("Number: " + planet.getFleetOnPlanet().getNumbersOfShips().get(ship.getType())), 0, row++);
         Resources cost = ship.getConstructCost();
         gridPane.add(new Text("Cost of construction: "
@@ -167,7 +168,7 @@ class ObjectsNodeFactory {
                 } catch (ConstructException e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Construction");
-                    alert.setHeaderText("Can not construct " + ship.getType().toString());
+                    alert.setHeaderText("Can not construct " + InSpace.shipTypeTable.get(ship.getType()));
                     alert.setContentText("It can not be construct at this moment");
                     alert.showAndWait();
                 }
@@ -178,7 +179,7 @@ class ObjectsNodeFactory {
         Button infoButton = new Button("Information");
         infoButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(ship.getType().toString());
+            alert.setTitle(InSpace.shipTypeTable.get(ship.getType()));
             alert.setHeaderText("There will be information about ship");
             alert.show();
         });
@@ -191,16 +192,18 @@ class ObjectsNodeFactory {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(100);
         gridPane.setVgap(10);
-
+        Map<? extends Enum, String> table;
         Enum type;
         if (upgradable instanceof Building) {
             type = ((Building)(upgradable)).getType();
+            table = InSpace.buildingTypeTable;
         } else {
             type = ((Research)(upgradable)).getType();
+            table = InSpace.researchTypeTable;
         }
 
         int row = 0;
-        gridPane.add(new Text("Type: " + type.toString()), 0, row++);
+        gridPane.add(new Text("Type: " + table.get(type)), 0, row++);
         gridPane.add(new Text("Level: " + upgradable.getLevel()), 0, row++);
         Resources cost = upgradable.getUpgradeCost();
         gridPane.add(new Text("Cost of upgrade: "
@@ -222,7 +225,7 @@ class ObjectsNodeFactory {
             } catch (UpgradeException e) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Upgrade");
-                alert.setHeaderText("Can not upgrade " + type.toString());
+                alert.setHeaderText("Can not upgrade " + table.get(type));
                 alert.setContentText("It can not be upgraded at this moment");
                 alert.showAndWait();
             }
@@ -231,7 +234,7 @@ class ObjectsNodeFactory {
         Button infoButton = new Button("Information");
         infoButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(type.toString());
+            alert.setTitle(table.get(type));
             alert.setHeaderText("There will be information about building");
             alert.show();
         });

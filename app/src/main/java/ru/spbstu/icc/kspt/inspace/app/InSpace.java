@@ -21,13 +21,35 @@ import ru.spbstu.icc.kspt.inspace.api.Construct;
 import ru.spbstu.icc.kspt.inspace.api.Mission;
 import ru.spbstu.icc.kspt.inspace.api.Upgrade;
 import ru.spbstu.icc.kspt.inspace.model.Position;
+import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 
 import java.util.*;
 
 public class InSpace extends Application {
+
+    static Map<BuildingType, String> buildingTypeTable = new EnumMap<>(BuildingType.class);
+    static Map<ResearchType, String> researchTypeTable = new EnumMap<>(ResearchType.class);
+    static Map<ShipType, String> shipTypeTable = new EnumMap<>(ShipType.class);
+
+    {
+        buildingTypeTable.put(BuildingType.FACTORY, "Factory");
+        buildingTypeTable.put(BuildingType.LABORATORY, "Laboratory");
+        buildingTypeTable.put(BuildingType.SHIPYARD, "Shipyard");
+        buildingTypeTable.put(BuildingType.POWER_STATION, "Power station");
+        buildingTypeTable.put(BuildingType.METAL_MINE, "Metal mine");
+        buildingTypeTable.put(BuildingType.CRYSTAL_MINE, "Crystal mine");
+        buildingTypeTable.put(BuildingType.DEUTERIUM_MINE, "Deuterium mine");
+
+        researchTypeTable.put(ResearchType.ENERGY, "Energy technology");
+        researchTypeTable.put(ResearchType.LASER, "Laser technology");
+
+        shipTypeTable.put(ShipType.SMALL_CARGO, "Small cargo");
+        shipTypeTable.put(ShipType.FIGHTER, "Fighter");
+    }
 
     private static final int WIDTH = 645;
     private static final int PADDING = 10;
@@ -98,7 +120,7 @@ public class InSpace extends Application {
 
         Scene scene = new Scene(root, 800, 800);
 
-        primaryStage.setTitle("My JavaFX Application");
+        primaryStage.setTitle("InSpace");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

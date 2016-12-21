@@ -53,7 +53,7 @@ public class PlanetTest {
     @Test
     public void testGetBuildings() {
         PowerMockito.mockStatic(Time.class);
-        when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
+        when(Time.now()).thenReturn(LocalDateTime.now() .plus(Duration.ofMinutes(531)));
         System.out.println("Planet: " + planet.getName());
         System.out.println("Resources: " + planet.getResources());
         System.out.println("Energy level: " + planet.getEnergyLevel());

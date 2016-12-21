@@ -65,7 +65,8 @@ class ActionNodeFactory {
         int i = 0;
         for (Map.Entry<ShipType, Integer> number : mission.getFleet().getNumbersOfShips().entrySet()) {
             if (number.getValue() != 0) {
-                gridPane.add(new Text(number.getKey().toString() + " : " + number.getValue().toString()), 1, ++i);
+                gridPane.add(new Text(InSpace.shipTypeTable.get(number.getKey()) +
+                        " : " + number.getValue().toString()), 1, ++i);
             }
         }
 
@@ -88,7 +89,7 @@ class ActionNodeFactory {
         gridPane.setVgap(3);
         gridPane.setMinWidth(width);
 
-        Text name = new Text("Type: " + ((Ship) (construct.getConstructable())).getType().toString());
+        Text name = new Text("Type: " + InSpace.shipTypeTable.get(((Ship)(construct.getConstructable())).getType()));
         gridPane.add(name, 0, 0);
 
         Text number = new Text("Number of units: " + construct.getNumberOfUnits());
@@ -118,9 +119,9 @@ class ActionNodeFactory {
 
         Text name = new Text();
         if (upgradable instanceof Building) {
-            name.setText("Type: " + ((Building) upgradable).getType().toString());
+            name.setText("Type: " + InSpace.buildingTypeTable.get(((Building)upgradable).getType()));
         } else {
-            name.setText("Type: " + ((Research) upgradable).getType().toString());
+            name.setText("Type: " + InSpace.researchTypeTable.get(((Research)upgradable).getType()));
         }
         gridPane.add(name, 0, 0);
 

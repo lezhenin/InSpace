@@ -37,7 +37,7 @@ class MissionDialogsFactory {
         int row = 0;
         for (ShipType type: ShipType.values()) {
             GridPane gridPane = new GridPane();
-            Text text = new Text(type.toString());
+            Text text = new Text(InSpace.shipTypeTable.get(type));
             text.setWrappingWidth(width / 2);
             gridPane.add(text, 0, 0);
             TextField textField = new TextField("0");
