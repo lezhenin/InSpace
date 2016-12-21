@@ -10,15 +10,15 @@ import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Action;
 import ru.spbstu.icc.kspt.inspace.model.utils.Construct;
+import ru.spbstu.icc.kspt.inspace.model.utils.Department;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class FleetDepartment {
+public class FleetDepartment extends Department{
 
-    private Planet planet;
     private Map<ShipType, Ship> ships = new EnumMap<>(ShipType.class);
     private Fleet mainFleet = new Fleet(this);
     private List<Mission> missions = new ArrayList<>();
@@ -28,7 +28,7 @@ public class FleetDepartment {
 
 
     public FleetDepartment(Planet planet) {
-        this.planet = planet;
+        super(planet);
         ships.put(ShipType.FIGHTER, new Ship(ShipType.FIGHTER, this));
         ships.put(ShipType.SMALL_CARGO, new Ship(ShipType.SMALL_CARGO, this));
     }
