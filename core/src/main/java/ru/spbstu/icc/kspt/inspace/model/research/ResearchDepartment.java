@@ -25,10 +25,6 @@ public class ResearchDepartment extends UpgradeDepartment {
         researches.values().forEach(Research::updateDependencies);
     }
 
-    @Override
-    protected boolean canBeUpgraded(Upgradable upgradable) {
-        return super.canBeUpgraded(upgradable);
-    }
 
     @Override
     protected void startUpgrade(Upgrade upgrade) throws UpgradeException {

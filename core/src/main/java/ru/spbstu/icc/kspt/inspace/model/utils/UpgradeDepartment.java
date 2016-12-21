@@ -13,8 +13,13 @@ abstract public class UpgradeDepartment extends Department {
         super(planet);
     }
 
-    protected boolean canBeUpgraded(Upgradable upgradable) {
-        return (planet.getResources().compareTo(upgradable.getUpgradeCost()) != -1 && upgrade == null);
+    public boolean canBeUpgraded(Upgradable upgradable) {
+        return (planet.getResources().compareTo(upgradable.getUpgradeCost()) != -1 && upgrade == null)
+                && additionalCheck();
+    }
+
+    protected boolean additionalCheck() {
+        return true;
     }
 
     protected void startUpgrade(Upgrade upgrade) throws UpgradeException {
