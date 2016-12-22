@@ -26,71 +26,77 @@ class ObjectsNodeFactory {
 
     public ObjectsNodeFactory(Planet planet, int width, int padding) {
         this.planet = planet;
-        this.width = width;
+        this.width = width - padding * 2;
         this.padding = padding;
     }
 
-    public Node getBuildingsNode() {
+    public Node createBuildingsNode() {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.setPadding(new Insets(padding));
         Text buildings = new Text("Buildings");
         buildings.setWrappingWidth(width);
         buildings.setTextAlignment(TextAlignment.CENTER);
         buildings.setFont(new Font("Arial", 25));
         gridPane.add(buildings, 0, 0);
 
-        ScrollPane scrollPane = getScrollPaneWithObjects(planet.getBuildings().values());
+        ScrollPane scrollPane = createScrollPaneWithObjects(planet.getBuildings().values());
         gridPane.add(scrollPane, 0, 1);
         ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
         Upgrade upgrade = planet.getCurrentBuildingUpgrade().isPresent() ?
                 planet.getCurrentBuildingUpgrade().get() : null;
-        gridPane.add(actionNodeFactory.getUpgradeNode(upgrade), 0, 2);
+        gridPane.add(actionNodeFactory.createUpgradeNode(upgrade), 0, 2);
         return gridPane;
     }
 
     //TODO избавиться от дублирования кода
-    public Node getResearchNode() {
+    public Node createResearchNode() {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.setPadding(new Insets(padding));
         Text buildings = new Text("Research");
         buildings.setWrappingWidth(width);
         buildings.setTextAlignment(TextAlignment.CENTER);
         buildings.setFont(new Font("Arial", 25));
         gridPane.add(buildings, 0, 0);
 
-        ScrollPane scrollPane = getScrollPaneWithObjects(planet.getResearches().values());
+        ScrollPane scrollPane = createScrollPaneWithObjects(planet.getResearches().values());
         gridPane.add(scrollPane, 0, 1);
         ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
         Upgrade upgrade = planet.getCurrentResearchUpgrade().isPresent() ?
                 planet.getCurrentResearchUpgrade().get() : null;
-        gridPane.add(actionNodeFactory.getUpgradeNode(upgrade), 0, 2);
+        gridPane.add(actionNodeFactory.createUpgradeNode(upgrade), 0, 2);
         return gridPane;
     }
 
 
-    public Node getShipsNode() {
+    public Node createShipsNode() {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.setPadding(new Insets(padding));
         Text buildings = new Text("Ships");
         buildings.setWrappingWidth(width);
         buildings.setTextAlignment(TextAlignment.CENTER);
         buildings.setFont(new Font("Arial", 25));
         gridPane.add(buildings, 0, 0);
 
-        ScrollPane scrollPane = getScrollPaneWithShips(planet.getShips().values());
+        ScrollPane scrollPane = createScrollPaneWithShips(planet.getShips().values());
         gridPane.add(scrollPane, 0, 1);
         ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
         Construct construction = planet.getCurrentConstruct().isPresent() ?
                 planet.getCurrentConstruct().get() : null;
-        gridPane.add(actionNodeFactory.getConstructNode(construction), 0, 2);
+        gridPane.add(actionNodeFactory.createConstructNode(construction), 0, 2);
         return gridPane;
     }
 
-    private ScrollPane getScrollPaneWithShips(Collection<Ship> ships) {
+    private ScrollPane createScrollPaneWithShips(Collection<Ship> ships) {
         GridPane innerPane = new GridPane();
-        innerPane.setHgap(5);
+        innerPane.setHgap(10);
         innerPane.setVgap(5);
-        innerPane.setMinWidth(width);
+        //innerPane.setMinWidth(width);
         innerPane.setPadding(new Insets(padding));
         int row = 0;
 
@@ -104,11 +110,11 @@ class ObjectsNodeFactory {
         return scrollPane;
     }
 
-    private ScrollPane getScrollPaneWithObjects(Collection<? extends Upgradable> upgradables) {
+    private ScrollPane createScrollPaneWithObjects(Collection<? extends Upgradable> upgradables) {
         GridPane innerPane = new GridPane();
-        innerPane.setHgap(5);
+        innerPane.setHgap(10);
         innerPane.setVgap(5);
-        innerPane.setMinWidth(width);
+       // innerPane.setMinWidth(width);
         innerPane.setPadding(new Insets(padding));
         int row = 0;
 
@@ -124,7 +130,7 @@ class ObjectsNodeFactory {
 
     private Node createObjectNode(Ship ship) {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(100);
+        gridPane.setHgap(50);
         gridPane.setVgap(10);
 
         int row = 0;
@@ -190,7 +196,7 @@ class ObjectsNodeFactory {
 
     private Node createObjectNode(Upgradable upgradable) {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(100);
+        gridPane.setHgap(50);
         gridPane.setVgap(10);
         Map<? extends Enum, String> table;
         Enum type;

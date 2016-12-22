@@ -24,7 +24,7 @@ class MissionDialogsFactory {
     }
 
     //TODO тут дикий костыль, пофиксить и сделать нормальный диалог
-    Stage makeFleetPickerDialog(Map<ShipType, Integer> mapToFeel, boolean[] result) {
+    Stage createFleetPickerDialog(Map<ShipType, Integer> mapToFeel, boolean[] result) {
         GridPane root = new GridPane();
         Scene dialogScene = new Scene(root);
         Stage dialog = new Stage(StageStyle.UTILITY);
@@ -74,7 +74,7 @@ class MissionDialogsFactory {
         return dialog;
     }
 
-    Stage makeResourcePickerDialog(int resources[], boolean[] result) {
+    Stage createResourcePickerDialog(int resources[], boolean[] result) {
         GridPane root = new GridPane();
         Scene dialogScene = new Scene(root);
         Stage dialog = new Stage(StageStyle.UTILITY);
