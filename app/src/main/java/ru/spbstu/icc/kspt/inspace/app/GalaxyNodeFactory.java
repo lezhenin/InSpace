@@ -29,7 +29,7 @@ class GalaxyNodeFactory {
     GalaxyNodeFactory(Planet planet, int width, int padding) {
         this.padding = padding;
         this.planet = planet;
-        this.width = width;
+        this.width = width - padding * 2;
     }
 
     Node getGalaxyNode() {
@@ -45,7 +45,8 @@ class GalaxyNodeFactory {
         title.setTextAlignment(TextAlignment.CENTER);
         gridPane.add(new Separator(Orientation.HORIZONTAL), 0, 1);
 
-        gridPane.add(current[0], 0, 2, 3, 1);
+        gridPane.add(new Separator(Orientation.HORIZONTAL), 0, 2, 3, 1);
+        gridPane.add(current[0], 0, 3, 3, 1);
 
         Button prev = new Button("Prev");
         prev.setMinWidth(width / 4);

@@ -26,13 +26,15 @@ class ObjectsNodeFactory {
 
     public ObjectsNodeFactory(Planet planet, int width, int padding) {
         this.planet = planet;
-        this.width = width;
+        this.width = width - padding * 2;
         this.padding = padding;
     }
 
     public Node getBuildingsNode() {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.setPadding(new Insets(padding));
         Text buildings = new Text("Buildings");
         buildings.setWrappingWidth(width);
         buildings.setTextAlignment(TextAlignment.CENTER);
@@ -52,6 +54,8 @@ class ObjectsNodeFactory {
     public Node getResearchNode() {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.setPadding(new Insets(padding));
         Text buildings = new Text("Research");
         buildings.setWrappingWidth(width);
         buildings.setTextAlignment(TextAlignment.CENTER);
@@ -71,6 +75,8 @@ class ObjectsNodeFactory {
     public Node getShipsNode() {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.setPadding(new Insets(padding));
         Text buildings = new Text("Ships");
         buildings.setWrappingWidth(width);
         buildings.setTextAlignment(TextAlignment.CENTER);
@@ -88,9 +94,9 @@ class ObjectsNodeFactory {
 
     private ScrollPane getScrollPaneWithShips(Collection<Ship> ships) {
         GridPane innerPane = new GridPane();
-        innerPane.setHgap(5);
+        innerPane.setHgap(10);
         innerPane.setVgap(5);
-        innerPane.setMinWidth(width);
+        //innerPane.setMinWidth(width);
         innerPane.setPadding(new Insets(padding));
         int row = 0;
 
@@ -106,9 +112,9 @@ class ObjectsNodeFactory {
 
     private ScrollPane getScrollPaneWithObjects(Collection<? extends Upgradable> upgradables) {
         GridPane innerPane = new GridPane();
-        innerPane.setHgap(5);
+        innerPane.setHgap(05);
         innerPane.setVgap(5);
-        innerPane.setMinWidth(width);
+       // innerPane.setMinWidth(width);
         innerPane.setPadding(new Insets(padding));
         int row = 0;
 
@@ -124,7 +130,7 @@ class ObjectsNodeFactory {
 
     private Node createObjectNode(Ship ship) {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(100);
+        gridPane.setHgap(50);
         gridPane.setVgap(10);
 
         int row = 0;
@@ -190,7 +196,7 @@ class ObjectsNodeFactory {
 
     private Node createObjectNode(Upgradable upgradable) {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(100);
+        gridPane.setHgap(50);
         gridPane.setVgap(10);
         Map<? extends Enum, String> table;
         Enum type;
