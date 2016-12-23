@@ -44,9 +44,13 @@ public class InSpace extends Application {
     private Node currentNode;
     private GridPane root = new GridPane();
     private List<Button> menuButtons = new ArrayList<>();
+    private Planet planet = new Planet("Planet", new Position(5, 3));
 
-    private Planet planet = new Planet("Nibiru", new Position(5, 3));
-    {
+    private GalaxyNodeFactory galaxyNodeFactory = new GalaxyNodeFactory(planet, WIDTH, PADDING);
+    private ObjectsNodeFactory objectsNodeFactory = new ObjectsNodeFactory(planet, WIDTH, PADDING);
+    private OverviewNodeFactory overviewNodeFactory = new OverviewNodeFactory(planet, WIDTH, PADDING);
+
+    private void createPlanets() {
         Random random = new Random(214);
         for (int i = 0; i < 30; i++) {
             int numberOfSystem;
@@ -59,14 +63,16 @@ public class InSpace extends Application {
         }
     }
 
-    private GalaxyNodeFactory galaxyNodeFactory = new GalaxyNodeFactory(planet, WIDTH, PADDING);
-    private ObjectsNodeFactory objectsNodeFactory = new ObjectsNodeFactory(planet, WIDTH, PADDING);
-    private OverviewNodeFactory overviewNodeFactory = new OverviewNodeFactory(planet, WIDTH, PADDING);
-
     private void changeNode(Node newNode) {
         root.getChildren().remove(currentNode);
         root.add(newNode, 1, 0, 1, menuButtons.size() + 1);
         currentNode = newNode;
+    }
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+        createPlanets();
     }
 
     @Override
