@@ -29,7 +29,7 @@ class GalaxyNodeFactory {
     GalaxyNodeFactory(Planet planet, int width, int padding) {
         this.padding = padding;
         this.planet = planet;
-        this.width = width;
+        this.width = width - padding * 2;
     }
 
     Node getGalaxyNode() {
@@ -45,7 +45,8 @@ class GalaxyNodeFactory {
         title.setTextAlignment(TextAlignment.CENTER);
         gridPane.add(new Separator(Orientation.HORIZONTAL), 0, 1);
 
-        gridPane.add(current[0], 0, 2, 3, 1);
+        gridPane.add(new Separator(Orientation.HORIZONTAL), 0, 2, 3, 1);
+        gridPane.add(current[0], 0, 3, 3, 1);
 
         Button prev = new Button("Prev");
         prev.setMinWidth(width / 4);
@@ -107,7 +108,7 @@ class GalaxyNodeFactory {
         attack.setOnAction(event -> {
             Map<ShipType, Integer>  map = new HashMap<>();
             boolean[] result = {false};
-            new MissionDialogsFactory(400, 400).makeFleetPickerDialog(map, result).showAndWait();
+            new MissionDialogsFactory(400, 400).createFleetPickerDialog(map, result).showAndWait();
             if (result[0]) {
                 try {
                     this.planet.startAttack(planet.getPosition(), map);
@@ -122,10 +123,10 @@ class GalaxyNodeFactory {
         transport.setOnAction(event -> {
             Map<ShipType, Integer>  map = new HashMap<>();
             boolean[] results = {false};
-            new MissionDialogsFactory(400, 400).makeFleetPickerDialog(map, results).showAndWait();
+            new MissionDialogsFactory(400, 400).createFleetPickerDialog(map, results).showAndWait();
             if (results[0]) {
                 int[] resource = new int[3];
-                new MissionDialogsFactory(400, 400).makeResourcePickerDialog(resource, results).showAndWait();
+                new MissionDialogsFactory(400, 400).createResourcePickerDialog(resource, results).showAndWait();
                 if (results[0]) {
                     try {
                         this.planet.startTransportation(planet.getPosition(), map, resource[0], resource[1], resource[2]);

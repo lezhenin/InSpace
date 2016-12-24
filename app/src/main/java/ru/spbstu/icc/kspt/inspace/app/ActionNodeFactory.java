@@ -26,27 +26,27 @@ class ActionNodeFactory {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-    Node getUpgradeNode(Upgrade upgrade) {
+    Node createUpgradeNode(Upgrade upgrade) {
         Node node;
         if (upgrade == null) {
             node = createEmptyActionNode();
         } else {
-            node = createUpgradeNode(upgrade);
+            node = getUpgradeNode(upgrade);
         }
         return node;
     }
 
-    Node getConstructNode(Construct construct) {
+    Node createConstructNode(Construct construct) {
         Node node;
         if (construct == null) {
             node = createEmptyActionNode();
         } else {
-            node = createConstructNode(construct);
+            node = getConstructNode(construct);
         }
         return node;
     }
 
-    Node getMissionNode(Mission mission) {
+    Node createMissionNode(Mission mission) {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(3);
         gridPane.setHgap(15);
@@ -84,7 +84,7 @@ class ActionNodeFactory {
         return gridPane;
     }
 
-    private Node createConstructNode(Construct construct) {
+    private Node getConstructNode(Construct construct) {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(3);
         gridPane.setMinWidth(width);
@@ -111,7 +111,7 @@ class ActionNodeFactory {
         return gridPane;
     }
 
-    private Node createUpgradeNode(Upgrade upgrade) {
+    private Node getUpgradeNode(Upgrade upgrade) {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(3);
         gridPane.setMinWidth(width);
