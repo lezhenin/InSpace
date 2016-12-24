@@ -50,7 +50,6 @@ class ObjectsNodeFactory {
         return gridPane;
     }
 
-    //TODO избавиться от дублирования кода
     public Node createResearchNode() {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
