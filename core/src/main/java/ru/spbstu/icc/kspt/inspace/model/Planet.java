@@ -41,17 +41,11 @@ public class Planet {
         this.name = name;
         this.position = position;
 
-        researchDepartment = new ResearchDepartment(this);
         buildingDepartment = new BuildingDepartment(this);
+        researchDepartment = new ResearchDepartment(this);
         fleetDepartment = new FleetDepartment(this);
         energyDepartment = new EnergyDepartment(this);
         resourceDepartment = new ResourceDepartment(this);
-
-        buildingDepartment.updateDependencies();
-        researchDepartment.updateDependencies();
-        fleetDepartment.updateDependencies();
-        energyDepartment.updateDependencies();
-        resourceDepartment.updateDependencies();
 
         updating = false;
     }

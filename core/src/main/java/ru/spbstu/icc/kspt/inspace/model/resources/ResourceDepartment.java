@@ -36,12 +36,6 @@ public class ResourceDepartment extends Department{
                 createResourceProducer(planet.getBuilding(BuildingType.DEUTERIUM_MINE), 0, 0, DEUTERIUM_PRODUCTION_VALUE));
     }
 
-    @Override
-    public void updateDependencies() {
-
-    }
-
-
     private ResourceProducer createResourceProducer(Upgradable upgradable, int metalProductionValue,
                                                     int crystalsProductionValue, int deuteriumProductionValue) {
         return new ResourceProducer() {

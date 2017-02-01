@@ -19,10 +19,11 @@ public class Building implements Upgradable {
     public Building(BuildingDepartment department, BuildingType type) {
         this.department = department;
         this.type = type;
-    }
-
-    void updateDependencies() {
-        factory = department.getBuilding(BuildingType.FACTORY);
+        if (type == BuildingType.FACTORY) {
+            factory = this;
+        } else {
+            factory = department.getBuilding(BuildingType.FACTORY);
+        }
     }
 
     public boolean canBeUpgraded() {

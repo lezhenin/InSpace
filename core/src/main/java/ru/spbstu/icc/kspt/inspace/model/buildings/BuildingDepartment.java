@@ -22,10 +22,6 @@ public class BuildingDepartment extends UpgradeDepartment {
 
     }
 
-    public void updateDependencies() {
-        buildings.values().forEach(Building::updateDependencies);
-    }
-
     @Override
     protected boolean additionalCheck() {
         return planet.getNumberOfFields() > occupiedFields;

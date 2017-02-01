@@ -98,10 +98,6 @@ public class FleetDepartment extends Department{
         return planet.getBuilding(type);
     }
 
-    public void updateDependencies() {
-        ships.values().forEach(Ship::updateDependencies);
-    }
-
     public Planet getPlanet() {
         return planet;
     }

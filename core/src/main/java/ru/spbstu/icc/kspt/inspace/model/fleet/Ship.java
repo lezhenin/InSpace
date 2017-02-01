@@ -23,6 +23,8 @@ public class Ship implements Constructable {
     public Ship(ShipType type, FleetDepartment fleetDepartment) {
         this.type = type;
         this.fleetDepartment = fleetDepartment;
+        laserTechnology = fleetDepartment.getResearch(ResearchType.LASER);
+        shipyard = fleetDepartment.getBuilding(BuildingType.SHIPYARD);
     }
 
     public ShipType getType() {
@@ -71,8 +73,4 @@ public class Ship implements Constructable {
 
     }
 
-    void updateDependencies() {
-        laserTechnology = fleetDepartment.getResearch(ResearchType.LASER);
-        shipyard = fleetDepartment.getBuilding(BuildingType.SHIPYARD);
-    }
 }

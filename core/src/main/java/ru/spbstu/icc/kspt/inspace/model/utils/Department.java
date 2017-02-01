@@ -13,5 +13,4 @@ abstract public class Department {
         planet.update();
     }
 
-    public abstract void updateDependencies();
 }

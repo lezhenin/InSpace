@@ -28,14 +28,11 @@ public class EnergyDepartment extends Department{
 
     public EnergyDepartment(Planet planet) {
         super(planet);
+        energyTechnology = planet.getResearch(ResearchType.ENERGY);
         producers.add(createEnergyProducer(planet.getBuilding(BuildingType.POWER_STATION), POWER_STATION_PRODUCING));
         consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.METAL_MINE), METAL_MINE_CONSUMPTION));
         consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.CRYSTAL_MINE), CRYSTAL_MINE_CONSUMPTION));
         consumers.add(createEnergyConsumer(planet.getBuilding(BuildingType.DEUTERIUM_MINE), DEUTERIUM_MINE_CONSUMPTION));
-    }
-
-    public void updateDependencies() {
-        energyTechnology = planet.getResearch(ResearchType.ENERGY);
     }
 
     private EnergyProducer createEnergyProducer(Upgradable upgradable, int productionValue) {

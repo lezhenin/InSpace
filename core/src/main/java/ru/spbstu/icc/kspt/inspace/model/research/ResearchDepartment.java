@@ -21,10 +21,6 @@ public class ResearchDepartment extends UpgradeDepartment {
         researches.put(ResearchType.LASER, new Research(this, ResearchType.LASER));
     }
 
-    public void updateDependencies() {
-        researches.values().forEach(Research::updateDependencies);
-    }
-
 
     @Override
     protected void startUpgrade(Upgrade upgrade) throws UpgradeException {

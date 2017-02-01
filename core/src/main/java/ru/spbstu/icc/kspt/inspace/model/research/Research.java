@@ -22,9 +22,6 @@ public class Research implements Upgradable{
     public Research(ResearchDepartment department, ResearchType type) {
         this.department = department;
         this.type = type;
-    }
-
-    void updateDependencies() {
         laboratory = department.getBuilding(BuildingType.LABORATORY);
     }
 
