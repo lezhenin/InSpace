@@ -50,7 +50,7 @@ public class FleetDepartment extends Department{
         });
     }
 
-    public void startMission(Mission mission) {
+    public void addMission(Mission mission) {
         missions.add(mission);
         mission.addActionBeforeExecution(new Action() {
             @Override

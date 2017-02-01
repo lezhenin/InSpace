@@ -143,7 +143,7 @@ public class Planet {
 
     public void startMission(Mission mission) {
         update();
-        fleetDepartment.startMission(mission);
+        fleetDepartment.addMission(mission);
         if(mission.getDestination() != this) {
             mission.getDestination().addExternalMission(mission);
         }
