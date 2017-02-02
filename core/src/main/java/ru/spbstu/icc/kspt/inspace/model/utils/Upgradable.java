@@ -1,19 +1,9 @@
 package ru.spbstu.icc.kspt.inspace.model.utils;
 
+import ru.spbstu.icc.kspt.inspace.api.AUpgradable;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
-import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 
-import java.time.Duration;
-
-public interface Upgradable {
-
-    boolean canBeUpgraded();
-
-    void startUpgrade() throws UpgradeException;
-
-    Duration getUpgradeDuration();
-
+public interface Upgradable extends AUpgradable {
+    @Override
     Resources getUpgradeCost();
-
-    int getLevel();
 }

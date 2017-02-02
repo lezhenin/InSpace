@@ -144,17 +144,10 @@ public class Planet {
     }
 
     public void startAttack(Position destination, Map<ShipType, Integer> numbersOfShips) throws FleetDetachException {
-        ru.spbstu.icc.kspt.inspace.model.fleet.Fleet fleet =
-                planet.getFleetOnPlanet().detachFleet(numbersOfShips);
-        planet.startMission(new Attack(planet, Galaxy.getInstance().getPlanet(destination), fleet));
+        planet.startAttack(destination, numbersOfShips);
     }
 
     public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium ) throws FleetDetachException, CapacityExcessException {
-        ru.spbstu.icc.kspt.inspace.model.fleet.Fleet fleet =
-                planet.getFleetOnPlanet().detachFleet(numbersOfShips);
-        ru.spbstu.icc.kspt.inspace.model.resources.Resources resources =
-                new ru.spbstu.icc.kspt.inspace.model.resources.Resources(metal, crystal, deuterium);
-        fleet.putResources(resources);
-        new Transportation(planet, Galaxy.getInstance().getPlanet(destination), fleet);
+      planet.startTransportation(destination, numbersOfShips, metal, crystal, deuterium);
     }
 }

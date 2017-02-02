@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.fleet.missions;
 
 
+import ru.spbstu.icc.kspt.inspace.api.AMission;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.utils.TimeAction;
@@ -9,7 +10,7 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Time;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public abstract class Mission extends TimeAction {
+public abstract class Mission extends TimeAction implements AMission {
 
     private LocalDateTime time;
     private Planet source;
@@ -34,14 +35,17 @@ public abstract class Mission extends TimeAction {
         return time;
     }
 
+    @Override
     public Planet getSource() {
         return source;
     }
 
+    @Override
     public Planet getDestination() {
         return destination;
     }
 
+    @Override
     public Fleet getFleet() {
         return fleet;
     }

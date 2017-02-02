@@ -1,8 +1,10 @@
 package ru.spbstu.icc.kspt.inspace.model.utils;
 
+import ru.spbstu.icc.kspt.inspace.api.AConstruct;
+
 import java.time.LocalDateTime;
 
-public abstract class Construct extends TimeAction {
+public abstract class Construct extends TimeAction implements AConstruct {
 
     private Constructable constructable;
     private LocalDateTime time;
@@ -19,14 +21,17 @@ public abstract class Construct extends TimeAction {
         }
     }
 
+    @Override
     public LocalDateTime getTime() {
         return time;
     }
 
+    @Override
     public Constructable getConstructable() {
         return constructable;
     }
 
+    @Override
     public int getNumberOfUnits() {
         return numberOfUnits;
     }

@@ -1,13 +1,18 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
+import ru.spbstu.icc.kspt.inspace.api.APlanet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
+import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
+import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.FleetDepartment;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Transportation;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
@@ -19,7 +24,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 
-public class Planet {
+public class Planet implements APlanet {
 
     private Position position;
     private int size = 200;
@@ -55,90 +60,122 @@ public class Planet {
         this.size = size;
     }
 
+    @Override
     public Position getPosition() {
         return position;
     }
 
+    @Override
     public Resources getResources() {
         update();
         return resourceDepartment.getResources();
     }
 
+    @Override
     public int getEnergyProduction() {
         update();
         return energyDepartment.getTotalEnergyProduction();
     }
 
+    @Override
     public int getEnergyConsumption() {
         update();
         return energyDepartment.getTotalEnergyConsumption();
     }
 
+    @Override
     public int getEnergyLevel() {
         update();
         return energyDepartment.getEnergyLevel();
     }
 
+    @Override
     public double getProductionPower() {
         update();
         return energyDepartment.getProductionPower();
     }
 
+    @Override
     public int getNumberOfFields() {
         return size;
     }
 
+    @Override
     public int getNumberOfEmptyFields() {
         return size - buildingDepartment.getFields();
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public Building getBuilding(BuildingType type) {
         update();
         return buildingDepartment.getBuilding(type);
     }
 
+    @Override
     public Map<BuildingType, Building> getBuildings() {
         update();
         return buildingDepartment.getBuildings();
     }
 
+    @Override
     public Upgrade getCurrentBuildingUpgrade() {
         update();
         return buildingDepartment.getCurrentUpgrade();
     }
 
+    @Override
     public Research getResearch(ResearchType type) {
         update();
         return researchDepartment.getResearch(type);
     }
 
+    @Override
     public Map<ResearchType, Research> getResearches() {
         update();
         return researchDepartment.getResearches();
     }
 
+    @Override
     public Upgrade getCurrentResearchUpgrade() {
         update();
         return researchDepartment.getCurrentUpgrade();
     }
 
+    @Override
     public Construct getCurrentConstruct(){
         update();
         return fleetDepartment.getCurrentConstruct();
     }
 
+    @Override
     public Map<ShipType, Ship> getShips() {
         update();
         return fleetDepartment.getShips();
     }
 
+    @Override
     public Fleet getFleetOnPlanet() {
         update();
         return fleetDepartment.getMainFleet();
+    }
+
+    @Override
+    public void startAttack(Position destination, Map<ShipType, Integer> numbersOfShips) throws FleetDetachException {
+        Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
+        startMission(new Attack(this, Galaxy.getInstance().getPlanet(destination), fleet));
+    }
+
+    @Override
+    public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium) throws FleetDetachException, CapacityExcessException {
+        Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
+        Resources resources = new Resources(metal, crystal, deuterium);
+        fleet.putResources(resources);
+        startMission(new Transportation(this, Galaxy.getInstance().getPlanet(destination), fleet));
     }
 
     public void startMission(Mission mission) {
@@ -154,11 +191,13 @@ public class Planet {
         fleetDepartment.addExternalMission(mission);
     }
 
+    @Override
     public List<Mission> getMissions() {
         update();
         return fleetDepartment.getMissions();
     }
 
+    @Override
     public List<Mission> getExternalMissions() {
         update();
         return fleetDepartment.getExternalMissions();
@@ -168,6 +207,7 @@ public class Planet {
         resourceDepartment.updateResources(now);
     }
 
+    @Override
     public void update() {
         if(updating) {
             return;
@@ -205,6 +245,7 @@ public class Planet {
         updating = false;
     }
 
+    @Override
     public void rename(String newName) {
         name = newName;
     }

@@ -11,7 +11,7 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Constructable;
 
 import java.time.Duration;
 
-public class Ship implements Constructable {
+public class Ship implements Constructable, ru.spbstu.icc.kspt.inspace.api.AShip {
 
 
     private ShipType type;
@@ -27,26 +27,32 @@ public class Ship implements Constructable {
         shipyard = fleetDepartment.getBuilding(BuildingType.SHIPYARD);
     }
 
+    @Override
     public ShipType getType() {
         return type;
     }
 
+    @Override
     public int getAttack() {
         return (int)Math.round(type.ATTACK * (1 + laserTechnology.getLevel() * 0.02));
     }
 
+    @Override
     public int getStructure() {
         return type.STRUCTURE;
     }
 
+    @Override
     public int getShieldStructure() {
         return type.SHIELD_STRUCTURE;
     }
 
+    @Override
     public int getSpeed() {
         return type.SPEED;
     }
 
+    @Override
     public int getResourcesCapacity() {
         return type.CAPACITY;
     }

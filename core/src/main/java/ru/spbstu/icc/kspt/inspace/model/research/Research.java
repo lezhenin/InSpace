@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.research;
 
+import ru.spbstu.icc.kspt.inspace.api.AResearch;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
@@ -9,7 +10,7 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
 import java.time.Duration;
 
-public class Research implements Upgradable{
+public class Research implements AResearch, Upgradable {
 
     private static final double COST_GROWING_SPEED = 1.6;
 
@@ -39,6 +40,7 @@ public class Research implements Upgradable{
         });
     }
 
+    @Override
     public ResearchType getType() {
         return type;
     }

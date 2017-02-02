@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.fleet;
 
 
+import ru.spbstu.icc.kspt.inspace.api.AFleet;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
@@ -9,13 +10,14 @@ import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class Fleet {
+public class Fleet implements AFleet {
 
     private Map<ShipType, Integer> numbersOfShips = new EnumMap<>(ShipType.class);
     private Map<ShipType, Ship> ships;
     private FleetDepartment department;
     private Resources resources = new Resources(0, 0, 0);
 
+    @Override
     public Resources getResources() {
         return resources;
     }
@@ -85,10 +87,12 @@ public class Fleet {
         this.resources.takeResources(resources);
     }
 
+    @Override
     public Map<ShipType, Integer> getNumbersOfShips() {
         return numbersOfShips;
     }
 
+    @Override
     public int getCapacity() {
         int capacity = 0;
         for (Map.Entry<ShipType, Integer> entry : numbersOfShips.entrySet()) {
@@ -97,6 +101,7 @@ public class Fleet {
         return capacity;
     }
 
+    @Override
     public int getSpeed() {
         int minSpeed = 0;
 
@@ -115,6 +120,7 @@ public class Fleet {
         return minSpeed;
     }
 
+    @Override
     public int getNumberOfShips() {
         int number = 0;
         for(Integer n: numbersOfShips.values()) {
@@ -123,6 +129,7 @@ public class Fleet {
         return number;
     }
 
+    @Override
     public int getSummaryStructure() {
         int structure = 0;
         for (Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {
@@ -132,6 +139,7 @@ public class Fleet {
         return structure;
     }
 
+    @Override
     public int getSummaryAttack() {
         int attack = 0;
         for (Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {

@@ -1,8 +1,9 @@
 package ru.spbstu.icc.kspt.inspace.model.resources;
 
 
+import ru.spbstu.icc.kspt.inspace.api.AResources;
 
-public class Resources implements Comparable<Resources>{
+public class Resources implements AResources {
 
     private int metal;
     private int crystals;
@@ -23,14 +24,17 @@ public class Resources implements Comparable<Resources>{
         resources.deuterium = 0;
     }
 
+    @Override
     public int getMetal() {
         return metal;
     }
 
+    @Override
     public int getCrystals() {
         return crystals;
     }
 
+    @Override
     public int getDeuterium() {
         return deuterium;
     }
@@ -56,6 +60,7 @@ public class Resources implements Comparable<Resources>{
         return new Resources(takenMetal, takenCrystals, takenDeuterium);
     }
 
+    @Override
     public int getAmount() {
         return metal + crystals + deuterium;
     }

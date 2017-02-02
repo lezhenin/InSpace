@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
+import ru.spbstu.icc.kspt.inspace.api.ABuilding;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
@@ -8,7 +9,7 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
 import java.time.Duration;
 
-public class Building implements Upgradable {
+public class Building implements ABuilding, Upgradable {
 
     private static final double UPGRADE_COST_GROW_VALUE = 1.6;
     private BuildingDepartment department;
@@ -59,6 +60,7 @@ public class Building implements Upgradable {
         return new Resources(metal, crystal, 0);
     }
 
+    @Override
     public BuildingType getType() {
         return type;
     }
