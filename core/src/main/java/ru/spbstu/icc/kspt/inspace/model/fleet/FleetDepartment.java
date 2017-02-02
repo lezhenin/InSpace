@@ -31,6 +31,8 @@ public class FleetDepartment extends Department{
         super(planet);
         ships.put(ShipType.FIGHTER, new Ship(ShipType.FIGHTER, this));
         ships.put(ShipType.SMALL_CARGO, new Ship(ShipType.SMALL_CARGO, this));
+        mainFleet.addShips(ShipType.FIGHTER, 5);
+        mainFleet.addShips(ShipType.SMALL_CARGO, 5);
     }
 
     void startConstruction(Construct construct) throws ConstructException {
