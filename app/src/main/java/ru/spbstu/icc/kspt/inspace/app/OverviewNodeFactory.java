@@ -16,20 +16,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-import ru.spbstu.icc.kspt.inspace.api.Construct;
-import ru.spbstu.icc.kspt.inspace.api.Mission;
-import ru.spbstu.icc.kspt.inspace.api.Planet;
-import ru.spbstu.icc.kspt.inspace.api.Upgrade;
+import ru.spbstu.icc.kspt.inspace.api.AConstruct;
+import ru.spbstu.icc.kspt.inspace.api.AMission;
+import ru.spbstu.icc.kspt.inspace.api.APlanet;
+import ru.spbstu.icc.kspt.inspace.api.AUpgrade;
+
 
 import java.util.Optional;
 
 class OverviewNodeFactory {
 
-    private Planet planet;
+    private APlanet planet;
     private int padding;
     private int width;
 
-    public OverviewNodeFactory(Planet planet, int width, int padding) {
+    public OverviewNodeFactory(APlanet planet, int width, int padding) {
         this.planet = planet;
         this.padding = padding;
         this.width = width - padding * 2 - 30;
@@ -183,13 +184,13 @@ class OverviewNodeFactory {
 
         ActionNodeFactory factory = new ActionNodeFactory(width / 3);
 
-        Optional<Upgrade> upgrade = planet.getCurrentBuildingUpgrade();
-        overview.add(factory.createUpgradeNode(upgrade.isPresent() ? upgrade.get(): null), 0, ++row);
+        AUpgrade upgrade = planet.getCurrentBuildingUpgrade();
+        overview.add(factory.createUpgradeNode(upgrade), 0, ++row);
         upgrade = planet.getCurrentResearchUpgrade();
-        overview.add(factory.createUpgradeNode(upgrade.isPresent() ? upgrade.get(): null), 1, row);
+        overview.add(factory.createUpgradeNode(upgrade), 1, row);
 
-        Optional<Construct> construct = planet.getCurrentConstruct();
-        overview.add(factory.createConstructNode(construct.isPresent() ? construct.get() : null), 2, row);
+        AConstruct construct = planet.getCurrentConstruct();
+        overview.add(factory.createConstructNode(construct), 2, row);
 
         overview.add(new Separator(Orientation.HORIZONTAL), 0, ++row, 3, 1);
 
@@ -199,7 +200,7 @@ class OverviewNodeFactory {
         missions.setFont(new Font("Arial", 25));
         overview.add(missions, 0, ++row, 3, 1);
 
-        for (Mission mission: planet.getMissions()) {
+        for (AMission mission: planet.getMissions()) {
             overview.add(factory.createMissionNode(mission), 0, ++row, 3, 1);
         }
 

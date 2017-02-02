@@ -10,8 +10,9 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import ru.spbstu.icc.kspt.inspace.api.Galaxy;
-import ru.spbstu.icc.kspt.inspace.api.Planet;
+import ru.spbstu.icc.kspt.inspace.api.APlanet;
+import ru.spbstu.icc.kspt.inspace.model.Galaxy;
+
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
@@ -22,11 +23,11 @@ import java.util.Map;
 
 class GalaxyNodeFactory {
 
-    private Planet planet;
+    private APlanet planet;
     private int width;
     private int padding;
 
-    GalaxyNodeFactory(Planet planet, int width, int padding) {
+    GalaxyNodeFactory(APlanet planet, int width, int padding) {
         this.padding = padding;
         this.planet = planet;
         this.width = width - padding * 2;
@@ -94,7 +95,7 @@ class GalaxyNodeFactory {
     }
 
     private Node getPlanetNode(Position position) {
-        Planet planet = Galaxy.getPlanet(position);
+        APlanet planet = Galaxy.getInstance().getPlanet(position);
         if (planet == null) {
             return new Text("Empty");
         }

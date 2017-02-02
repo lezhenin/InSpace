@@ -20,11 +20,11 @@ import java.util.Map;
 
 class ObjectsNodeFactory {
 
-    private Planet planet;
+    private APlanet planet;
     private int width;
     private int padding;
 
-    public ObjectsNodeFactory(Planet planet, int width, int padding) {
+    public ObjectsNodeFactory(APlanet planet, int width, int padding) {
         this.planet = planet;
         this.width = width - padding * 2;
         this.padding = padding;
@@ -44,8 +44,7 @@ class ObjectsNodeFactory {
         ScrollPane scrollPane = createScrollPaneWithObjects(planet.getBuildings().values());
         gridPane.add(scrollPane, 0, 1);
         ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
-        Upgrade upgrade = planet.getCurrentBuildingUpgrade().isPresent() ?
-                planet.getCurrentBuildingUpgrade().get() : null;
+        AUpgrade upgrade = planet.getCurrentBuildingUpgrade();
         gridPane.add(actionNodeFactory.createUpgradeNode(upgrade), 0, 2);
         return gridPane;
     }
@@ -65,8 +64,7 @@ class ObjectsNodeFactory {
         ScrollPane scrollPane = createScrollPaneWithObjects(planet.getResearches().values());
         gridPane.add(scrollPane, 0, 1);
         ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
-        Upgrade upgrade = planet.getCurrentResearchUpgrade().isPresent() ?
-                planet.getCurrentResearchUpgrade().get() : null;
+        AUpgrade upgrade = planet.getCurrentResearchUpgrade();
         gridPane.add(actionNodeFactory.createUpgradeNode(upgrade), 0, 2);
         return gridPane;
     }
@@ -86,13 +84,12 @@ class ObjectsNodeFactory {
         ScrollPane scrollPane = createScrollPaneWithShips(planet.getShips().values());
         gridPane.add(scrollPane, 0, 1);
         ActionNodeFactory actionNodeFactory = new ActionNodeFactory(width);
-        Construct construction = planet.getCurrentConstruct().isPresent() ?
-                planet.getCurrentConstruct().get() : null;
+        AConstruct construction = planet.getCurrentConstruct();
         gridPane.add(actionNodeFactory.createConstructNode(construction), 0, 2);
         return gridPane;
     }
 
-    private ScrollPane createScrollPaneWithShips(Collection<Ship> ships) {
+    private ScrollPane createScrollPaneWithShips(Collection<? extends AShip> ships) {
         GridPane innerPane = new GridPane();
         innerPane.setHgap(10);
         innerPane.setVgap(5);
@@ -101,7 +98,7 @@ class ObjectsNodeFactory {
         int row = 0;
 
         innerPane.add(new Separator(Orientation.HORIZONTAL), 0, row++, 2, 1);
-        for (Ship ship: ships){
+        for (AShip ship: ships){
             innerPane.add(createObjectNode(ship), 0, row++);
             innerPane.add(new Separator(Orientation.HORIZONTAL), 0, row++, 2, 1);
         }
@@ -110,7 +107,7 @@ class ObjectsNodeFactory {
         return scrollPane;
     }
 
-    private ScrollPane createScrollPaneWithObjects(Collection<? extends Upgradable> upgradables) {
+    private ScrollPane createScrollPaneWithObjects(Collection<? extends AUpgradable> upgradables) {
         GridPane innerPane = new GridPane();
         innerPane.setHgap(10);
         innerPane.setVgap(5);
@@ -119,7 +116,7 @@ class ObjectsNodeFactory {
         int row = 0;
 
         innerPane.add(new Separator(Orientation.HORIZONTAL), 0, row++, 2, 1);
-        for (Upgradable upgradable: upgradables){
+        for (AUpgradable upgradable: upgradables){
             innerPane.add(createObjectNode(upgradable), 0, row++);
             innerPane.add(new Separator(Orientation.HORIZONTAL), 0, row++, 2, 1);
         }
@@ -128,7 +125,7 @@ class ObjectsNodeFactory {
         return scrollPane;
     }
 
-    private Node createObjectNode(Ship ship) {
+    private Node createObjectNode(AShip ship) {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(50);
         gridPane.setVgap(10);
@@ -136,7 +133,7 @@ class ObjectsNodeFactory {
         int row = 0;
         gridPane.add(new Text("Type: " + InSpace.shipTypeTable.get(ship.getType())), 0, row++);
         gridPane.add(new Text("Number: " + planet.getFleetOnPlanet().getNumbersOfShips().get(ship.getType())), 0, row++);
-        Resources cost = ship.getConstructCost();
+        AResources cost = ship.getConstructCost();
         gridPane.add(new Text("Cost of construction: "
                 + cost.getMetal() + " : " + cost.getCrystals() + " : " + cost.getDeuterium()), 0, row++);
         gridPane.add(new Text("Duration of construction: "
@@ -159,7 +156,7 @@ class ObjectsNodeFactory {
             {
                 try {
                     int number = Integer.parseInt(s);
-                    ship.construct(number);
+                    ship.startConstruction(number);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Construction");
                     alert.setHeaderText("Construction has started");
@@ -194,24 +191,24 @@ class ObjectsNodeFactory {
         return gridPane;
     }
 
-    private Node createObjectNode(Upgradable upgradable) {
+    private Node createObjectNode(AUpgradable upgradable) {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(50);
         gridPane.setVgap(10);
         Map<? extends Enum, String> table;
         Enum type;
-        if (upgradable instanceof Building) {
-            type = ((Building)(upgradable)).getType();
+        if (upgradable instanceof ABuilding) {
+            type = ((ABuilding)(upgradable)).getType();
             table = InSpace.buildingTypeTable;
         } else {
-            type = ((Research)(upgradable)).getType();
+            type = ((AResearch)(upgradable)).getType();
             table = InSpace.researchTypeTable;
         }
 
         int row = 0;
         gridPane.add(new Text("Type: " + table.get(type)), 0, row++);
         gridPane.add(new Text("Level: " + upgradable.getLevel()), 0, row++);
-        Resources cost = upgradable.getUpgradeCost();
+        AResources cost = upgradable.getUpgradeCost();
         gridPane.add(new Text("Cost of upgrade: "
                 + cost.getMetal() + " : " + cost.getCrystals() + " : " + cost.getDeuterium()), 0, row++);
         gridPane.add(new Text("Duration of upgrade: "
@@ -221,7 +218,7 @@ class ObjectsNodeFactory {
         Button upgrade = new Button("Upgrade");
         upgrade.setOnAction(event -> {
             try {
-                upgradable.upgrade();
+                upgradable.startUpgrade();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Upgrade");
                 alert.setHeaderText("Upgrade has started");

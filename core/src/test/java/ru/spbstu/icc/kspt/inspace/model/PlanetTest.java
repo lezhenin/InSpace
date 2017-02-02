@@ -39,12 +39,12 @@ public class PlanetTest {
     @Test
     public void testUpdate() {
 
-        assertEquals(planet.getResources(), new Resources(0, 0, 0));
+        assertEquals(planet.getResources(), new Resources(3000, 2000, 1000));
 
         PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(531)));
 
-        assertEquals(planet.getResources(), new Resources(266, 221, 177));
+        assertEquals(planet.getResources(), new Resources(3266, 2221, 1177));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class PlanetTest {
                 .plus(research.getUpgradeDuration()));
         planet.update();
         assertEquals(research.getLevel(), 1);
-        assertEquals(planet.getResources(), new Resources(226, 160, 130));
+        assertEquals(planet.getResources(), new Resources(3226, 2160, 1130));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class PlanetTest {
                 .plus(building.getUpgradeDuration()));
         planet.update();
         assertEquals(building.getLevel(), 1);
-        assertEquals(planet.getResources(), new Resources(207, 172, 178));
+        assertEquals(planet.getResources(), new Resources(3207, 2172, 1178));
     }
 
     @Test
@@ -203,7 +203,7 @@ public class PlanetTest {
         assertTrue(currentMission.getClass().equals(Attack.class));
         assertTrue(anotherPlanet == currentMission.getDestination());
         assertTrue(planet == currentMission.getSource());
-        assertEquals(15, currentMission.getFleet().getNumberOfShips());
+        assertEquals(25, currentMission.getFleet().getNumberOfShips());
 
         when(Time.now()).thenReturn(currentMission.getTime().plus(Duration.ofMinutes(1)));
 
@@ -213,7 +213,7 @@ public class PlanetTest {
         assertTrue(currentMission.getClass().equals(Comeback.class));
         assertTrue(anotherPlanet == currentMission.getSource());
         assertTrue(planet == currentMission.getDestination());
-        assertEquals(13, currentMission.getFleet().getNumberOfShips());
+        assertEquals(18, currentMission.getFleet().getNumberOfShips());
 
     }
 }

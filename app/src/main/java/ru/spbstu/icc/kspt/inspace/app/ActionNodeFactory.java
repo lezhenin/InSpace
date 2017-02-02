@@ -26,7 +26,7 @@ class ActionNodeFactory {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-    Node createUpgradeNode(Upgrade upgrade) {
+    Node createUpgradeNode(AUpgrade upgrade) {
         Node node;
         if (upgrade == null) {
             node = createEmptyActionNode();
@@ -36,7 +36,7 @@ class ActionNodeFactory {
         return node;
     }
 
-    Node createConstructNode(Construct construct) {
+    Node createConstructNode(AConstruct construct) {
         Node node;
         if (construct == null) {
             node = createEmptyActionNode();
@@ -46,7 +46,7 @@ class ActionNodeFactory {
         return node;
     }
 
-    Node createMissionNode(Mission mission) {
+    Node createMissionNode(AMission mission) {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(3);
         gridPane.setHgap(15);
@@ -54,9 +54,9 @@ class ActionNodeFactory {
         Text destination = new Text("Destination: " +
                 mission.getDestination().getName() + " " + mission.getDestination().getPosition());
         Text endTime = new Text("Finish time: " +
-                mission.getEndTime().format(DateTimeFormatter.ISO_TIME));
+                mission.getTime().format(DateTimeFormatter.ISO_TIME));
         Text remainingTime = new Text("Remaining time: " +
-                java.time.Duration.between(LocalDateTime.now(), mission.getEndTime()).getSeconds() + " second(s)");
+                java.time.Duration.between(LocalDateTime.now(), mission.getTime()).getSeconds() + " second(s)");
         gridPane.add(remainingTime, 0, 2);
         gridPane.add(destination, 0, 0);
         gridPane.add(endTime, 0, 1);
@@ -77,64 +77,64 @@ class ActionNodeFactory {
 
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
             remainingTime.setText("Remaining time: " +
-                    java.time.Duration.between(LocalDateTime.now(), mission.getEndTime()).getSeconds() + " second(s)");
+                    java.time.Duration.between(LocalDateTime.now(), mission.getTime()).getSeconds() + " second(s)");
         }));
         timeline.play();
 
         return gridPane;
     }
 
-    private Node getConstructNode(Construct construct) {
+    private Node getConstructNode(AConstruct construct) {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(3);
         gridPane.setMinWidth(width);
 
-        Text name = new Text("Type: " + InSpace.shipTypeTable.get(((Ship)(construct.getConstructable())).getType()));
+        Text name = new Text("Type: " + InSpace.shipTypeTable.get(((AShip)(construct.getConstructable())).getType()));
         gridPane.add(name, 0, 0);
 
         Text number = new Text("Number of units: " + construct.getNumberOfUnits());
         gridPane.add(number, 0, 1);
 
-        Text endTime = new Text("Finish time: " + construct.getEndTime().format(DateTimeFormatter.ISO_TIME));
+        Text endTime = new Text("Finish time: " + construct.getTime().format(DateTimeFormatter.ISO_TIME));
         gridPane.add(endTime, 0, 2);
 
         Text remainingTime = new Text("Remaining time: " +
-                java.time.Duration.between(LocalDateTime.now(), construct.getEndTime()).getSeconds() + " second(s)");
+                java.time.Duration.between(LocalDateTime.now(), construct.getTime()).getSeconds() + " second(s)");
         gridPane.add(remainingTime, 0, 3);
 
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
             remainingTime.setText("Remaining time: " +
-                    java.time.Duration.between(LocalDateTime.now(), construct.getEndTime()).getSeconds() + " second(s)");
+                    java.time.Duration.between(LocalDateTime.now(), construct.getTime()).getSeconds() + " second(s)");
         }));
         timeline.play();
 
         return gridPane;
     }
 
-    private Node getUpgradeNode(Upgrade upgrade) {
+    private Node getUpgradeNode(AUpgrade upgrade) {
         GridPane gridPane = new GridPane();
         gridPane.setVgap(3);
         gridPane.setMinWidth(width);
-        Upgradable upgradable = upgrade.getUpgradable();
+        AUpgradable upgradable = upgrade.getUpgradable();
 
         Text name = new Text();
-        if (upgradable instanceof Building) {
-            name.setText("Type: " + InSpace.buildingTypeTable.get(((Building)upgradable).getType()));
+        if (upgradable instanceof ABuilding) {
+            name.setText("Type: " + InSpace.buildingTypeTable.get(((ABuilding)upgradable).getType()));
         } else {
-            name.setText("Type: " + InSpace.researchTypeTable.get(((Research)upgradable).getType()));
+            name.setText("Type: " + InSpace.researchTypeTable.get(((AResearch)upgradable).getType()));
         }
         gridPane.add(name, 0, 0);
 
-        Text endTime = new Text("Finish time: " + upgrade.getEndTime().format(DateTimeFormatter.ISO_TIME));
+        Text endTime = new Text("Finish time: " + upgrade.getTime().format(DateTimeFormatter.ISO_TIME));
         gridPane.add(endTime, 0, 1);
 
         Text remainingTime = new Text("Remaining time: " +
-                java.time.Duration.between(LocalDateTime.now(), upgrade.getEndTime()).getSeconds() + " second(s)");
+                java.time.Duration.between(LocalDateTime.now(), upgrade.getTime()).getSeconds() + " second(s)");
         gridPane.add(remainingTime, 0, 2);
 
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
             remainingTime.setText("Remaining time: " +
-                    java.time.Duration.between(LocalDateTime.now(), upgrade.getEndTime()).getSeconds() + " second(s)");
+                    java.time.Duration.between(LocalDateTime.now(), upgrade.getTime()).getSeconds() + " second(s)");
         }));
         timeline.play();
         return gridPane;

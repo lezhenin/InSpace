@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ru.spbstu.icc.kspt.inspace.api.*;
+import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
@@ -44,7 +45,7 @@ public class InSpace extends Application {
     private Node currentNode;
     private GridPane root = new GridPane();
     private List<Button> menuButtons = new ArrayList<>();
-    private Planet planet = new Planet("Planet", new Position(5, 3));
+    private APlanet planet = new Planet("Planet", new Position(5, 3));
 
     private GalaxyNodeFactory galaxyNodeFactory = new GalaxyNodeFactory(planet, WIDTH, PADDING);
     private ObjectsNodeFactory objectsNodeFactory = new ObjectsNodeFactory(planet, WIDTH, PADDING);
