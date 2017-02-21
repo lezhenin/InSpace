@@ -1,3 +1,14 @@
 .idea
 .gradle
 build
+report/latex/main.aux
+report/latex/main.bbl
+report/latex/main.blg
+report/latex/main.log
+report/latex/main.out
+report/latex/main.pdf
+report/latex/main.synctex.gz
+report/latex/main.toc
+report/latex/report_lezhenin.pdf
+report/latex/settings.aux
+report/latex/titlepage.aux
