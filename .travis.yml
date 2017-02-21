@@ -1,5 +1,12 @@
 language: java
+
 jdk:
-  - oraclejdk8
+ - oraclejdk8
+
 script:
-  - gradle check
+ - ./gradlew clean build
+
+before_script:
+ - chmod +x gradlew
+
+os: linux
