@@ -1,6 +1,5 @@
 version '1.0-SNAPSHOT'
 
-//apply plugin: 'javafx-gradle-plugin'
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -8,67 +7,3 @@ dependencies {
     compile project(':core')
 
 }
-
-//javafx {
-//    appID 'SampleApp'
-//    appName 'Sample Application'
-//      mainClass 'ru.spbstu.icc.kspt.inspace.app.InSpace'
-//
-//    jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
-//    systemProperties = [ 'prism.disableRegionCaching':'true' ]
-//    arguments = ['-l', '--fast']
-//
-//    embedLauncher = false
-//
-//    // deploy/info attributes
-//    category = 'Demos'
-//    copyright = 'Copyright (c) 2013 Acme'
-//    description = 'This is a sample configuration, it is not real.'
-//    licenseType = 'Apache 2.0'
-//    vendor = 'Acme'
-//    installSystemWide = true
-//    menu = true
-//    shortcut = true
-
-    // app icons
-//    icons {
-//        shortcut = ['shortcut-16.png', 'shortcut-32.png', 'shortcut-128.png', 'shortcut-256.png', 'shortcut-16@2x.png', 'shortcut-32@2x.png', 'shortcut-128@2x.png']
-//        volume = 'javafx-icon.png'
-//        setup = 'javafx-icon.png'
-//    }
-//
-//    // applet and webstart stuff
-//    debugKey {
-//        alias = 'debugKey'
-//        //keyPass = 'password' // provide via command line
-//        keyStore = file('~/keys/debug.jks')
-//        //storePass = 'password'  // provide via command line
-//    }
-//    releaseKey {
-//        alias = 'production'
-//        //keyPass = 'password' // provide via command line
-//        keyStore = file('/Volumes/ProdThumbDrive/production.jks')
-//        //storePass = 'password'  // provide via command line
-//    }
-//    signingMode 'release'
-//
-//    width = 800
-//    height = 600
-//    embedJNLP = false
-//    codebase = 'http://example.com/bogus/JNLP/Codebase'
-//
-//    // arbitrary jnlp icons
-//    icon {
-//        href = 'src/main/resources/javafx-icon.png'
-//        kind = 'splash'
-//        width = 128
-//        height = 128
-//    }
-//    icon {
-//        href = 'shortcut-32@2x.png'
-//        kind = 'selected'
-//        width = 16
-//        height = 16
-//        scale = 1
-//    }
-//}

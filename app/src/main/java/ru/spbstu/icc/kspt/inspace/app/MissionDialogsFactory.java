@@ -23,7 +23,6 @@ class MissionDialogsFactory {
         this.height = height;
     }
 
-    //TODO тут дикий костыль, пофиксить и сделать нормальный диалог
     Stage createFleetPickerDialog(Map<ShipType, Integer> mapToFeel, boolean[] result) {
         GridPane root = new GridPane();
         Scene dialogScene = new Scene(root);
