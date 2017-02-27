@@ -88,7 +88,7 @@ class ObjectsNodeFactory {
         return gridPane;
     }
 
-    private ScrollPane createScrollPaneWithShips(Collection<? extends AShip> ships) {
+    private ScrollPane createScrollPaneWithShips(Collection<? extends AShipModel> ships) {
         GridPane innerPane = new GridPane();
         innerPane.setHgap(10);
         innerPane.setVgap(5);
@@ -97,7 +97,7 @@ class ObjectsNodeFactory {
         int row = 0;
 
         innerPane.add(new Separator(Orientation.HORIZONTAL), 0, row++, 2, 1);
-        for (AShip ship: ships){
+        for (AShipModel ship: ships){
             innerPane.add(createObjectNode(ship), 0, row++);
             innerPane.add(new Separator(Orientation.HORIZONTAL), 0, row++, 2, 1);
         }
@@ -124,7 +124,7 @@ class ObjectsNodeFactory {
         return scrollPane;
     }
 
-    private Node createObjectNode(AShip ship) {
+    private Node createObjectNode(AShipModel ship) {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(50);
         gridPane.setVgap(10);

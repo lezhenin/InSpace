@@ -13,7 +13,7 @@ import java.util.Map;
 public class Fleet implements AFleet {
 
     private Map<ShipType, Integer> numbersOfShips = new EnumMap<>(ShipType.class);
-    private Map<ShipType, Ship> ships;
+    private Map<ShipType, ShipModel> ships;
     private FleetDepartment department;
     private Resources resources = new Resources(0, 0, 0);
 
@@ -133,7 +133,7 @@ public class Fleet implements AFleet {
     public int getSummaryStructure() {
         int structure = 0;
         for (Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {
-            Ship ship = ships.get(entry.getKey());
+            ShipModel ship = ships.get(entry.getKey());
             structure += (ship.getStructure() + ship.getShieldStructure())  * entry.getValue();
         }
         return structure;
@@ -143,7 +143,7 @@ public class Fleet implements AFleet {
     public int getSummaryAttack() {
         int attack = 0;
         for (Map.Entry<ShipType, Integer> entry: numbersOfShips.entrySet()) {
-            Ship ship = ships.get(entry.getKey());
+            ShipModel ship = ships.get(entry.getKey());
             attack += ship.getAttack() * entry.getValue();
         }
         return attack;

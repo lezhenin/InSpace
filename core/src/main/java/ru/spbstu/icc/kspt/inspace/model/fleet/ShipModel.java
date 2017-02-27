@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.fleet;
 
+import ru.spbstu.icc.kspt.inspace.api.AShipModel;
 import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
@@ -11,7 +12,7 @@ import ru.spbstu.icc.kspt.inspace.model.utils.Constructable;
 
 import java.time.Duration;
 
-public class Ship implements Constructable, ru.spbstu.icc.kspt.inspace.api.AShip {
+public class ShipModel implements Constructable, AShipModel {
 
 
     private ShipType type;
@@ -20,7 +21,7 @@ public class Ship implements Constructable, ru.spbstu.icc.kspt.inspace.api.AShip
     private Research laserTechnology;
     private Building shipyard;
 
-    public Ship(ShipType type, FleetDepartment fleetDepartment) {
+    public ShipModel(ShipType type, FleetDepartment fleetDepartment) {
         this.type = type;
         this.fleetDepartment = fleetDepartment;
         laserTechnology = fleetDepartment.getResearch(ResearchType.LASER);

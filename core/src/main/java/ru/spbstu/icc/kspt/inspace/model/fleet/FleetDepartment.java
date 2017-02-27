@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class FleetDepartment extends Department{
 
-    private Map<ShipType, Ship> ships = new EnumMap<>(ShipType.class);
+    private Map<ShipType, ShipModel> ships = new EnumMap<>(ShipType.class);
     private Fleet mainFleet = new Fleet(this);
     private List<Mission> missions = new ArrayList<>();
     private List<Mission> externalMissions = new ArrayList<>();
@@ -29,8 +29,8 @@ public class FleetDepartment extends Department{
 
     public FleetDepartment(Planet planet) {
         super(planet);
-        ships.put(ShipType.FIGHTER, new Ship(ShipType.FIGHTER, this));
-        ships.put(ShipType.SMALL_CARGO, new Ship(ShipType.SMALL_CARGO, this));
+        ships.put(ShipType.FIGHTER, new ShipModel(ShipType.FIGHTER, this));
+        ships.put(ShipType.SMALL_CARGO, new ShipModel(ShipType.SMALL_CARGO, this));
         mainFleet.addShips(ShipType.FIGHTER, 5);
         mainFleet.addShips(ShipType.SMALL_CARGO, 5);
     }
@@ -42,7 +42,7 @@ public class FleetDepartment extends Department{
         }
         currentConstruct = construct;
         planet.getResources().takeResources(cost);
-        ShipType type = ((Ship)construct.getConstructable()).getType();
+        ShipType type = ((ShipModel)construct.getConstructable()).getType();
         construct.addActionAfterExecution(new Action() {
             @Override
             protected void onExecute() {
@@ -84,7 +84,7 @@ public class FleetDepartment extends Department{
         return currentConstruct;
     }
 
-    public Map<ShipType, Ship> getShips() {
+    public Map<ShipType, ShipModel> getShips() {
         return ships;
     }
 

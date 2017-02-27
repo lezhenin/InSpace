@@ -89,7 +89,7 @@ class ActionNodeFactory {
         gridPane.setVgap(3);
         gridPane.setMinWidth(width);
 
-        Text name = new Text("Type: " + InSpace.shipTypeTable.get(((AShip)(construct.getConstructable())).getType()));
+        Text name = new Text("Type: " + InSpace.shipTypeTable.get(((AShipModel)(construct.getConstructable())).getType()));
         gridPane.add(name, 0, 0);
 
         Text number = new Text("Number of units: " + construct.getNumberOfUnits());

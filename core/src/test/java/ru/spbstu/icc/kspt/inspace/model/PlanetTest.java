@@ -149,7 +149,7 @@ public class PlanetTest {
 //        planet.getResources().putResources(new Resources(100000, 100000, 100000));
 //        anotherPlanet.getResources().putResources(new Resources(100000, 100000, 100000));
 //
-//        Iterator<Map.Entry<ShipType, Ship>> iterator = planet.getShips().entrySet().iterator();
+//        Iterator<Map.Entry<ShipType, ShipModel>> iterator = planet.getShips().entrySet().iterator();
 //        iterator.next().getValue().startConstruction(15);
 //
 //        iterator = anotherPlanet.getShips().entrySet().iterator();
@@ -183,7 +183,7 @@ public class PlanetTest {
         PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(5310)));
 
-        Iterator<? extends Map.Entry<ShipType, ? extends AShip>> iterator;
+        Iterator<? extends Map.Entry<ShipType, ? extends AShipModel>> iterator;
         iterator = planet.getShips().entrySet().iterator();
         iterator.next().getValue().startConstruction(15);
         iterator = anotherPlanet.getShips().entrySet().iterator();

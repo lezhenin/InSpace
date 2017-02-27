@@ -2,19 +2,10 @@ package ru.spbstu.icc.kspt.inspace.api;
 
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
-import ru.spbstu.icc.kspt.inspace.model.buildings.Building;
 import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.*;
-import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
-import ru.spbstu.icc.kspt.inspace.model.fleet.missions.*;
-import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
 import ru.spbstu.icc.kspt.inspace.model.research.*;
-import ru.spbstu.icc.kspt.inspace.model.research.Research;
-import ru.spbstu.icc.kspt.inspace.model.resources.*;
-import ru.spbstu.icc.kspt.inspace.model.utils.*;
-import ru.spbstu.icc.kspt.inspace.model.utils.Construct;
-import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 
 import java.util.List;
 import java.util.Map;
@@ -54,7 +45,7 @@ public interface APlanet {
 
     AConstruct getCurrentConstruct();
 
-    Map<ShipType, ? extends AShip> getShips();
+    Map<ShipType, ? extends AShipModel> getShips();
 
     AFleet getFleetOnPlanet();
 

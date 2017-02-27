@@ -8,7 +8,7 @@ import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.FleetDepartment;
-import ru.spbstu.icc.kspt.inspace.model.fleet.Ship;
+import ru.spbstu.icc.kspt.inspace.model.fleet.ShipModel;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
@@ -153,7 +153,7 @@ public class Planet implements APlanet {
     }
 
     @Override
-    public Map<ShipType, Ship> getShips() {
+    public Map<ShipType, ShipModel> getShips() {
         update();
         return fleetDepartment.getShips();
     }
