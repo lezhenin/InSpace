@@ -2,6 +2,7 @@ package ru.spbstu.icc.kspt.inspace.model.buildings;
 
 
 import ru.spbstu.icc.kspt.inspace.api.ABuilding;
+import ru.spbstu.icc.kspt.inspace.data_transfer.Packable;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgradable;
@@ -11,11 +12,44 @@ import java.time.Duration;
 
 public class Building implements ABuilding, Upgradable {
 
+    public class TransferObject extends Packable.DataTransferObject<Building> {
+        private BuildingType type;
+        private int level;
+    }
+
+    public class Packer extends Packable.DataPacker<Building, TransferObject> {
+
+        private BuildingDepartment department;
+
+        Packer(BuildingDepartment department) {
+            this.department = department;
+        }
+
+        @Override
+        public TransferObject pack(Building object) {
+            TransferObject transferObject = new TransferObject();
+            transferObject.level = object.level;
+            transferObject.type = object.type;
+            return transferObject;
+        }
+
+        @Override
+        public Building unpack(TransferObject object) {
+            Building building = new Building(department, object.type);
+            building.level = object.level;
+            return building;
+        }
+
+    }
+
     private static final double UPGRADE_COST_GROW_VALUE = 1.6;
     private BuildingDepartment department;
     private int level;
     private BuildingType type;
     private Building factory;
+
+
+
 
     public Building(BuildingDepartment department, BuildingType type) {
         this.department = department;
@@ -68,4 +102,5 @@ public class Building implements ABuilding, Upgradable {
     public int getLevel() {
         return level;
     }
+
 }

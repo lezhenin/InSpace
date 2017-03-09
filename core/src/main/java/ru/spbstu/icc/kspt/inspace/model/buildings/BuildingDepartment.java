@@ -1,5 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.model.buildings;
 
+import ru.spbstu.icc.kspt.inspace.data_transfer.Packable;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
@@ -8,7 +9,34 @@ import ru.spbstu.icc.kspt.inspace.model.utils.*;
 
 import java.util.*;
 
-public class BuildingDepartment extends UpgradeDepartment {
+public class BuildingDepartment extends UpgradeDepartment implements Packable {
+
+    public class TransferObject extends Packable.DataTransferObject<BuildingDepartment> {
+        List<Building.DataTransferObject> buildings;
+    }
+
+    public class Packer extends Packable.DataPacker<BuildingDepartment, TransferObject> {
+
+        BuildingDepartment department;
+
+        Packer() {
+            department = BuildingDepartment.this;
+        }
+
+        @Override
+        public TransferObject pack(BuildingDepartment object) {
+            TransferObject transferObject = new TransferObject();
+            for (Building building: buildings.values()) {
+
+            }
+        }
+
+        @Override
+        public BuildingDepartment unpack(TransferObject object) {
+            return null;
+        }
+    }
+
 
     private int occupiedFields = 0;
 
