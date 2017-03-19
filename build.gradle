@@ -5,7 +5,6 @@ allprojects {
 
 
     repositories {
-        mavenCentral()
         jcenter()
     }
 
@@ -27,8 +26,6 @@ allprojects {
             html.enabled true
         }
     }
-
-
 
     findbugs {
         ignoreFailures = true

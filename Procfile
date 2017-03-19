@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar web/build/libs/gs-rest-service-0.1.0.jar
