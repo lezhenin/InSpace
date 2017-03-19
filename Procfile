@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar web/build/libs/gs-rest-service-0.1.0.jar
+web: java $JAVA_OPTS -jar -Dserver.port=80 web/build/libs/gs-rest-service-0.1.0.jar
