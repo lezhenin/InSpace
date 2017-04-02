@@ -1,0 +1,339 @@
+{
+  "name" : "Nibiru",
+
+  "position" : {
+      "system" : 2,
+      "place" : 9
+  },
+
+  "resources" : {
+    "metal" : 134000,
+    "crystal" : 145420,
+    "deuterium" : 21000
+  },
+
+  "energy production" : 1200,
+  "energy consumption" : 1195,
+  "energy level" : 5,
+
+  "number of fields" : 200,
+  "number of empty fields" : 139,
+
+  "buildings" : [
+
+    {
+      "type" : "Factory",
+      "level" : 3,
+      "upgrade duration" : 231,
+      "upgrade cost" : {
+        "metal" : 1000,
+        "crystal" : 2200,
+        "deuterium" : 700
+      },
+
+      "links" : {
+        "self" : {
+          "href" : "hostname/planets/2/9/buildings/factory"
+        },
+        "upgrade" : {
+          "href" : "hostname/planets/2/9/buildings/factory/upgrade"
+        }
+      }
+    },
+
+    {
+      "type" : "Laboratory",
+      "level" : 2,
+      "upgrade duration" : 100,
+      "upgrade cost" : {
+        "metal" : 800,
+        "crystal" : 1500,
+        "deuterium" : 500
+      },
+
+      "links" : {
+        "self" : {
+          "href" : "hostname/planets/2/9/buildings/laboratory"
+        },
+        "upgrade" : {
+          "href" : "hostname/planets/2/9/buildings/laboratory/upgrade"
+        }
+      }
+    }
+
+  ],
+
+  "current building upgrade" : {
+    "building" : {
+      "type" : "Laboratory",
+      "level" : 2,
+      "upgrade duration" : 100,
+      "upgrade cost" : {
+        "metal" : 800,
+        "crystal" : 1500,
+        "deuterium" : 500
+      }
+    },
+
+    "level after upgrade" : 3,
+    "remaining time" : 342,
+    "start time" : "date",
+    "end time" : "date"
+  },
+
+  "research" : [
+
+    {
+      "type" : "Energy technology",
+      "level" : 1,
+      "upgrade duration" : 113,
+      "upgrade cost" : {
+        "metal" : 300,
+        "crystal" : 250,
+        "deuterium" : 200
+      },
+
+      "links" : {
+        "self" : {
+          "href" : "hostname/planets/2/9/research/energy_technology"
+        },
+        "upgrade" : {
+          "href" : "hostname/planets/2/9/research/energy_technology/upgrade"
+        }
+      }
+
+    },
+
+    {
+      "type" : "Laser Technology",
+      "level" : 2,
+      "upgrade duration" : 273,
+      "upgrade cost" : {
+        "metal" : 800,
+        "crystal" : 1500,
+        "deuterium" : 1500
+      },
+
+      "links" : {
+        "self" : {
+          "href" : "hostname/planets/2/9/research/laser_technology"
+        },
+        "upgrade" :{
+          "href" : "hostname/planets/2/9/research/laser_technology/upgrade"
+        }
+      }
+    }
+
+  ],
+
+  "current research upgrade" : {
+    "research" : {
+      "type" : "Energy technology",
+      "level" : 1,
+      "upgrade duration" : 142,
+      "upgrade cost" : {
+        "metal" : 300,
+        "crystal" : 250,
+        "deuterium" : 250
+      }
+    },
+
+    "level after upgrade" : 2,
+    "remaining time" : 74,
+    "start time" : "date",
+    "end time" : "date"
+  },
+
+  "ships models" : [
+    {
+      "type" : "Fighter",
+      "attack" : 200,
+      "structure" : 150,
+      "speed" : 300,
+      "capacity" : 500,
+      "construction duration": 232,
+      "construction cost": {
+        "metal": 1500,
+        "crystal": 1250,
+        "deuterium": 250
+      },
+
+      "links" : {
+        "self" : {
+          "href" : "hostname/planets/2/9/ships/fighter"
+        },
+        "upgrade" : {
+          "href" : "hostname/planets/2/9/ships/fighter/construct"
+        }
+      }
+
+    },
+
+    {
+      "type" : "Fighter",
+      "attack" : 50,
+      "structure" : 250,
+      "speed" : 200,
+      "capacity" : 2000,
+      "construction duration": 250,
+      "construction cost": {
+        "metal": 2000,
+        "crystal": 500,
+        "deuterium": 100
+      },
+
+      "links" : {
+        "self" : {
+          "href" : "hostname/planets/2/9/ships/transport"
+        },
+        "upgrade" : {
+          "href" : "hostname/planets/2/9/ships/construct"
+        }
+      }
+    }
+
+  ],
+
+  "current ship construction" : {
+    "ship" : {
+      "type": "Fighter",
+      "attack" : 200,
+      "structure" : 150,
+      "speed" : 300,
+      "capacity" : 500,
+      "construction duration": 232,
+      "construction cost": {
+        "metal": 1500,
+        "crystal": 250,
+        "deuterium": 250
+      }
+    },
+    "number of units"  : 2,
+    "remaining time" : 74,
+    "start time" : "date",
+    "end time" : "date"
+  },
+
+
+  "fleet on planet" : {
+    "resources" : {
+      "metal" : 0,
+      "crystal" : 0,
+      "deuterium" : 0
+    },
+    "capacity" : 3000,
+    "speed" : 200,
+    "structure" : 3000,
+    "attack" : 500,
+    "number of ships" : 2,
+
+    "ships" : [
+      {
+        "type" : "Fighter",
+        "number" : 2
+      },
+
+      {
+        "type" : "Transport",
+        "number" : 3
+      }
+    ],
+
+    "links" : {
+      "self" : {
+        "href": "hostname/planets/2/9/fleet"
+      },
+      "owner": {
+        "href": "hostname/planets/2/9"
+      }
+    }
+  },
+
+  "missions" : [
+    {
+      "type" : "Attack",
+      "remaining time" : 313,
+      "fleet" : {
+      "resources" : {
+        "metal" : 100,
+        "crystal" : 200,
+        "deuterium" : 300
+      },
+      "capacity" : 3000,
+      "speed" : 200,
+      "structure" : 3000,
+      "attack" : 500,
+      "number of ships" : 2,
+
+      "ships" : [
+        {
+          "type" : "Fighter",
+          "number" : 2
+        },
+
+        {
+          "type" : "Transport",
+          "number" : 3
+        }
+      ],
+
+      "links" : {
+        "self" : {
+          "href": "hostname/planets/2/9/missions/1/fleet"
+        },
+        "owner": {
+          "href": "hostname/planets/2/9"
+        }
+       }
+      },
+
+      "links" : {
+        "self" : {
+          "href": "hostname/planets/2/9/missions/1"
+        },
+        "source": {
+          "href": "hostname/planets/2/9"
+        },
+        "destination": {
+          "href": "hostname/planets/5/3"
+        }
+      }
+    }
+
+  ],
+
+  "links" : {
+    "self" : {
+      "href" : "hostname/planets/2/9"
+    },
+
+    "buildings" : {
+      "href" : "hostname/planets/2/9/buildings"
+    },
+
+    "research" : {
+      "href" : "hostname/planets/2/9/research"
+    },
+
+    "ships" : {
+      "href" : "hostname/planets/2/9/ships"
+    },
+
+    "fleet" : {
+      "href" : "hostname/planets/2/9/fleet"
+    },
+
+    "missions" : {
+      "href" : "hostname/planets/2/9/missions"
+    },
+
+    "rename" : {
+      "href" : "hostname/planets/2/9/rename"
+    },
+
+    "startMission" : {
+      "href" : "hostname/planets/2/9/start_mission"
+    }
+  }
+
+}
