@@ -1,13 +1,17 @@
 package ru.spbstu.icc.kspt.inspace.service.documents;
 
+import java.util.List;
+
 public class System {
 
     private final String name;
     private final int number;
+    private final List<PlanetInfo> planetInfos;
 
-    public System(String name, int number) {
+    public System(String name, int number, List<PlanetInfo> planetInfos) {
         this.name = name;
         this.number = number;
+        this.planetInfos = planetInfos;
     }
 
     public String getName() {
@@ -16,5 +20,9 @@ public class System {
 
     public int getNumber() {
         return number;
+    }
+
+    public List<PlanetInfo> getPlanetInfos() {
+        return planetInfos;
     }
 }
