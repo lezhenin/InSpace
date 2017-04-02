@@ -1,0 +1,55 @@
+{
+  "systems" : [
+    {
+      "name" : "Andromeda",
+      "number" : 2,
+      "planets" : [
+        {
+          "name" : "Biru",
+          "place" : 1,
+          "links" : {
+            "self" : {
+              "href" : "hostname/systems/2/1"
+            }
+          }
+        },
+
+        {
+          "name" : "Nibiru",
+          "place" : 9,
+          "links" : {
+            "self" : {
+              "href" : "hostname/systems/2/9"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name" : "NotAndromeda",
+      "number" : 5,
+      "planets" : [
+        {
+          "name" : "Buru",
+          "place" : 1,
+          "links" : {
+            "self" : {
+              "href" : "hostname/systems/5/3"
+            }
+          }
+        },
+
+        {
+          "name" : "Niburu",
+          "place" : 9,
+          "links" : {
+            "self" : {
+              "href" : "hostname/systems/5/7"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
