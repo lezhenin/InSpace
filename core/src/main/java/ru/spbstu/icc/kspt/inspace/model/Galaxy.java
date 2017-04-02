@@ -45,6 +45,20 @@ public class Galaxy {
         return galaxy.get(position);
     }
 
+    public List<Planet> getPlanets(int systemNumber) {
+        List<Planet> planets = new ArrayList<>();
+        for (Map.Entry<Position, Planet> entry :galaxy.entrySet()) {
+            if (entry.getKey().getNumberOfSystem() == systemNumber) {
+                planets.add(entry.getValue());
+            }
+        }
+        return planets;
+    }
+
+    public List<Planet> getAllPlanets() {
+        return new ArrayList<>(galaxy.values());
+    }
+
     public void deletePlanet(Position position) {
         checkPosition(position);
         galaxy.remove(position);
