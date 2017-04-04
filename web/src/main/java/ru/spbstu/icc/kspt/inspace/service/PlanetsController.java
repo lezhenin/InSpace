@@ -1,6 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.service;
 
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.spbstu.icc.kspt.inspace.api.APlanet;
@@ -38,6 +39,16 @@ public class PlanetsController {
             systems.add(new System("System " + String.valueOf(i), i, infos));
         }
         return systems;
+    }
+
+    @RequestMapping("/planters/{system-number}")
+    System system(@PathVariable("system-number") int systemNumber) {
+
+        List<PlanetInfo> infos = new ArrayList<>();
+        for (APlanet planet : Galaxy.getInstance().getPlanets(systemNumber)) {
+            infos.add(new PlanetInfo(planet));
+        }
+        return new System("System " + String.valueOf(systemNumber), systemNumber, infos);
     }
 
     @RequestMapping("/test")
