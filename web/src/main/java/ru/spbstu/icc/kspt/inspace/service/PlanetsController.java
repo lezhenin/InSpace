@@ -9,8 +9,9 @@ import ru.spbstu.icc.kspt.inspace.model.Galaxy;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.service.documents.PlanetInfo;
-import ru.spbstu.icc.kspt.inspace.service.documents.System;
+import ru.spbstu.icc.kspt.inspace.service.documents.PlanetSystem;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController
@@ -28,27 +29,27 @@ public class PlanetsController {
     }
 
     @RequestMapping("/planets")
-    List<System> planets(){
+    List<PlanetSystem> planets(){
 
-        List<System> systems = new ArrayList<>();
+        List<PlanetSystem> planetSystems = new ArrayList<>();
         for (int i = 0; i < Galaxy.MAX_SYSTEM_NUMBER; i++) {
             List<PlanetInfo> infos = new ArrayList<>();
             for (APlanet planet: Galaxy.getInstance().getPlanets(i)) {
                 infos.add(new PlanetInfo(planet));
             }
-            systems.add(new System("System " + String.valueOf(i), i, infos));
+            planetSystems.add(new PlanetSystem("PlanetSystem " + String.valueOf(i), i, infos));
         }
-        return systems;
+        return planetSystems;
     }
 
-    @RequestMapping("/planters/{system-number}")
-    System system(@PathVariable("system-number") int systemNumber) {
-
+    @RequestMapping("/planets/{system-number}")
+    PlanetSystem system(@PathVariable("system-number") int systemNumber, HttpServletRequest request) {
+        System.out.println(request.getServletPath());
         List<PlanetInfo> infos = new ArrayList<>();
         for (APlanet planet : Galaxy.getInstance().getPlanets(systemNumber)) {
             infos.add(new PlanetInfo(planet));
         }
-        return new System("System " + String.valueOf(systemNumber), systemNumber, infos);
+        return new PlanetSystem("PlanetSystem " + String.valueOf(systemNumber), systemNumber, infos);
     }
 
     @RequestMapping("/test")
