@@ -39,4 +39,12 @@ public class PlanetsController {
         }
         return systems;
     }
+
+    @RequestMapping("/test")
+    Map<String, Integer> test() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("key1", 23);
+        map.put("key2", 25);
+        return map;
+    }
 }
