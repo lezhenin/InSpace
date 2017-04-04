@@ -11,7 +11,9 @@ import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.service.documents.PlanetInfo;
 import ru.spbstu.icc.kspt.inspace.service.documents.PlanetSystem;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @RestController
@@ -43,8 +45,11 @@ public class PlanetsController {
     }
 
     @RequestMapping("/planets/{system-number}")
-    PlanetSystem system(@PathVariable("system-number") int systemNumber, HttpServletRequest request) {
+    PlanetSystem system(@PathVariable("system-number") int systemNumber, HttpServletRequest request,
+                        HttpServletResponse response) {
         System.out.println(request.getServletPath());
+        System.out.println(request.getContextPath());
+        System.out.println(request.getRequestURI());
         List<PlanetInfo> infos = new ArrayList<>();
         for (APlanet planet : Galaxy.getInstance().getPlanets(systemNumber)) {
             infos.add(new PlanetInfo(planet));
