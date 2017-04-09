@@ -1,65 +1,33 @@
 package ru.spbstu.icc.kspt.inspace.service;
 
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.spbstu.icc.kspt.inspace.api.APlanet;
+import ru.spbstu.icc.kspt.inspace.api.ABuilding;
 import ru.spbstu.icc.kspt.inspace.model.Galaxy;
-import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
-import ru.spbstu.icc.kspt.inspace.service.documents.PlanetInfo;
-import ru.spbstu.icc.kspt.inspace.service.documents.PlanetSystem;
+import ru.spbstu.icc.kspt.inspace.service.documents.Building;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.MalformedURLException;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class PlanetsController {
 
-    {
-        Random random = new Random(214);
-        for (int i = 0; i < 30; i++) {
-            int numberOfSystem;
-            int numberOfPlanet;
-            numberOfPlanet = random.nextInt(10);
-            numberOfSystem = random.nextInt(10);
-            new Planet("planet" + random.nextInt(), new Position(numberOfSystem, numberOfPlanet));
-        }
-    }
+    @RequestMapping("planets/{system-number}/{planet-number}/buildings")
+    List<Building> buildings(@PathVariable("system-number") int numberOfSystem,
+                             @PathVariable("planet-number") int numberOfPlanet) {
 
-    @RequestMapping("/planets")
-    List<PlanetSystem> planets(HttpServletRequest request) {
+        List<Building> buildings = new ArrayList<>();
 
-        List<PlanetSystem> planetSystems = new ArrayList<>();
-
-        for (int i = 0; i < Galaxy.MAX_SYSTEM_NUMBER; i++) {
-            List<PlanetInfo> infos = new ArrayList<>();
-            for (APlanet planet: Galaxy.getInstance().getPlanets(i)) {
-                infos.add(new PlanetInfo(planet, getBaseURL(request) + "planets/"));
-            }
-            planetSystems.add(new PlanetSystem("PlanetSystem " + String.valueOf(i), i, infos,
-                    getBaseURL(request) + "planets/"));
+        for (ABuilding building: Galaxy.getInstance().
+                                getPlanet(new Position(numberOfSystem, numberOfPlanet)).
+                                getBuildings().values()) {
+            buildings.add(new Building(building));
         }
 
-        return planetSystems;
+        return buildings;
     }
 
-    @RequestMapping("/planets/{system-number}")
-    PlanetSystem system(@PathVariable("system-number") int systemNumber, HttpServletRequest request)
-            throws MalformedURLException {
-
-        List<PlanetInfo> infos = new ArrayList<>();
-        for (APlanet planet : Galaxy.getInstance().getPlanets(systemNumber)) {
-            infos.add(new PlanetInfo(planet, getBaseURL(request) + "planets/"));
-        }
-        return new PlanetSystem("PlanetSystem " + String.valueOf(systemNumber), systemNumber, infos,
-                getBaseURL(request) + "planets/");
-    }
-
-    private String getBaseURL(HttpServletRequest request) {
-        return String.format("%s://%s:%d/", request.getScheme(), request.getServerName(), request.getServerPort());
-    }
 }
