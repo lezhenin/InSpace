@@ -61,14 +61,14 @@ public class PlanetsController {
         return descriptions;
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}", method = RequestMethod.GET)
     Planet planet(@PathVariable("numberOfSystem") int numberOfSystem,
                   @PathVariable("numberOfPlanet") int numberOfPlanet,
                   HttpServletRequest request) {
         return new Planet(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet), getBaseURL(request));
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/buildings", method = RequestMethod.GET)
     List<Building> buildings(@PathVariable("numberOfSystem") int numberOfSystem,
                              @PathVariable("numberOfPlanet") int numberOfPlanet) {
 
@@ -84,7 +84,7 @@ public class PlanetsController {
     }
 
     //fixme 10.04.17 path variable to lower case
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings/{buildingType}")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/buildings/{buildingType}", method = RequestMethod.GET)
     Building building(@PathVariable("numberOfSystem") int numberOfSystem,
                       @PathVariable("numberOfPlanet") int numberOfPlanet,
                       @PathVariable("buildingType")   BuildingType buildingType) {
@@ -92,7 +92,7 @@ public class PlanetsController {
                 getPlanet(numberOfSystem, numberOfPlanet).getBuilding(buildingType));
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings/current-upgrade")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/buildings/current-upgrade", method = RequestMethod.GET)
     List<BuildingUpgrade> buildingUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
                                               @PathVariable("numberOfPlanet") int numberOfPlanet) {
         List<BuildingUpgrade> list = new ArrayList<>();
@@ -103,7 +103,7 @@ public class PlanetsController {
         return list;
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/research", method = RequestMethod.GET)
     List<Research> research(@PathVariable("numberOfSystem") int numberOfSystem,
                             @PathVariable("numberOfPlanet") int numberOfPlanet) {
 
@@ -119,7 +119,7 @@ public class PlanetsController {
     }
 
     //fixme 10.04.17 path variable to lower case
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research/{researchType}")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/research/{researchType}", method = RequestMethod.GET)
     Research research(@PathVariable("numberOfSystem") int numberOfSystem,
                       @PathVariable("numberOfPlanet") int numberOfPlanet,
                       @PathVariable("researchType")   ResearchType researchType) {
@@ -127,7 +127,7 @@ public class PlanetsController {
                 getPlanet(numberOfSystem, numberOfPlanet).getResearch(researchType));
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research/current-upgrade")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/research/current-upgrade", method = RequestMethod.GET)
     List<ResearchUpgrade> researchUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
                                           @PathVariable("numberOfPlanet") int numberOfPlanet) {
         List<ResearchUpgrade> list = new ArrayList<>();
@@ -138,7 +138,7 @@ public class PlanetsController {
         return list;
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/ships")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/ships", method = RequestMethod.GET)
     List<Ship> ships(@PathVariable("numberOfSystem") int numberOfSystem,
                      @PathVariable("numberOfPlanet") int numberOfPlanet) {
         List<Ship> list = new ArrayList<>();
@@ -149,7 +149,7 @@ public class PlanetsController {
     }
 
     //fixme 10.04.17 path variable to lower case
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research/{shipType}")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/research/{shipType}", method = RequestMethod.GET)
     Ship ship(@PathVariable("numberOfSystem") int numberOfSystem,
                   @PathVariable("numberOfPlanet") int numberOfPlanet,
                   @PathVariable("researchType")   ShipType shipType) {
@@ -157,7 +157,7 @@ public class PlanetsController {
                 getPlanet(numberOfSystem, numberOfPlanet).getShips().get(shipType));
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/ships/current-construction")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/ships/current-construction", method = RequestMethod.GET)
     List<ShipConstruction> shipConstruction(@PathVariable("numberOfSystem") int numberOfSystem,
                                           @PathVariable("numberOfPlanet") int numberOfPlanet) {
         List<ShipConstruction> list = new ArrayList<>();
@@ -168,7 +168,7 @@ public class PlanetsController {
         return list;
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/fleet")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/fleet", method = RequestMethod.GET)
     Fleet fleet(@PathVariable("numberOfSystem") int numberOfSystem,
                 @PathVariable("numberOfPlanet") int numberOfPlanet,
                 HttpServletRequest request) {
@@ -176,7 +176,7 @@ public class PlanetsController {
                 getBaseURL(request));
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/missions")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/missions", method = RequestMethod.GET)
     List<Mission> missions(@PathVariable("numberOfSystem") int numberOfSystem,
                            @PathVariable("numberOfPlanet") int numberOfPlanet,
                            HttpServletRequest request) {
@@ -187,7 +187,7 @@ public class PlanetsController {
         return list;
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/external-missions")
+    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/external-missions", method = RequestMethod.GET)
     List<Mission> externalMissions(@PathVariable("numberOfSystem") int numberOfSystem,
                                    @PathVariable("numberOfPlanet") int numberOfPlanet,
                                    HttpServletRequest request) {
