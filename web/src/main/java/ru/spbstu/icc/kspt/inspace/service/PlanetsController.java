@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.spbstu.icc.kspt.inspace.api.ABuilding;
 import ru.spbstu.icc.kspt.inspace.api.APlanet;
+import ru.spbstu.icc.kspt.inspace.api.AResearch;
 import ru.spbstu.icc.kspt.inspace.model.Galaxy;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
+import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.service.documents.Building;
 import ru.spbstu.icc.kspt.inspace.service.documents.PlanetDescription;
+import ru.spbstu.icc.kspt.inspace.service.documents.Research;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -73,6 +76,29 @@ public class PlanetsController {
         }
 
         return buildings;
+    }
+
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings/{buildingType}")
+    Building building(@PathVariable("numberOfSystem") int numberOfSystem,
+                      @PathVariable("numberOfPlanet") int numberOfPlanet,
+                      @PathVariable("buildingType")   BuildingType buildingType) {
+        return new Building(Galaxy.getInstance().
+                getPlanet(numberOfSystem, numberOfPlanet).getBuilding(buildingType));
+    }
+
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research")
+    List<Research> research(@PathVariable("numberOfSystem") int numberOfSystem,
+                            @PathVariable("numberOfPlanet") int numberOfPlanet) {
+
+        List<Research> researchs = new ArrayList<>();
+
+        for (AResearch research: Galaxy.getInstance().
+                getPlanet(numberOfSystem, numberOfPlanet).
+                getResearches().values()) {
+            researchs.add(new Research(research));
+        }
+
+        return researchs;
     }
 
 }
