@@ -6,18 +6,17 @@ import ru.spbstu.icc.kspt.inspace.api.APlanet;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlanetInfo {
+public class PlanetDescription {
 
     private final String name;
     private final Position position;
-    private final Map<String, Link> links;
+    private final String url;
 
-    public PlanetInfo(APlanet planet, String baseURL) {
+    public PlanetDescription(APlanet planet, String baseURL) {
         this.name = planet.getName();
         position = new Position(planet.getPosition());
-        links = new HashMap<>();
-        links.put("planet", new Link(baseURL + planet.getPosition().getNumberOfSystem()
-                + "/" + planet.getPosition().getNumberOfPlanet()));
+        url = baseURL + planet.getPosition().getNumberOfSystem()
+                + "/" + planet.getPosition().getNumberOfPlanet();
     }
 
     public String getName() {
@@ -28,7 +27,7 @@ public class PlanetInfo {
         return position;
     }
 
-    public Map<String, Link> getLinks() {
-        return links;
+    public String getUrl() {
+        return url;
     }
 }

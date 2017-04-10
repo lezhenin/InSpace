@@ -45,6 +45,12 @@ public class Galaxy {
         return galaxy.get(position);
     }
 
+    public Planet getPlanet(int numberOfSystem, int numberOfPlanet) {
+        Position position = new Position(numberOfSystem, numberOfPlanet);
+        checkPosition(position);
+        return galaxy.get(position);
+    }
+
     public List<Planet> getPlanets(int systemNumber) {
         List<Planet> planets = new ArrayList<>();
         for (Map.Entry<Position, Planet> entry :galaxy.entrySet()) {
