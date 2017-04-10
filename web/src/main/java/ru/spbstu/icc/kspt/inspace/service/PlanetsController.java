@@ -168,4 +168,26 @@ public class PlanetsController {
         return new Fleet(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getFleetOnPlanet(),
                 getBaseURL(request));
     }
+
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/missions")
+    List<Mission> missions(@PathVariable("numberOfSystem") int numberOfSystem,
+                           @PathVariable("numberOfPlanet") int numberOfPlanet,
+                           HttpServletRequest request) {
+        List<Mission> list = new ArrayList<>();
+        for(AMission mission: Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getMissions()) {
+            list.add(new Mission(mission, getBaseURL(request)));
+        }
+        return list;
+    }
+
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/external-missions")
+    List<Mission> externalMissions(@PathVariable("numberOfSystem") int numberOfSystem,
+                                   @PathVariable("numberOfPlanet") int numberOfPlanet,
+                                   HttpServletRequest request) {
+        List<Mission> list = new ArrayList<>();
+        for(AMission mission: Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getExternalMissions()) {
+            list.add(new Mission(mission, getBaseURL(request)));
+        }
+        return list;
+    }
 }
