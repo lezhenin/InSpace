@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.spbstu.icc.kspt.inspace.api.*;
 import ru.spbstu.icc.kspt.inspace.model.Galaxy;
-import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
@@ -27,8 +26,13 @@ public class PlanetsController {
             int numberOfPlanet;
             numberOfPlanet = random.nextInt(10);
             numberOfSystem = random.nextInt(10);
-            new Planet("planet" + random.nextInt(), new Position(numberOfSystem, numberOfPlanet));
+            new ru.spbstu.icc.kspt.inspace.model.Planet(
+                    "planet" + random.nextInt(), new Position(numberOfSystem, numberOfPlanet));
         }
+    }
+
+    private String getBaseURL(HttpServletRequest request) {
+        return String.format("%s://%s:%d/", request.getScheme(), request.getServerName(), request.getServerPort());
     }
 
     @RequestMapping(value = {"/planets"}, method = RequestMethod.GET)
@@ -57,8 +61,11 @@ public class PlanetsController {
         return descriptions;
     }
 
-    private String getBaseURL(HttpServletRequest request) {
-        return String.format("%s://%s:%d/", request.getScheme(), request.getServerName(), request.getServerPort());
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}")
+    Planet planet(@PathVariable("numberOfSystem") int numberOfSystem,
+                  @PathVariable("numberOfPlanet") int numberOfPlanet,
+                  HttpServletRequest request) {
+        return new Planet(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet), getBaseURL(request));
     }
 
     @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings")
