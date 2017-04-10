@@ -92,13 +92,12 @@ public class PlanetsController {
     }
 
     @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings/current-update")
-    Optional<BuildingUpgrade> buildingUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
+    List<BuildingUpgrade> buildingUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
                                               @PathVariable("numberOfPlanet") int numberOfPlanet) {
+        List<BuildingUpgrade> list = new ArrayList<>();
         AUpgrade upgrade = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getCurrentBuildingUpgrade();
-        if (upgrade == null) {
-            return Optional.empty();
-        }
-        return Optional.of(new BuildingUpgrade(upgrade));
+        list.add(new BuildingUpgrade(upgrade));
+        return list;
     }
 
     @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research")
