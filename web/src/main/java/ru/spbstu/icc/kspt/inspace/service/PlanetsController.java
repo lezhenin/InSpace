@@ -5,16 +5,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ru.spbstu.icc.kspt.inspace.api.ABuilding;
-import ru.spbstu.icc.kspt.inspace.api.APlanet;
-import ru.spbstu.icc.kspt.inspace.api.AResearch;
-import ru.spbstu.icc.kspt.inspace.api.AUpgrade;
+import ru.spbstu.icc.kspt.inspace.api.*;
 import ru.spbstu.icc.kspt.inspace.model.Galaxy;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
-import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 import ru.spbstu.icc.kspt.inspace.service.documents.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,7 +85,7 @@ public class PlanetsController {
                 getPlanet(numberOfSystem, numberOfPlanet).getBuilding(buildingType));
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings/current-update")
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings/current-upgrade")
     List<BuildingUpgrade> buildingUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
                                               @PathVariable("numberOfPlanet") int numberOfPlanet) {
         List<BuildingUpgrade> list = new ArrayList<>();
@@ -123,7 +120,7 @@ public class PlanetsController {
                 getPlanet(numberOfSystem, numberOfPlanet).getResearch(researchType));
     }
 
-    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research/current-update")
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research/current-upgrade")
     List<ResearchUpgrade> researchUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
                                           @PathVariable("numberOfPlanet") int numberOfPlanet) {
         List<ResearchUpgrade> list = new ArrayList<>();
@@ -134,4 +131,22 @@ public class PlanetsController {
         return list;
     }
 
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/ships")
+    List<Ship> ships(@PathVariable("numberOfSystem") int numberOfSystem,
+                     @PathVariable("numberOfPlanet") int numberOfPlanet) {
+        List<Ship> list = new ArrayList<>();
+        for (AShipModel shipModel: Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getShips().values()){
+            list.add(new Ship(shipModel));
+        }
+        return list;
+    }
+
+    //fixme 10.04.17 path variable to lower case
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research/{shipType}")
+    Ship ship(@PathVariable("numberOfSystem") int numberOfSystem,
+                  @PathVariable("numberOfPlanet") int numberOfPlanet,
+                  @PathVariable("researchType")   ShipType shipType) {
+        return new Ship(Galaxy.getInstance().
+                getPlanet(numberOfSystem, numberOfPlanet).getShips().get(shipType));
+    }
 }
