@@ -11,6 +11,8 @@ public class Ship {
     private final int shieldStructure;
     private final int capacity;
     private final int speed;
+    private final Resources constructionCost;
+    private final int constructionDuration;
 
     public Ship(AShipModel shipModel) {
         this.type = shipModel.getType();
@@ -19,6 +21,9 @@ public class Ship {
         this.shieldStructure = shipModel.getShieldStructure();
         this.capacity = shipModel.getResourcesCapacity();
         this.speed = shipModel.getSpeed();
+        this.constructionCost = new Resources(shipModel.getConstructCost());
+        this.constructionDuration = (int) shipModel.getConstructDuration().getSeconds();
+
     }
 
     public ShipType getType() {
@@ -43,5 +48,13 @@ public class Ship {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public Resources getConstructionCost() {
+        return constructionCost;
+    }
+
+    public int getConstructionDuration() {
+        return constructionDuration;
     }
 }

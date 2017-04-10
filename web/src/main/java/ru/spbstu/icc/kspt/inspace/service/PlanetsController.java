@@ -149,4 +149,15 @@ public class PlanetsController {
         return new Ship(Galaxy.getInstance().
                 getPlanet(numberOfSystem, numberOfPlanet).getShips().get(shipType));
     }
+
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/ships/current-construction")
+    List<ShipConstruction> shipConstruction(@PathVariable("numberOfSystem") int numberOfSystem,
+                                          @PathVariable("numberOfPlanet") int numberOfPlanet) {
+        List<ShipConstruction> list = new ArrayList<>();
+        AConstruct construction = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getCurrentConstruct();
+        if (construction != null) {
+            list.add(new ShipConstruction(construction));
+        }
+        return list;
+    }
 }
