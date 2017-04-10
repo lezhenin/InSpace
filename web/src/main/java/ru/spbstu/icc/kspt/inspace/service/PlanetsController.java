@@ -8,11 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.spbstu.icc.kspt.inspace.api.ABuilding;
 import ru.spbstu.icc.kspt.inspace.api.APlanet;
 import ru.spbstu.icc.kspt.inspace.api.AResearch;
+import ru.spbstu.icc.kspt.inspace.api.AUpgrade;
 import ru.spbstu.icc.kspt.inspace.model.Galaxy;
 import ru.spbstu.icc.kspt.inspace.model.Planet;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
+import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
 import ru.spbstu.icc.kspt.inspace.service.documents.Building;
+import ru.spbstu.icc.kspt.inspace.service.documents.BuildingUpgrade;
 import ru.spbstu.icc.kspt.inspace.service.documents.PlanetDescription;
 import ru.spbstu.icc.kspt.inspace.service.documents.Research;
 
@@ -78,12 +82,23 @@ public class PlanetsController {
         return buildings;
     }
 
+    //fixme 10.04.17 path variable to lower case
     @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings/{buildingType}")
     Building building(@PathVariable("numberOfSystem") int numberOfSystem,
                       @PathVariable("numberOfPlanet") int numberOfPlanet,
                       @PathVariable("buildingType")   BuildingType buildingType) {
         return new Building(Galaxy.getInstance().
                 getPlanet(numberOfSystem, numberOfPlanet).getBuilding(buildingType));
+    }
+
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/buildings/current-update")
+    Optional<BuildingUpgrade> buildingUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
+                                              @PathVariable("numberOfPlanet") int numberOfPlanet) {
+        AUpgrade upgrade = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getCurrentBuildingUpgrade();
+        if (upgrade == null) {
+            return Optional.empty();
+        }
+        return Optional.of(new BuildingUpgrade(upgrade));
     }
 
     @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research")
@@ -100,5 +115,16 @@ public class PlanetsController {
 
         return researchs;
     }
+
+    //fixme 10.04.17 path variable to lower case
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research/{researchType}")
+    Research research(@PathVariable("numberOfSystem") int numberOfSystem,
+                      @PathVariable("numberOfPlanet") int numberOfPlanet,
+                      @PathVariable("researchType")   ResearchType researchType) {
+        return new Research(Galaxy.getInstance().
+                getPlanet(numberOfSystem, numberOfPlanet).getResearch(researchType));
+    }
+
+
 
 }
