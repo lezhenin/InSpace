@@ -160,4 +160,12 @@ public class PlanetsController {
         }
         return list;
     }
+
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/fleet")
+    Fleet fleet(@PathVariable("numberOfSystem") int numberOfSystem,
+                @PathVariable("numberOfPlanet") int numberOfPlanet,
+                HttpServletRequest request) {
+        return new Fleet(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getFleetOnPlanet(),
+                getBaseURL(request));
+    }
 }
