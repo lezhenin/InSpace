@@ -15,10 +15,7 @@ import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.utils.Upgrade;
-import ru.spbstu.icc.kspt.inspace.service.documents.Building;
-import ru.spbstu.icc.kspt.inspace.service.documents.BuildingUpgrade;
-import ru.spbstu.icc.kspt.inspace.service.documents.PlanetDescription;
-import ru.spbstu.icc.kspt.inspace.service.documents.Research;
+import ru.spbstu.icc.kspt.inspace.service.documents.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -96,7 +93,9 @@ public class PlanetsController {
                                               @PathVariable("numberOfPlanet") int numberOfPlanet) {
         List<BuildingUpgrade> list = new ArrayList<>();
         AUpgrade upgrade = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getCurrentBuildingUpgrade();
-        list.add(new BuildingUpgrade(upgrade));
+        if (upgrade != null) {
+            list.add(new BuildingUpgrade(upgrade));
+        }
         return list;
     }
 
@@ -124,6 +123,15 @@ public class PlanetsController {
                 getPlanet(numberOfSystem, numberOfPlanet).getResearch(researchType));
     }
 
-
+    @RequestMapping("planets/{numberOfSystem}/{numberOfPlanet}/research/current-update")
+    List<ResearchUpgrade> researchUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
+                                          @PathVariable("numberOfPlanet") int numberOfPlanet) {
+        List<ResearchUpgrade> list = new ArrayList<>();
+        AUpgrade upgrade = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getCurrentResearchUpgrade();
+        if (upgrade != null) {
+            list.add(new ResearchUpgrade(upgrade));
+        }
+        return list;
+    }
 
 }
