@@ -18,16 +18,16 @@ public class Planet {
     private final int numberOfFields;
     private final int numberOfEmptyFields;
     private final List<Building> buildings;
-    private final List<BuildingUpgrade> currentBuildingUpgrade;
+    private final BuildingUpgrade currentBuildingUpgrade;
     private final List<Research> research;
-    private final List<ResearchUpgrade> currentResearchUpgrade;
+    private final ResearchUpgrade currentResearchUpgrade;
     private final List<Ship> ships;
-    private final List<ShipConstruction> currentShipConstruction;
+    private final ShipConstruction currentShipConstruction;
     private final Fleet fleetOnPlanet;
     private final List<Mission> missions;
     private final List<Mission> externalMissions;
 
-    public Planet(APlanet planet, String baseURL) {
+    public Planet(APlanet planet) {
 
         this.name = planet.getName();
         this.position = new Position(planet.getPosition());
@@ -44,38 +44,41 @@ public class Planet {
         planet.getBuildings().values().
                 forEach((Consumer<ABuilding>) building -> buildings.add(new Building(building)));
 
-        this.currentBuildingUpgrade = new ArrayList<>(1);
         if (planet.getCurrentBuildingUpgrade() != null) {
-            currentBuildingUpgrade.add(new BuildingUpgrade(planet.getCurrentBuildingUpgrade()));
+            this.currentBuildingUpgrade = new BuildingUpgrade(planet.getCurrentBuildingUpgrade());
+        } else {
+            this.currentBuildingUpgrade = null;
         }
 
         this.research = new ArrayList<>();
         planet.getResearches().values().
                 forEach((Consumer<AResearch>) aResearch -> research.add(new Research(aResearch)));
 
-        this.currentResearchUpgrade = new ArrayList<>(1);
         if (planet.getCurrentResearchUpgrade() != null) {
-            currentResearchUpgrade.add(new ResearchUpgrade(planet.getCurrentResearchUpgrade()));
+            currentResearchUpgrade = new ResearchUpgrade(planet.getCurrentResearchUpgrade());
+        } else {
+            this.currentResearchUpgrade = null;
         }
 
         this.ships = new ArrayList<>();
         planet.getShips().values().
                 forEach((Consumer<AShipModel>) ship -> ships.add(new Ship(ship)));
 
-        this.currentShipConstruction = new ArrayList<>(1);
         if (planet.getCurrentConstruct() != null) {
-            currentShipConstruction.add(new ShipConstruction(planet.getCurrentConstruct()));
+            this.currentShipConstruction = new ShipConstruction(planet.getCurrentConstruct());
+        } else {
+            this.currentShipConstruction = null;
         }
 
-        this.fleetOnPlanet = new Fleet(planet.getFleetOnPlanet(), baseURL);
+        this.fleetOnPlanet = new Fleet(planet.getFleetOnPlanet());
 
         this.missions = new ArrayList<>();
         planet.getMissions().
-                forEach((Consumer<AMission>) mission -> missions.add(new Mission(mission, baseURL)));
+                forEach((Consumer<AMission>) mission -> missions.add(new Mission(mission)));
 
         this.externalMissions = new ArrayList<>();
         planet.getExternalMissions().
-                forEach((Consumer<AMission>) mission -> externalMissions.add(new Mission(mission, baseURL)));
+                forEach((Consumer<AMission>) mission -> externalMissions.add(new Mission(mission)));
 
     }
 
@@ -115,7 +118,7 @@ public class Planet {
         return buildings;
     }
 
-    public List<BuildingUpgrade> getCurrentBuildingUpgrade() {
+    public BuildingUpgrade getCurrentBuildingUpgrade() {
         return currentBuildingUpgrade;
     }
 
@@ -123,7 +126,7 @@ public class Planet {
         return research;
     }
 
-    public List<ResearchUpgrade> getCurrentResearchUpgrade() {
+    public ResearchUpgrade getCurrentResearchUpgrade() {
         return currentResearchUpgrade;
     }
 
@@ -131,7 +134,7 @@ public class Planet {
         return ships;
     }
 
-    public List<ShipConstruction> getCurrentShipConstruction() {
+    public ShipConstruction getCurrentShipConstruction() {
         return currentShipConstruction;
     }
 

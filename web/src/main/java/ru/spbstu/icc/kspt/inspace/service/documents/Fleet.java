@@ -14,14 +14,14 @@ public class Fleet {
     private final Map<ShipType, Integer> numbersOfShips;
     private final PlanetDescription owner;
 
-    public Fleet(AFleet fleet, String baseUrl) {
+    public Fleet(AFleet fleet) {
         this.capacity = fleet.getCapacity();
         this.speed = fleet.getSpeed();
         this.attack = fleet.getSummaryAttack();
         this.structure = fleet.getSummaryStructure();
         this.numberOfShips = fleet.getNumberOfShips();
         this.numbersOfShips = fleet.getNumbersOfShips();
-        this.owner = new PlanetDescription(fleet.getOwner(), baseUrl + "planet/");
+        this.owner = new PlanetDescription(fleet.getOwner());
     }
 
     public int getCapacity() {

@@ -1,5 +1,7 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
+import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,39 +18,26 @@ public class Galaxy {
         return instance;
     }
 
-    public static final int MAX_SYSTEM_NUMBER = 10;
-    public static final int MAX_PLANET_NUMBER = 10;
-
     private Map<Position, Planet> galaxy = new HashMap<>();
 
     private Galaxy() { }
 
-    private void checkPosition(Position position) {
-        int planetNumber = position.getNumberOfPlanet();
-        int systemNumber = position.getNumberOfSystem();
-        if (systemNumber < 0 || systemNumber >= MAX_SYSTEM_NUMBER ||
-            planetNumber < 0 || planetNumber >= MAX_PLANET_NUMBER) {
-
-            throw new IndexOutOfBoundsException(position
-                    + " Maximal number of systems: " + MAX_SYSTEM_NUMBER
-                    + ", maximal number of planets: " + MAX_PLANET_NUMBER + ".");
-        }
-    }
 
     void addPlanet(Planet planet, Position position) {
-        checkPosition(position);
         galaxy.put(position, planet);
     }
 
-    public Planet getPlanet(Position position) {
-        checkPosition(position);
-        return galaxy.get(position);
+    public Planet getPlanet(Position position) throws PlanetDoesntExist {
+        Planet planet = galaxy.get(position);
+        if (planet == null) {
+            throw new PlanetDoesntExist(position);
+        }
+        return planet;
     }
 
-    public Planet getPlanet(int numberOfSystem, int numberOfPlanet) {
+    public Planet getPlanet(int numberOfSystem, int numberOfPlanet) throws PlanetDoesntExist {
         Position position = new Position(numberOfSystem, numberOfPlanet);
-        checkPosition(position);
-        return galaxy.get(position);
+        return getPlanet(position);
     }
 
     public List<Planet> getPlanets(int systemNumber) {
@@ -66,7 +55,6 @@ public class Galaxy {
     }
 
     public void deletePlanet(Position position) {
-        checkPosition(position);
         galaxy.remove(position);
     }
 

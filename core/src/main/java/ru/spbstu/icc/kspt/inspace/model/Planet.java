@@ -6,6 +6,7 @@ import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
 import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
+import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
 import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 import ru.spbstu.icc.kspt.inspace.model.fleet.FleetDepartment;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipModel;
@@ -165,13 +166,15 @@ public class Planet implements APlanet {
     }
 
     @Override
-    public void startAttack(Position destination, Map<ShipType, Integer> numbersOfShips) throws FleetDetachException {
+    public void startAttack(Position destination, Map<ShipType, Integer> numbersOfShips)
+            throws FleetDetachException, PlanetDoesntExist {
         Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
         startMission(new Attack(this, Galaxy.getInstance().getPlanet(destination), fleet));
     }
 
     @Override
-    public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium) throws FleetDetachException, CapacityExcessException {
+    public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium)
+            throws FleetDetachException, CapacityExcessException, PlanetDoesntExist {
         Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
         Resources resources = new Resources(metal, crystal, deuterium);
         fleet.putResources(resources);

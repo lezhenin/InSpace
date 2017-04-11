@@ -8,10 +8,10 @@ public class Mission {
     private final PlanetDescription destination;
     private final String endDate;
 
-    public Mission(AMission mission, String baseUrl) {
-        this.fleet = new Fleet(mission.getFleet(), baseUrl);
-        this.source = new PlanetDescription(mission.getSource(), baseUrl + "planet/");
-        this.destination = new PlanetDescription(mission.getDestination(), baseUrl + "planet/");
+    public Mission(AMission mission) {
+        this.fleet = new Fleet(mission.getFleet());
+        this.source = new PlanetDescription(mission.getSource());
+        this.destination = new PlanetDescription(mission.getDestination());
         this.endDate = mission.getTime().toString();
     }
 
