@@ -2,6 +2,7 @@ package ru.spbstu.icc.kspt.inspace.service.documents;
 
 
 import ru.spbstu.icc.kspt.inspace.api.*;
+import ru.spbstu.icc.kspt.inspace.model.exception.ActionIsNotPerforming;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,31 +45,37 @@ public class Planet {
         planet.getBuildings().values().
                 forEach((Consumer<ABuilding>) building -> buildings.add(new Building(building)));
 
-        if (planet.getCurrentBuildingUpgrade() != null) {
-            this.currentBuildingUpgrade = new BuildingUpgrade(planet.getCurrentBuildingUpgrade());
-        } else {
-            this.currentBuildingUpgrade = null;
+        BuildingUpgrade buildingUpgrade;
+        try {
+            buildingUpgrade = new BuildingUpgrade(planet.getCurrentBuildingUpgrade());
+        } catch (ActionIsNotPerforming actionIsNotPerforming) {
+            buildingUpgrade = null;
         }
+        this.currentBuildingUpgrade = buildingUpgrade;
 
         this.research = new ArrayList<>();
         planet.getResearches().values().
                 forEach((Consumer<AResearch>) aResearch -> research.add(new Research(aResearch)));
 
-        if (planet.getCurrentResearchUpgrade() != null) {
-            currentResearchUpgrade = new ResearchUpgrade(planet.getCurrentResearchUpgrade());
-        } else {
-            this.currentResearchUpgrade = null;
+        ResearchUpgrade researchUpgrade;
+        try {
+            researchUpgrade = new ResearchUpgrade(planet.getCurrentResearchUpgrade());
+        } catch (ActionIsNotPerforming actionIsNotPerforming) {
+            researchUpgrade = null;
         }
+        this.currentResearchUpgrade = researchUpgrade;
 
         this.ships = new ArrayList<>();
         planet.getShips().values().
                 forEach((Consumer<AShipModel>) ship -> ships.add(new Ship(ship)));
 
-        if (planet.getCurrentConstruct() != null) {
-            this.currentShipConstruction = new ShipConstruction(planet.getCurrentConstruct());
-        } else {
-            this.currentShipConstruction = null;
+        ShipConstruction shipConstruction;
+        try {
+            shipConstruction = new ShipConstruction(planet.getCurrentConstruct());
+        } catch (ActionIsNotPerforming actionIsNotPerforming) {
+            shipConstruction = null;
         }
+        this.currentShipConstruction = shipConstruction;
 
         this.fleetOnPlanet = new Fleet(planet.getFleetOnPlanet());
 
@@ -79,7 +86,6 @@ public class Planet {
         this.externalMissions = new ArrayList<>();
         planet.getExternalMissions().
                 forEach((Consumer<AMission>) mission -> externalMissions.add(new Mission(mission)));
-
     }
 
     public String getName() {

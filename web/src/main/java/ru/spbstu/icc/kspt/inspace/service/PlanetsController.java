@@ -2,38 +2,36 @@ package ru.spbstu.icc.kspt.inspace.service;
 
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.spbstu.icc.kspt.inspace.api.*;
 import ru.spbstu.icc.kspt.inspace.model.Galaxy;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
+import ru.spbstu.icc.kspt.inspace.model.exception.ActionIsNotPerforming;
 import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.service.documents.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import java.util.function.Consumer;
 
 @RestController
+@RequestMapping(value = "planets")
 public class PlanetsController {
 
     {
         Random random = new Random(214);
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 50; i++) {
             int numberOfSystem;
             int numberOfPlanet;
-            numberOfPlanet = random.nextInt(10);
-            numberOfSystem = random.nextInt(10);
-            new ru.spbstu.icc.kspt.inspace.model.Planet(
-                    "planet" + random.nextInt(), new Position(numberOfSystem, numberOfPlanet));
+            numberOfPlanet = random.nextInt(15);
+            numberOfSystem = random.nextInt(15);
+            Galaxy.getInstance().
+                    addPlanet(new Position(numberOfSystem, numberOfPlanet), "planet" + random.nextInt());
         }
     }
 
-    @RequestMapping(value = {"/planets"},
-                    method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     List<PlanetDescription> planets() {
 
         List<PlanetDescription> allDescriptions = new ArrayList<>();
@@ -42,7 +40,7 @@ public class PlanetsController {
         return allDescriptions;
     }
 
-    @RequestMapping(value = {"/planets/{numberOfSystem}"},
+    @RequestMapping(value = {"{numberOfSystem}"},
                     method = RequestMethod.GET)
     List<PlanetDescription> system(@PathVariable("numberOfSystem") int numberOfSystem) {
 
@@ -52,19 +50,21 @@ public class PlanetsController {
         return descriptions;
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}",
                     method = RequestMethod.GET)
     Planet planet(@PathVariable("numberOfSystem") int numberOfSystem,
-                  @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
+                  @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist {
 
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
         return new Planet(planet);
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/buildings",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/buildings",
                     method = RequestMethod.GET)
     List<Building> buildings(@PathVariable("numberOfSystem") int numberOfSystem,
-                             @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
+                             @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist {
 
         List<Building> buildings = new ArrayList<>();
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
@@ -73,31 +73,32 @@ public class PlanetsController {
     }
 
     //fixme 10.04.17 path variable to lower case
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/buildings/{buildingType}",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/buildings/{buildingType}",
                     method = RequestMethod.GET)
     Building building(@PathVariable("numberOfSystem") int numberOfSystem,
                       @PathVariable("numberOfPlanet") int numberOfPlanet,
-                      @PathVariable("buildingType") BuildingType buildingType) throws PlanetDoesntExist {
+                      @PathVariable("buildingType") BuildingType buildingType)
+            throws PlanetDoesntExist {
 
         return new Building(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getBuilding(buildingType));
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/buildings/current-upgrade",
+    //todo return 204
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/buildings/current-upgrade",
                     method = RequestMethod.GET)
-    List<BuildingUpgrade> buildingUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
-                                          @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
-        List<BuildingUpgrade> list = new ArrayList<>();
+    BuildingUpgrade buildingUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
+                                    @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist, ActionIsNotPerforming {
+
         AUpgrade upgrade = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getCurrentBuildingUpgrade();
-        if (upgrade != null) {
-            list.add(new BuildingUpgrade(upgrade));
-        }
-        return list;
+        return new BuildingUpgrade(upgrade);
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/research",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/research",
                     method = RequestMethod.GET)
     List<Research> research(@PathVariable("numberOfSystem") int numberOfSystem,
-                            @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
+                            @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist {
 
         List<Research> researchs = new ArrayList<>();
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
@@ -106,31 +107,32 @@ public class PlanetsController {
     }
 
     //fixme 10.04.17 path variable to lower case
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/research/{researchType}",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/research/{researchType}",
                     method = RequestMethod.GET)
     Research research(@PathVariable("numberOfSystem") int numberOfSystem,
                       @PathVariable("numberOfPlanet") int numberOfPlanet,
-                      @PathVariable("researchType") ResearchType researchType) throws PlanetDoesntExist {
+                      @PathVariable("researchType") ResearchType researchType)
+            throws PlanetDoesntExist {
 
         return new Research(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getResearch(researchType));
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/research/current-upgrade",
+    //todo return 204
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/research/current-upgrade",
                     method = RequestMethod.GET)
-    List<ResearchUpgrade> researchUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
-                                          @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
-        List<ResearchUpgrade> list = new ArrayList<>();
+    ResearchUpgrade researchUpgrade(@PathVariable("numberOfSystem") int numberOfSystem,
+                                          @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist, ActionIsNotPerforming {
+
         AUpgrade upgrade = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getCurrentResearchUpgrade();
-        if (upgrade != null) {
-            list.add(new ResearchUpgrade(upgrade));
-        }
-        return list;
+        return new ResearchUpgrade(upgrade);
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/ships",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/ships",
                     method = RequestMethod.GET)
     List<Ship> ships(@PathVariable("numberOfSystem") int numberOfSystem,
-                     @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
+                     @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist {
 
         List<Ship> ships = new ArrayList<>();
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
@@ -139,40 +141,40 @@ public class PlanetsController {
     }
 
     //fixme 10.04.17 path variable to lower case
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/research/{shipType}",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/research/{shipType}",
                     method = RequestMethod.GET)
     Ship ship(@PathVariable("numberOfSystem") int numberOfSystem,
               @PathVariable("numberOfPlanet") int numberOfPlanet,
-              @PathVariable("researchType") ShipType shipType) throws PlanetDoesntExist {
+              @PathVariable("researchType") ShipType shipType)
+            throws PlanetDoesntExist {
 
         return new Ship(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getShips().get(shipType));
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/ships/current-construction",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/ships/current-construction",
                     method = RequestMethod.GET)
-    List<ShipConstruction> shipConstruction(@PathVariable("numberOfSystem") int numberOfSystem,
-                                            @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
+    ShipConstruction shipConstruction(@PathVariable("numberOfSystem") int numberOfSystem,
+                                            @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist, ActionIsNotPerforming {
 
-        List<ShipConstruction> list = new ArrayList<>();
         AConstruct construction = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getCurrentConstruct();
-        if (construction != null) {
-            list.add(new ShipConstruction(construction));
-        }
-        return list;
+        return new ShipConstruction(construction);
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/fleet",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/fleet",
                     method = RequestMethod.GET)
     Fleet fleet(@PathVariable("numberOfSystem") int numberOfSystem,
-                @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
+                @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist {
 
         return new Fleet(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getFleetOnPlanet());
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/missions",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/missions",
                     method = RequestMethod.GET)
     List<Mission> missions(@PathVariable("numberOfSystem") int numberOfSystem,
-                           @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
+                           @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist {
 
         List<Mission> list = new ArrayList<>();
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
@@ -180,10 +182,11 @@ public class PlanetsController {
         return list;
     }
 
-    @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/external-missions",
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/external-missions",
                     method = RequestMethod.GET)
     List<Mission> externalMissions(@PathVariable("numberOfSystem") int numberOfSystem,
-                                   @PathVariable("numberOfPlanet") int numberOfPlanet) throws PlanetDoesntExist {
+                                   @PathVariable("numberOfPlanet") int numberOfPlanet)
+            throws PlanetDoesntExist {
 
         List<Mission> list = new ArrayList<>();
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
@@ -194,4 +197,8 @@ public class PlanetsController {
     @ResponseStatus(value= HttpStatus.NO_CONTENT, reason="Planet does not exist")
     @ExceptionHandler(PlanetDoesntExist.class)
     public void planetDoesntExistHandler(PlanetDoesntExist e) { }
+
+    @ResponseStatus(value= HttpStatus.NO_CONTENT, reason="Requested action is not performing")
+    @ExceptionHandler(ActionIsNotPerforming.class)
+    public void actionIsNotPerformingHandler(ActionIsNotPerforming e) { }
 }

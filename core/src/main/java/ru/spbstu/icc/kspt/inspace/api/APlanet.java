@@ -2,6 +2,7 @@ package ru.spbstu.icc.kspt.inspace.api;
 
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
+import ru.spbstu.icc.kspt.inspace.model.exception.ActionIsNotPerforming;
 import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
@@ -36,15 +37,15 @@ public interface APlanet {
 
     Map<BuildingType, ? extends ABuilding> getBuildings();
 
-    AUpgrade getCurrentBuildingUpgrade();
+    AUpgrade getCurrentBuildingUpgrade() throws ActionIsNotPerforming;
 
     AResearch getResearch(ResearchType type);
 
     Map<ResearchType, ? extends AResearch> getResearches();
 
-    AUpgrade getCurrentResearchUpgrade();
+    AUpgrade getCurrentResearchUpgrade() throws ActionIsNotPerforming;
 
-    AConstruct getCurrentConstruct();
+    AConstruct getCurrentConstruct() throws ActionIsNotPerforming;
 
     Map<ShipType, ? extends AShipModel> getShips();
 

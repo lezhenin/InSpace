@@ -4,6 +4,7 @@ import ru.spbstu.icc.kspt.inspace.api.APlanet;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
+import ru.spbstu.icc.kspt.inspace.model.exception.ActionIsNotPerforming;
 import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
@@ -42,7 +43,6 @@ public class Planet implements APlanet {
 
     public Planet(String name, Position position) {
         updating = true;
-        Galaxy.getInstance().addPlanet(this, position);
 
         this.name = name;
         this.position = position;
@@ -124,8 +124,11 @@ public class Planet implements APlanet {
     }
 
     @Override
-    public Upgrade getCurrentBuildingUpgrade() {
+    public Upgrade getCurrentBuildingUpgrade() throws ActionIsNotPerforming {
         update();
+        if (buildingDepartment.getCurrentUpgrade() == null) {
+            throw new ActionIsNotPerforming(position);
+        }
         return buildingDepartment.getCurrentUpgrade();
     }
 
@@ -142,14 +145,20 @@ public class Planet implements APlanet {
     }
 
     @Override
-    public Upgrade getCurrentResearchUpgrade() {
+    public Upgrade getCurrentResearchUpgrade() throws ActionIsNotPerforming {
         update();
+        if (researchDepartment.getCurrentUpgrade() == null) {
+            throw new ActionIsNotPerforming(position);
+        }
         return researchDepartment.getCurrentUpgrade();
     }
 
     @Override
-    public Construct getCurrentConstruct(){
+    public Construct getCurrentConstruct() throws ActionIsNotPerforming {
         update();
+        if (fleetDepartment.getCurrentConstruct() == null) {
+            throw new ActionIsNotPerforming(position);
+        }
         return fleetDepartment.getCurrentConstruct();
     }
 
@@ -169,7 +178,7 @@ public class Planet implements APlanet {
     public void startAttack(Position destination, Map<ShipType, Integer> numbersOfShips)
             throws FleetDetachException, PlanetDoesntExist {
         Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
-        startMission(new Attack(this, Galaxy.getInstance().getPlanet(destination), fleet));
+        startMission(new Attack(this, (Planet) Galaxy.getInstance().getPlanet(destination), fleet));
     }
 
     @Override
@@ -178,7 +187,7 @@ public class Planet implements APlanet {
         Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
         Resources resources = new Resources(metal, crystal, deuterium);
         fleet.putResources(resources);
-        startMission(new Transportation(this, Galaxy.getInstance().getPlanet(destination), fleet));
+        startMission(new Transportation(this, (Planet) Galaxy.getInstance().getPlanet(destination), fleet));
     }
 
     public void startMission(Mission mission) {
