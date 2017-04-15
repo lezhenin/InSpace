@@ -8,7 +8,9 @@ import ru.spbstu.icc.kspt.inspace.model.Galaxy;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.exception.ActionIsNotPerforming;
+import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
 import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
+import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.service.documents.*;
@@ -29,6 +31,31 @@ public class PlanetsController {
             Galaxy.getInstance().
                     addPlanet(new Position(numberOfSystem, numberOfPlanet), "planet" + random.nextInt());
         }
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    PlanetDescription addPlanet(PlanetDescription description)
+        throws AssertionError{
+
+        Position position = new Position(description.getPosition().getNumberOfSystem(),
+                                         description.getPosition().getNumberOfPlanet());
+
+        Galaxy.getInstance().addPlanet(position, description.getName());
+        try {
+            return new PlanetDescription(Galaxy.getInstance().getPlanet(position));
+        } catch (PlanetDoesntExist planetDoesntExist) {
+            throw new AssertionError();
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    void deletePlanet(PlanetDescription description) {
+
+        Position position = new Position(description.getPosition().getNumberOfSystem(),
+                description.getPosition().getNumberOfPlanet());
+
+        Galaxy.getInstance().deletePlanet(position);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -193,6 +220,65 @@ public class PlanetsController {
         planet.getExternalMissions().forEach(mission -> list.add(new Mission(mission)));
         return list;
     }
+
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/buildings/{buildingType}/upgrade",
+                    method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    BuildingUpgrade upgradeBuilding(@PathVariable("numberOfSystem") int numberOfSystem,
+                                    @PathVariable("numberOfPlanet") int numberOfPlanet,
+                                    @PathVariable("buildingType") BuildingType type)
+            throws PlanetDoesntExist, UpgradeException, AssertionError {
+
+        APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
+        planet.getBuilding(type).startUpgrade();
+
+        try {
+            return new BuildingUpgrade(planet.getCurrentBuildingUpgrade());
+        } catch (ActionIsNotPerforming actionIsNotPerforming) {
+            throw new AssertionError();
+        }
+    }
+
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/research/{buildingType}/upgrade",
+                    method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ResearchUpgrade upgradeResearch(@PathVariable("numberOfSystem") int numberOfSystem,
+                                    @PathVariable("numberOfPlanet") int numberOfPlanet,
+                                    @PathVariable("researchType") ResearchType type)
+            throws PlanetDoesntExist, UpgradeException, AssertionError {
+
+        APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
+        planet.getResearch(type).startUpgrade();
+
+        try {
+            return new ResearchUpgrade(planet.getCurrentBuildingUpgrade());
+        } catch (ActionIsNotPerforming actionIsNotPerforming) {
+            throw new AssertionError();
+        }
+    }
+
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/ships/{shipType}/construct",
+                    method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ShipConstruction constructShip(@PathVariable("numberOfSystem") int numberOfSystem,
+                                   @PathVariable("numberOfPlanet") int numberOfPlanet,
+                                   @PathVariable("shipType") ShipType type,
+                                   @RequestParam("number") int number)
+            throws PlanetDoesntExist, AssertionError, ConstructException {
+
+        APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
+        planet.getShips().get(type).startConstruction(number);
+
+        try {
+            return new ShipConstruction(planet.getCurrentConstruct());
+        } catch (ActionIsNotPerforming e) {
+            throw new AssertionError();
+        }
+    }
+
+    //todo missions
+
+    //todo Upgrade and Construct exceptions
 
     @ResponseStatus(value= HttpStatus.NO_CONTENT, reason="Planet does not exist")
     @ExceptionHandler(PlanetDoesntExist.class)
