@@ -16,11 +16,13 @@ public abstract class Mission extends TimeAction implements AMission {
     private Planet source;
     private Planet destination;
     private Fleet fleet;
+    private MissionType type;
 
-    public Mission(Planet source, Planet destination, Fleet fleet) {
+    public Mission(Planet source, Planet destination, Fleet fleet, MissionType type) {
         this.source = source;
         this.destination = destination;
         this.fleet = fleet;
+        this.type = type;
 
         int hours = source.getPosition().getDistanceTo(destination.getPosition()) / fleet.getSpeed();
         time = Time.now().plus(Duration.ofHours(hours));
@@ -48,5 +50,10 @@ public abstract class Mission extends TimeAction implements AMission {
     @Override
     public Fleet getFleet() {
         return fleet;
+    }
+
+    @Override
+    public MissionType getType() {
+        return type;
     }
 }

@@ -7,7 +7,7 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 public class Transportation extends Mission {
 
     public Transportation(Planet source, Planet destination, Fleet fleet) {
-        super(source, destination, fleet);
+        super(source, destination, fleet, MissionType.TRANSPORTATION);
     }
 
     @Override

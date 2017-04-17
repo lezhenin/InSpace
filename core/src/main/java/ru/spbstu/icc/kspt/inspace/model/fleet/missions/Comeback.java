@@ -6,7 +6,7 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 public class Comeback extends Mission{
 
     Comeback(Planet source, Planet destination, Fleet fleet) {
-        super(source, destination, fleet);
+        super(source, destination, fleet, MissionType.COMEBACK);
     }
 
     @Override

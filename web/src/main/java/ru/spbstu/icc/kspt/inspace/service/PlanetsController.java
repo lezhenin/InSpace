@@ -7,10 +7,7 @@ import ru.spbstu.icc.kspt.inspace.api.*;
 import ru.spbstu.icc.kspt.inspace.model.Galaxy;
 import ru.spbstu.icc.kspt.inspace.model.Position;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
-import ru.spbstu.icc.kspt.inspace.model.exception.ActionIsNotPerforming;
-import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
-import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
-import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
+import ru.spbstu.icc.kspt.inspace.model.exception.*;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.service.documents.*;
@@ -221,6 +218,16 @@ public class PlanetsController {
         return list;
     }
 
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/rename",
+                    method = RequestMethod.PUT)
+    void renamePlanet(@PathVariable("numberOfSystem") int numberOfSystem,
+                      @PathVariable("numberOfPlanet") int numberOfPlanet,
+                      @RequestParam("name") String name)
+            throws PlanetDoesntExist {
+
+        Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).rename(name);
+    }
+
     @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/buildings/{buildingType}/upgrade",
                     method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -276,9 +283,37 @@ public class PlanetsController {
         }
     }
 
-    //todo missions
+    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/start-mission",
+                    method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    Mission startMission(@PathVariable("numberOfSystem") int numberOfSystem,
+                         @PathVariable("numberOfPlanet") int numberOfPlanet,
+                         MissionStartInfo info)
+            throws PlanetDoesntExist, CapacityExcessException, FleetDetachException {
 
-    //todo Upgrade and Construct exceptions
+        APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
+        Position position = new Position(info.getDestination().getNumberOfSystem(),
+                                         info.getDestination().getNumberOfPlanet());
+
+        AMission mission = planet.startMission(info.getType(), position, info.getNumbersOfShips(),
+                info.getResources().getMetal(), info.getResources().getCrystals(), info.getResources().getDeuterium());
+
+        if (mission == null) {
+            throw new AssertionError();
+        }
+
+        return new Mission(mission);
+    }
+
+    //todo exceptions
+
+    @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not start upgrade")
+    @ExceptionHandler(ConstructException.class)
+    public void constructExceptionHandler(ConstructException e) { }
+
+    @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not start upgrade")
+    @ExceptionHandler(UpgradeException.class)
+    public void upgradeExceptionHandler(UpgradeException e) { }
 
     @ResponseStatus(value= HttpStatus.NO_CONTENT, reason="Planet does not exist")
     @ExceptionHandler(PlanetDoesntExist.class)

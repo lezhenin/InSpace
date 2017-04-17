@@ -9,7 +9,8 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.Fleet;
 public class Attack extends Mission{
 
     public Attack(Planet source, Planet destination, Fleet fleet) {
-        super(source, destination, fleet);
+        super(source, destination, fleet, MissionType.ATTACK);
+
     }
 
     @Override

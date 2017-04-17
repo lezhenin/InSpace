@@ -1,6 +1,8 @@
 package ru.spbstu.icc.kspt.inspace.model;
 
+import ru.spbstu.icc.kspt.inspace.api.AMission;
 import ru.spbstu.icc.kspt.inspace.api.APlanet;
+import ru.spbstu.icc.kspt.inspace.api.AResources;
 import ru.spbstu.icc.kspt.inspace.model.buildings.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingDepartment;
 import ru.spbstu.icc.kspt.inspace.model.energy.EnergyDepartment;
@@ -14,6 +16,7 @@ import ru.spbstu.icc.kspt.inspace.model.fleet.ShipModel;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Mission;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.MissionType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Transportation;
 import ru.spbstu.icc.kspt.inspace.model.research.Research;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchDepartment;
@@ -175,19 +178,44 @@ public class Planet implements APlanet {
     }
 
     @Override
-    public void startAttack(Position destination, Map<ShipType, Integer> numbersOfShips)
-            throws FleetDetachException, PlanetDoesntExist {
-        Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
-        startMission(new Attack(this, (Planet) Galaxy.getInstance().getPlanet(destination), fleet));
+    public AMission startMission(MissionType type, Position destination, Map<ShipType, Integer> numbersOfShips,
+                             AResources resources)
+            throws FleetDetachException, CapacityExcessException, PlanetDoesntExist {
+        return startMission(type, destination, numbersOfShips,
+                resources.getMetal(), resources.getCrystals(), resources.getDeuterium());
     }
 
     @Override
-    public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium)
+    public AMission startMission(MissionType type, Position destination, Map<ShipType, Integer> numbersOfShips,
+                                 int metal, int crystals, int deuterium)
+            throws FleetDetachException, CapacityExcessException, PlanetDoesntExist {
+        if (type == MissionType.ATTACK) {
+            return startAttack(destination, numbersOfShips);
+        } else if (type == MissionType.TRANSPORTATION) {
+            return startTransportation(destination, numbersOfShips,
+                    metal, crystals, deuterium);
+        }
+
+        return null;
+    }
+
+    private AMission startAttack(Position destination, Map<ShipType, Integer> numbersOfShips)
+            throws FleetDetachException, PlanetDoesntExist {
+        Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
+        Mission mission = new Attack(this, (Planet) Galaxy.getInstance().getPlanet(destination), fleet);
+        startMission(mission);
+        return mission;
+    }
+
+
+    private AMission startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium)
             throws FleetDetachException, CapacityExcessException, PlanetDoesntExist {
         Fleet fleet = getFleetOnPlanet().detachFleet(numbersOfShips);
         Resources resources = new Resources(metal, crystal, deuterium);
         fleet.putResources(resources);
-        startMission(new Transportation(this, (Planet) Galaxy.getInstance().getPlanet(destination), fleet));
+        Mission mission = new Transportation(this, (Planet) Galaxy.getInstance().getPlanet(destination), fleet);
+        startMission(mission);
+        return mission;
     }
 
     public void startMission(Mission mission) {

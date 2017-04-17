@@ -7,6 +7,7 @@ import ru.spbstu.icc.kspt.inspace.model.exception.CapacityExcessException;
 import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
 import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
 import ru.spbstu.icc.kspt.inspace.model.fleet.*;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.MissionType;
 import ru.spbstu.icc.kspt.inspace.model.research.*;
 
 import java.util.List;
@@ -51,10 +52,12 @@ public interface APlanet {
 
     AFleet getFleetOnPlanet();
 
-    void startAttack(Position destination, Map<ShipType, Integer> numbersOfShips)
-            throws FleetDetachException, PlanetDoesntExist;
+    AMission startMission(MissionType type, Position destination, Map<ShipType, Integer> numbersOfShips,
+                      AResources resources)
+            throws FleetDetachException, CapacityExcessException, PlanetDoesntExist;
 
-    public void startTransportation(Position destination, Map<ShipType, Integer> numbersOfShips, int metal, int crystal, int deuterium)
+    AMission startMission(MissionType type, Position destination, Map<ShipType, Integer> numbersOfShips,
+                      int metal, int crystal, int deuterium)
             throws FleetDetachException, CapacityExcessException, PlanetDoesntExist;
 
     List<? extends AMission> getMissions();
