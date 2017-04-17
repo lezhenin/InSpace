@@ -31,7 +31,7 @@ public class PlanetsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    PlanetDescription addPlanet(PlanetDescription description)
+    Planet addPlanet(@RequestBody PlanetDescription description)
         throws AssertionError{
 
         Position position = new Position(description.getPosition().getNumberOfSystem(),
@@ -39,7 +39,7 @@ public class PlanetsController {
 
         Galaxy.getInstance().addPlanet(position, description.getName());
         try {
-            return new PlanetDescription(Galaxy.getInstance().getPlanet(position));
+            return new Planet(Galaxy.getInstance().getPlanet(position));
         } catch (PlanetDoesntExist planetDoesntExist) {
             throw new AssertionError();
         }

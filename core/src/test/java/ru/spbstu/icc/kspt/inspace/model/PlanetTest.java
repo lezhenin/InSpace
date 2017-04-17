@@ -9,12 +9,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.api.mockito.PowerMockito;
 import ru.spbstu.icc.kspt.inspace.api.*;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
-import ru.spbstu.icc.kspt.inspace.model.exception.ConstructException;
-import ru.spbstu.icc.kspt.inspace.model.exception.FleetDetachException;
-import ru.spbstu.icc.kspt.inspace.model.exception.UpgradeException;
+import ru.spbstu.icc.kspt.inspace.model.exception.*;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Attack;
 import ru.spbstu.icc.kspt.inspace.model.fleet.missions.Comeback;
+import ru.spbstu.icc.kspt.inspace.model.fleet.missions.MissionType;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
 import ru.spbstu.icc.kspt.inspace.model.resources.Resources;
 import ru.spbstu.icc.kspt.inspace.model.utils.Time;
@@ -178,7 +177,7 @@ public class PlanetTest {
 //    }
 
     @Test
-    public void testMissions() throws ConstructException, FleetDetachException {
+    public void testMissions() throws ConstructException, FleetDetachException, PlanetDoesntExist, CapacityExcessException {
 
         PowerMockito.mockStatic(Time.class);
         when(Time.now()).thenReturn(LocalDateTime.now().plus(Duration.ofMinutes(5310)));
@@ -195,7 +194,8 @@ public class PlanetTest {
         anotherPlanet.update();
 
         //TODO empty fleets
-        planet.startAttack(anotherPlanet.getPosition(), planet.getFleetOnPlanet().getNumbersOfShips());
+        planet.startMission(MissionType.ATTACK, anotherPlanet.getPosition(), planet.getFleetOnPlanet().getNumbersOfShips(),
+                0, 0 ,0);
 
         assertTrue(!planet.getMissions().isEmpty());
         AMission currentMission = planet.getMissions().get(0);
