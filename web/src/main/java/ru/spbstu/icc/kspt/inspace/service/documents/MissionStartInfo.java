@@ -8,16 +8,35 @@ import java.util.Map;
 
 public class MissionStartInfo {
 
-    private final Map<ShipType, Integer> numbersOfShips;
-    private final Position destination;
-    private final Resources resources;
-    private final MissionType type;
+    private Map<ShipType, Integer> numbersOfShips;
+    private Position destination;
+    private Resources resources;
+    private MissionType type;
 
     public MissionStartInfo(Map<ShipType, Integer> numbersOfShips, Position destination,
                             Resources resources, MissionType type) {
         this.numbersOfShips = numbersOfShips;
         this.destination = destination;
         this.resources = resources;
+        this.type = type;
+    }
+
+    public MissionStartInfo() {
+    }
+
+    public void setNumbersOfShips(Map<ShipType, Integer> numbersOfShips) {
+        this.numbersOfShips = numbersOfShips;
+    }
+
+    public void setDestination(Position destination) {
+        this.destination = destination;
+    }
+
+    public void setResources(Resources resources) {
+        this.resources = resources;
+    }
+
+    public void setType(MissionType type) {
         this.type = type;
     }
 

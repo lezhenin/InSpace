@@ -288,7 +288,7 @@ public class PlanetsController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     Mission startMission(@PathVariable("numberOfSystem") int numberOfSystem,
                          @PathVariable("numberOfPlanet") int numberOfPlanet,
-                         MissionStartInfo info)
+                         @RequestBody MissionStartInfo info)
             throws PlanetDoesntExist, CapacityExcessException, FleetDetachException {
 
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
@@ -305,7 +305,14 @@ public class PlanetsController {
         return new Mission(mission);
     }
 
-    //todo exceptions
+
+    @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not detach fleet")
+    @ExceptionHandler(FleetDetachException.class)
+    public void fleetDetachExceptionHandler(FleetDetachException e) { }
+
+    @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not put all resources on fleet")
+    @ExceptionHandler(CapacityExcessException.class)
+    public void capacityExcessExceptionHandler(CapacityExcessException e) { }
 
     @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not start upgrade")
     @ExceptionHandler(ConstructException.class)
