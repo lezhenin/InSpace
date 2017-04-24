@@ -1,10 +1,11 @@
-package ru.spbstu.icc.kspt.inspace.service.documents;
+package ru.spbstu.icc.kspt.inspace.service.documents.responses;
 
 
 import ru.spbstu.icc.kspt.inspace.api.AShipModel;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 
 public class Ship {
+
     private final ShipType type;
     private final int attack;
     private final int structure;

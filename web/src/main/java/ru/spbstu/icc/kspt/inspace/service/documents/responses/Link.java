@@ -1,4 +1,4 @@
-package ru.spbstu.icc.kspt.inspace.service.documents;
+package ru.spbstu.icc.kspt.inspace.service.documents.responses;
 
 public class Link {
 

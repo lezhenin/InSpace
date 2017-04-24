@@ -1,8 +1,9 @@
-package ru.spbstu.icc.kspt.inspace.service.documents;
+package ru.spbstu.icc.kspt.inspace.service.documents.responses;
 
 
 import ru.spbstu.icc.kspt.inspace.api.ABuilding;
 import ru.spbstu.icc.kspt.inspace.api.AUpgrade;
+import ru.spbstu.icc.kspt.inspace.service.documents.responses.Building;
 
 public class BuildingUpgrade {
     private final Building building;

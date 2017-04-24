@@ -1,4 +1,4 @@
-package ru.spbstu.icc.kspt.inspace.service.documents;
+package ru.spbstu.icc.kspt.inspace.service.documents.responses;
 
 import ru.spbstu.icc.kspt.inspace.api.ABuilding;
 import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;

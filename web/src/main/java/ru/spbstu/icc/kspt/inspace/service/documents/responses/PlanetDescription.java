@@ -1,4 +1,4 @@
-package ru.spbstu.icc.kspt.inspace.service.documents;
+package ru.spbstu.icc.kspt.inspace.service.documents.responses;
 
 
 import ru.spbstu.icc.kspt.inspace.api.APlanet;
@@ -6,9 +6,9 @@ import ru.spbstu.icc.kspt.inspace.api.APlanet;
 
 public class PlanetDescription {
 
-    private String name;
-    private Position position;
-    private String url;
+    private final String name;
+    private final Position position;
+    private final String url;
 
     public PlanetDescription(APlanet planet) {
         this.name = planet.getName();
@@ -20,24 +20,6 @@ public class PlanetDescription {
     public PlanetDescription(String name, Position position, String url) {
         this.name = name;
         this.position = position;
-        this.url = url;
-    }
-
-    public PlanetDescription() {
-        this.name = null;
-        this.position = null;
-        this.url = null;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public void setUrl(String url) {
         this.url = url;
     }
 

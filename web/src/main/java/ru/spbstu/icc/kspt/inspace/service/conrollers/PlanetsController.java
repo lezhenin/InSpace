@@ -1,4 +1,4 @@
-package ru.spbstu.icc.kspt.inspace.service;
+package ru.spbstu.icc.kspt.inspace.service.conrollers;
 
 
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,9 @@ import ru.spbstu.icc.kspt.inspace.model.buildings.BuildingType;
 import ru.spbstu.icc.kspt.inspace.model.exception.*;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.model.research.ResearchType;
-import ru.spbstu.icc.kspt.inspace.service.documents.*;
+import ru.spbstu.icc.kspt.inspace.service.documents.requests.MissionStartInfo;
+import ru.spbstu.icc.kspt.inspace.service.documents.requests.PlanetCreateInfo;
+import ru.spbstu.icc.kspt.inspace.service.documents.responses.*;
 
 import java.util.*;
 
@@ -31,13 +33,13 @@ public class PlanetsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    Planet addPlanet(@RequestBody PlanetDescription description)
+    Planet addPlanet(@RequestBody PlanetCreateInfo info)
         throws AssertionError{
 
-        Position position = new Position(description.getPosition().getNumberOfSystem(),
-                                         description.getPosition().getNumberOfPlanet());
+        Position position = new Position(info.getNumberOfSystem(),
+                                         info.getNumberOfPlanet());
 
-        Galaxy.getInstance().addPlanet(position, description.getName());
+        Galaxy.getInstance().addPlanet(position, info.getName());
         try {
             return new Planet(Galaxy.getInstance().getPlanet(position));
         } catch (PlanetDoesntExist planetDoesntExist) {
@@ -292,11 +294,11 @@ public class PlanetsController {
             throws PlanetDoesntExist, CapacityExcessException, FleetDetachException {
 
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
-        Position position = new Position(info.getDestination().getNumberOfSystem(),
-                                         info.getDestination().getNumberOfPlanet());
+        Position position = new Position(info.getNumberOfSystem(),
+                                         info.getNumberOfPlanet());
 
         AMission mission = planet.startMission(info.getType(), position, info.getNumbersOfShips(),
-                info.getResources().getMetal(), info.getResources().getCrystals(), info.getResources().getDeuterium());
+                info.getMetal(), info.getCrystals(), info.getDeuterium());
 
         if (mission == null) {
             throw new AssertionError();
@@ -304,29 +306,4 @@ public class PlanetsController {
 
         return new Mission(mission);
     }
-
-
-    @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not detach fleet")
-    @ExceptionHandler(FleetDetachException.class)
-    public void fleetDetachExceptionHandler(FleetDetachException e) { }
-
-    @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not put all resources on fleet")
-    @ExceptionHandler(CapacityExcessException.class)
-    public void capacityExcessExceptionHandler(CapacityExcessException e) { }
-
-    @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not start upgrade")
-    @ExceptionHandler(ConstructException.class)
-    public void constructExceptionHandler(ConstructException e) { }
-
-    @ResponseStatus(value= HttpStatus.FAILED_DEPENDENCY, reason="Can not start upgrade")
-    @ExceptionHandler(UpgradeException.class)
-    public void upgradeExceptionHandler(UpgradeException e) { }
-
-    @ResponseStatus(value= HttpStatus.NO_CONTENT, reason="Planet does not exist")
-    @ExceptionHandler(PlanetDoesntExist.class)
-    public void planetDoesntExistHandler(PlanetDoesntExist e) { }
-
-    @ResponseStatus(value= HttpStatus.NO_CONTENT, reason="Requested action is not performing")
-    @ExceptionHandler(ActionIsNotPerforming.class)
-    public void actionIsNotPerformingHandler(ActionIsNotPerforming e) { }
 }
