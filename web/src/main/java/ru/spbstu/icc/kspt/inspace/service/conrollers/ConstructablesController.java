@@ -11,15 +11,23 @@ import ru.spbstu.icc.kspt.inspace.model.exception.PlanetDoesntExist;
 import ru.spbstu.icc.kspt.inspace.model.fleet.ShipType;
 import ru.spbstu.icc.kspt.inspace.service.documents.responses.Ship;
 import ru.spbstu.icc.kspt.inspace.service.documents.responses.ShipConstruction;
+import ru.spbstu.icc.kspt.inspace.service.exceptions.UnitTypeException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
+@RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/")
 public class ConstructablesController {
 
+    private final Map<String, ShipType> shipTypeTable = new HashMap<>();
 
-    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/ships",
+    {
+        for (ShipType value: ShipType.values()) {
+            shipTypeTable.put(value.toString().toLowerCase().replace('_','-'), value);
+        }
+    }
+
+    @RequestMapping(value = "ships",
             method = RequestMethod.GET)
     List<Ship> ships(@PathVariable("numberOfSystem") int numberOfSystem,
                      @PathVariable("numberOfPlanet") int numberOfPlanet)
@@ -31,25 +39,38 @@ public class ConstructablesController {
         return ships;
     }
 
-    //fixme 10.04.17 path variable to lower case
-    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/ships/{shipType}",
+    @RequestMapping(value = "ships/{shipType}",
             method = RequestMethod.GET)
     Ship ship(@PathVariable("numberOfSystem") int numberOfSystem,
               @PathVariable("numberOfPlanet") int numberOfPlanet,
-              @PathVariable("researchType") ShipType shipType)
-            throws PlanetDoesntExist {
+              @PathVariable("shipType") String typeString)
+            throws PlanetDoesntExist, UnitTypeException {
 
-        return new Ship(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getShips().get(shipType));
+        ShipType type;
+        if (shipTypeTable.containsKey(typeString)){
+            type = shipTypeTable.get(typeString);
+        } else {
+            throw new UnitTypeException(typeString);
+        }
+
+        return new Ship(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getShips().get(type));
     }
 
-    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/ships/start-construction",
+    @RequestMapping(value = "ships/start-construction",
             method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
     ShipConstruction constructShip(@PathVariable("numberOfSystem") int numberOfSystem,
                                    @PathVariable("numberOfPlanet") int numberOfPlanet,
-                                   @RequestParam("shipType") ShipType type,
+                                   @RequestParam("shipType") String typeString,
                                    @RequestParam("number") int number)
-            throws PlanetDoesntExist, AssertionError, ConstructException {
+            throws PlanetDoesntExist, AssertionError, ConstructException, UnitTypeException {
+
+        ShipType type;
+        if (shipTypeTable.containsKey(typeString)){
+            type = shipTypeTable.get(typeString);
+        } else {
+            throw new UnitTypeException(typeString);
+        }
 
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
         planet.getShips().get(type).startConstruction(number);
@@ -61,7 +82,7 @@ public class ConstructablesController {
         }
     }
 
-    @RequestMapping(value = "{numberOfSystem}/{numberOfPlanet}/ships/current-construction",
+    @RequestMapping(value = "ships/current-construction",
             method = RequestMethod.GET)
     ShipConstruction shipConstruction(@PathVariable("numberOfSystem") int numberOfSystem,
                                       @PathVariable("numberOfPlanet") int numberOfPlanet)

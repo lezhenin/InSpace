@@ -6,9 +6,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.spbstu.icc.kspt.inspace.model.exception.*;
 import ru.spbstu.icc.kspt.inspace.service.documents.responses.Error;
+import ru.spbstu.icc.kspt.inspace.service.exceptions.UnitTypeException;
 
 @ControllerAdvice
 public class ExceptionHandleController {
+
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST, reason = "Can not convert unit type")
+    @ExceptionHandler(UnitTypeException.class)
+    public Error unitTypeExceptionHandler(UnitTypeException e) {
+        return new Error(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+    }
 
     @ResponseStatus(value=HttpStatus.FAILED_DEPENDENCY, reason="Can not detach fleet")
     @ExceptionHandler(FleetDetachException.class)

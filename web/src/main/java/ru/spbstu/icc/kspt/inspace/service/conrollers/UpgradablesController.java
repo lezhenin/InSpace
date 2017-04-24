@@ -14,13 +14,29 @@ import ru.spbstu.icc.kspt.inspace.service.documents.responses.Building;
 import ru.spbstu.icc.kspt.inspace.service.documents.responses.BuildingUpgrade;
 import ru.spbstu.icc.kspt.inspace.service.documents.responses.Research;
 import ru.spbstu.icc.kspt.inspace.service.documents.responses.ResearchUpgrade;
+import ru.spbstu.icc.kspt.inspace.service.exceptions.UnitTypeException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "planets/{numberOfSystem}/{numberOfPlanet}/")
 public class UpgradablesController {
+
+    private final Map<String, BuildingType> buildingTypeTable = new HashMap<>();
+    private final Map<String, ResearchType> researchTypeTable = new HashMap<>();
+
+    {
+        for (BuildingType value: BuildingType.values()) {
+            buildingTypeTable.put(value.toString().toLowerCase().replace('_','-'), value);
+        }
+
+        for (ResearchType value: ResearchType.values()) {
+            researchTypeTable.put(value.toString().toLowerCase().replace('_','-'), value);
+        }
+    }
 
     @RequestMapping(value = "buildings",
             method = RequestMethod.GET)
@@ -34,15 +50,21 @@ public class UpgradablesController {
         return buildings;
     }
 
-    //fixme 10.04.17 path variable to lower case
     @RequestMapping(value = "buildings/{buildingType}",
             method = RequestMethod.GET)
     Building building(@PathVariable("numberOfSystem") int numberOfSystem,
                       @PathVariable("numberOfPlanet") int numberOfPlanet,
-                      @PathVariable("buildingType") BuildingType buildingType)
-            throws PlanetDoesntExist {
+                      @PathVariable("buildingType") String typeString)
+            throws PlanetDoesntExist, UnitTypeException {
 
-        return new Building(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getBuilding(buildingType));
+        BuildingType type;
+        if (buildingTypeTable.containsKey(typeString)){
+            type = buildingTypeTable.get(typeString);
+        } else {
+            throw new UnitTypeException(typeString);
+        }
+
+        return new Building(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getBuilding(type));
     }
 
     @RequestMapping(value = "buildings/upgrade",
@@ -50,8 +72,15 @@ public class UpgradablesController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     BuildingUpgrade upgradeBuilding(@PathVariable("numberOfSystem") int numberOfSystem,
                                     @PathVariable("numberOfPlanet") int numberOfPlanet,
-                                    @RequestParam("buildingType") BuildingType type)
-            throws PlanetDoesntExist, UpgradeException, AssertionError {
+                                    @RequestParam("buildingType") String typeString)
+            throws PlanetDoesntExist, UpgradeException, AssertionError, UnitTypeException {
+
+        BuildingType type;
+        if (buildingTypeTable.containsKey(typeString)){
+            type = buildingTypeTable.get(typeString);
+        } else {
+            throw new UnitTypeException(typeString);
+        }
 
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
         planet.getBuilding(type).startUpgrade();
@@ -85,15 +114,21 @@ public class UpgradablesController {
         return researchs;
     }
 
-    //fixme 10.04.17 path variable to lower case
     @RequestMapping(value = "research/{researchType}",
             method = RequestMethod.GET)
     Research research(@PathVariable("numberOfSystem") int numberOfSystem,
                       @PathVariable("numberOfPlanet") int numberOfPlanet,
-                      @PathVariable("researchType") ResearchType researchType)
-            throws PlanetDoesntExist {
+                      @PathVariable("researchType") String typeString)
+            throws PlanetDoesntExist, UnitTypeException {
 
-        return new Research(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getResearch(researchType));
+        ResearchType type;
+        if (researchTypeTable.containsKey(typeString)){
+            type = researchTypeTable.get(typeString);
+        } else {
+            throw new UnitTypeException(typeString);
+        }
+
+        return new Research(Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet).getResearch(type));
     }
 
     @RequestMapping(value = "research/upgrade",
@@ -101,8 +136,15 @@ public class UpgradablesController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     ResearchUpgrade upgradeResearch(@PathVariable("numberOfSystem") int numberOfSystem,
                                     @PathVariable("numberOfPlanet") int numberOfPlanet,
-                                    @RequestParam("researchType") ResearchType type)
-            throws PlanetDoesntExist, UpgradeException, AssertionError {
+                                    @RequestParam("researchType") String typeString)
+            throws PlanetDoesntExist, UpgradeException, AssertionError, UnitTypeException {
+
+        ResearchType type;
+        if (researchTypeTable.containsKey(typeString)){
+            type = researchTypeTable.get(typeString);
+        } else {
+            throw new UnitTypeException(typeString);
+        }
 
         APlanet planet = Galaxy.getInstance().getPlanet(numberOfSystem, numberOfPlanet);
         planet.getResearch(type).startUpgrade();
