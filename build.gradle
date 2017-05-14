@@ -1,12 +1,27 @@
+
 allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+configure(project(":androidapp")) {
+    buildscript {
+        repositories {
+            jcenter()
+        }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:2.3.1'
+        }
+    }
+}
+
+configure([project(":core"), project(":web"), project(":app")]) {
+
     apply plugin: 'java'
     apply plugin: 'jacoco'
     apply plugin: 'findbugs'
 
-
-    repositories {
-        jcenter()
-    }
 
     tasks.withType(FindBugs) {
         reports {
