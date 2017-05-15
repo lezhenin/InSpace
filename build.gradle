@@ -16,7 +16,7 @@ configure(project(":androidapp")) {
     }
 }
 
-configure([project(":core"), project(":web"), project(":app")]) {
+configure([project(":core"), project(":web")]) {
 
     apply plugin: 'java'
     apply plugin: 'jacoco'
