@@ -14,18 +14,18 @@ public class GalaxyTest {
 
     @Test
     public void testAdd() throws PlanetDoesntExist {
-        Planet planet = new Planet("MyPlanet", position);
+        galaxy.addPlanet(position, "nibiru");
         Planet gottenPlanet = (Planet) galaxy.getPlanet(position);
-        assertTrue(planet == gottenPlanet);
+        assertTrue(gottenPlanet != null);
     }
 
-    @Test
+    @Test(expected =PlanetDoesntExist.class)
     public void testDelete() throws PlanetDoesntExist {
         galaxy.deletePlanet(position);
-        assertNull(galaxy.getPlanet(position));
+        galaxy.getPlanet(position);
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test(expected =PlanetDoesntExist.class)
     public void testWrongPositionGet() throws PlanetDoesntExist {
         galaxy.getPlanet(new Position(15, -2));
     }

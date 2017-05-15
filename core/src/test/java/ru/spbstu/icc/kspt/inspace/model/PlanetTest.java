@@ -32,8 +32,15 @@ import java.util.Map;
 @PrepareForTest(Time.class)
 public class PlanetTest {
 
-    private APlanet planet = new Planet("Nibiru", new Position(2, 4));
-    private APlanet anotherPlanet = new Planet("Another", new Position(3, 5));
+    private APlanet planet;
+    private APlanet anotherPlanet;
+
+    public PlanetTest() throws PlanetDoesntExist {
+        Galaxy.getInstance().addPlanet(new Position(2, 4), "Nibiru");
+        Galaxy.getInstance().addPlanet(new Position(3, 5), "Another");
+        planet = Galaxy.getInstance().getPlanet(2, 4);
+        anotherPlanet = Galaxy.getInstance().getPlanet(3, 5);
+    }
 
     @Test
     public void testUpdate() {
