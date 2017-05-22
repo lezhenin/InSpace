@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="48dp"
+        android:id="@+id/planetImage"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="48dp"
+        app:srcCompat="@drawable/planet" />
+
+    <TextView
+        android:text="@string/planet_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/planetNameTitle"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/planetImage"
+        android:layout_toEndOf="@+id/planetImage"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+
+    <TextView
+        android:text="@string/number_of_fields_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/planetNameTitle"
+        android:layout_alignLeft="@+id/planetNameTitle"
+        android:layout_alignStart="@+id/planetNameTitle"
+        android:id="@+id/planetSizeTitle" />
+
+    <TextView
+        android:text="@string/planet_position_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/planetSizeTitle"
+        android:layout_alignLeft="@+id/planetSizeTitle"
+        android:layout_alignStart="@+id/planetSizeTitle"
+        android:id="@+id/planetPositionTitle" />
+
+    <TextView
+        android:text="name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/planetNameTitle"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/planetName" />
+
+    <TextView
+        android:text="14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/planetSizeTitle"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/planetSize" />
+
+    <TextView
+        android:text="(23, 2)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/planetPositionTitle"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/planetPosition" />
+
+</RelativeLayout>

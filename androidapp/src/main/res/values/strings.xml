@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">InSpace</string>
+    <string name="planet_name_title">Planet name:</string>
+    <string name="number_of_fields_title">Number of fields:</string>
+    <string name="planet_position_title">Position:</string>
 </resources>
