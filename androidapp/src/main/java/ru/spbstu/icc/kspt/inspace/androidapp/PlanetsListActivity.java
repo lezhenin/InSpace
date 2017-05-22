@@ -1,6 +1,6 @@
 package ru.spbstu.icc.kspt.inspace.androidapp;
 
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,24 +19,25 @@ import org.json.JSONObject;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-public class MainActivity extends AppCompatActivity {
+public class PlanetsListActivity extends AppCompatActivity {
 
-    private int d = 5;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private static String PLANETS_URL = "https://frozen-stream-78027.herokuapp.com/planets/";
+
+    private RecyclerView planetsRecyclerView;
+    private RecyclerView.Adapter planetAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_planets_list);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.planets_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        planetsRecyclerView = (RecyclerView) findViewById(R.id.planets_view);
+        planetsRecyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        planetsRecyclerView.setLayoutManager(layoutManager);
 
-        new DownloadPlanetsListTask().execute("https://frozen-stream-78027.herokuapp.com/planets/");
+        new DownloadPlanetsListTask().execute(PLANETS_URL);
 
     }
 
@@ -68,10 +69,22 @@ public class MainActivity extends AppCompatActivity {
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                        int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.planet_layout, parent, false);
-
-            ViewHolder vh = new ViewHolder(v);
-            return vh;
+                    .inflate(R.layout.planets_list_item, parent, false);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), PlanetViewActivity.class);
+                    int itemPosition = planetsRecyclerView.getChildLayoutPosition(v);
+                    try {
+                        intent.putExtra("planet url",
+                                objects.getJSONObject(itemPosition).getString("url"));
+                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return new ViewHolder(v);
         }
 
         @Override
@@ -121,16 +134,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
-        }
-
-        @Override
         protected void onPostExecute(String s) {
             try {
                 JSONArray planets = new JSONArray(s);
                 Log.d("json", planets.toString());
-                mAdapter = new MyAdapter(planets);
-                mRecyclerView.setAdapter(mAdapter);
+                planetAdapter = new MyAdapter(planets);
+                planetsRecyclerView.setAdapter(planetAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

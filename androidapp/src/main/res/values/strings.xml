@@ -3,4 +3,9 @@
     <string name="planet_name_title">Planet name:</string>
     <string name="number_of_fields_title">Number of fields:</string>
     <string name="planet_position_title">Position:</string>
+    <string name="overview">Overview</string>
+    <string name="buildings">Buildings</string>
+    <string name="research">Research</string>
+    <string name="fleet">Fleet</string>
+    <string name="missions">Missions</string>
 </resources>
