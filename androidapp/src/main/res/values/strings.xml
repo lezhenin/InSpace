@@ -8,4 +8,5 @@
     <string name="research">Research</string>
     <string name="fleet">Fleet</string>
     <string name="missions">Missions</string>
+    <string name="url">https://frozen-stream-78027.herokuapp.com</string>
 </resources>

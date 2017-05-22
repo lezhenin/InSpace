@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class PlanetsListActivity extends AppCompatActivity {
 
-    private static String PLANETS_URL = "https://frozen-stream-78027.herokuapp.com/planets/";
+    private static String PLANETS_URL = "/planets/";
 
     private RecyclerView planetsRecyclerView;
     private RecyclerView.Adapter planetAdapter;
@@ -36,8 +36,8 @@ public class PlanetsListActivity extends AppCompatActivity {
         planetsRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         planetsRecyclerView.setLayoutManager(layoutManager);
-
-        new DownloadPlanetsListTask().execute(PLANETS_URL);
+        new DownloadPlanetsListTask().execute(
+                getResources().getString(R.string.url) + PLANETS_URL);
 
     }
 
