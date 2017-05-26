@@ -18,6 +18,7 @@ public class Planet {
     private final int energyLevel;
     private final int numberOfFields;
     private final int numberOfEmptyFields;
+    private final double power;
     private final List<Building> buildings;
     private final BuildingUpgrade currentBuildingUpgrade;
     private final List<Research> research;
@@ -86,6 +87,7 @@ public class Planet {
         this.externalMissions = new ArrayList<>();
         planet.getExternalMissions().
                 forEach((Consumer<AMission>) mission -> externalMissions.add(new Mission(mission)));
+        power = planet.getProductionPower();
     }
 
     public String getName() {
@@ -154,5 +156,9 @@ public class Planet {
 
     public List<Mission> getExternalMissions() {
         return externalMissions;
+    }
+
+    public double getPower() {
+        return power;
     }
 }
