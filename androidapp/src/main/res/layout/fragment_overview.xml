@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <LinearLayout
+        android:id="@+id/oll"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:srcCompat="@drawable/planet"
+            android:id="@+id/oPlanetImage"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="Planet Name"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/oPlanetName"
+            android:layout_weight="3" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        style="@style/AppTheme" />
+
+    <GridLayout
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="3">
+
+        <TextView
+            android:text="@string/metal"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:layout_width="70dp"
+            android:id="@+id/oMetalTitle" />
+
+        <TextView
+            android:text="@string/crystals"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_width="70dp"
+            android:id="@+id/oCrystalsTitle" />
+
+        <TextView
+            android:text="@string/deuterium"
+            android:textSize="14sp"
+            android:layout_width="70dp"
+            android:textAlignment="center"
+            android:id="@+id/oDeuteriumTitle" />
+
+        <ImageView
+            android:layout_height="64dp"
+            app:srcCompat="@drawable/metal"
+            android:layout_width="70dp" />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/crystals" />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="64dp"
+            app:srcCompat="@drawable/deuterium" />
+
+        <TextView
+            android:text="000000"
+            android:textSize="14sp"
+            android:layout_width="70dp"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/oMetal" />
+
+        <TextView
+            android:text="000000"
+            android:textSize="14sp"
+            android:layout_width="70dp"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/oCrystals" />
+
+        <TextView
+            android:text="000000"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/oDeuterium" />
+    </GridLayout>
+
+</LinearLayout>

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -52,6 +54,33 @@ public class PlanetViewActivity extends AppCompatActivity {
         new DownloadPlanetTask().execute(getResources().getString(R.string.url) + PLANET_URL);
     }
 
+    private void initDrawer(JSONObject planet) throws JSONException {
+        View header = navigationView.getHeaderView(0);
+        TextView name = (TextView) header.findViewById(R.id.hPlanetName);
+        name.setText(planet.getString("name"));
+        ImageView image = (ImageView) header.findViewById(R.id.hPlanetImage);
+
+        int planetNumber = planet.getJSONObject("position").getInt("numberOfPlanet");
+        if(planetNumber < 5) {
+            image.setImageDrawable(getResources().getDrawable(R.drawable.planet_hot));
+        } else if (planetNumber < 10) {
+            image.setImageDrawable(getResources().getDrawable(R.drawable.planet));
+        } else  {
+            image.setImageDrawable(getResources().getDrawable(R.drawable.planet_cold));
+        }
+    }
+
+    private void setOverviewFragment(JSONObject planet) {
+        OverviewFragment fragment = new OverviewFragment();
+        Bundle data = new Bundle();
+        data.putString("planet", planet.toString());
+        fragment.setArguments(data);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.content_frame, fragment);
+        fragmentTransaction.commit();
+    }
+
 
     private class DownloadPlanetTask extends AsyncTask<String, Integer, String> {
         @Override
@@ -66,25 +95,14 @@ public class PlanetViewActivity extends AppCompatActivity {
             try {
                 planet = new JSONObject(s);
                 Log.d("json", planet.toString());
-                View header = navigationView.getHeaderView(0);
-
-                TextView name = (TextView) header.findViewById(R.id.hPlanetName);
-                name.setText(planet.getString("name"));
-
-                ImageView image = (ImageView) header.findViewById(R.id.hPlanetImage);
-
-                int planetNumber = planet.getJSONObject("position").getInt("numberOfPlanet");
-                if(planetNumber < 5) {
-                    image.setImageDrawable(getResources().getDrawable(R.drawable.planet_hot));
-                } else if (planetNumber < 10) {
-                    image.setImageDrawable(getResources().getDrawable(R.drawable.planet));
-                } else  {
-                    image.setImageDrawable(getResources().getDrawable(R.drawable.planet_cold));
-                }
+                initDrawer(planet);
+                setOverviewFragment(planet);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
+
+
 }

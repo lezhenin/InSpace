@@ -9,4 +9,8 @@
     <string name="fleet">Fleet</string>
     <string name="missions">Missions</string>
     <string name="url">https://frozen-stream-78027.herokuapp.com</string>
+    <string name="resources">Resources</string>
+    <string name="metal">Metal</string>
+    <string name="crystals">Crystals</string>
+    <string name="deuterium">Deuterium</string>
 </resources>

@@ -4,18 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_overview"
+            android:icon="@drawable/overview"
             android:title="@string/overview" />
         <item
             android:id="@+id/menu_buildings"
+            android:icon="@drawable/buildings"
             android:title="@string/buildings" />
         <item
             android:id="@+id/menu_research"
+            android:icon="@drawable/research"
             android:title="@string/research" />
         <item
             android:id="@+id/menu_fleet"
+            android:icon="@drawable/fleet"
             android:title="@string/fleet" />
         <item
             android:id="@+id/menu_missions"
+            android:icon="@drawable/missions"
             android:title="@string/missions" />
     </group>
 
