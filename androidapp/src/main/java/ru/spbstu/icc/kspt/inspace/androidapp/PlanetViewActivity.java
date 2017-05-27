@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -27,7 +28,10 @@ public class PlanetViewActivity extends AppCompatActivity {
     private JSONObject planet;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
     private OverviewFragment overviewFragment;
+    private UpgradableListFragment buildingsFragment;
+    private UpgradableListFragment researchFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,10 +40,9 @@ public class PlanetViewActivity extends AppCompatActivity {
 
         PLANET_URL = getIntent().getExtras().getString("planet url");
 
-
         overviewFragment = new OverviewFragment();
-
-
+        buildingsFragment = new UpgradableListFragment();
+        researchFragment = new UpgradableListFragment();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -51,6 +54,13 @@ public class PlanetViewActivity extends AppCompatActivity {
 
                 switch (id) {
                     case R.id.menu_overview:
+                        setFragment(overviewFragment);
+                        break;
+                    case R.id.menu_buildings:
+                        setFragment(buildingsFragment);
+                        break;
+                    case R.id.menu_research:
+                        setFragment(researchFragment);
                         break;
                 }
                 return true;
@@ -76,13 +86,14 @@ public class PlanetViewActivity extends AppCompatActivity {
         }
     }
 
-    private void setOverviewFragment(JSONObject planet) {
+    private void setFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, overviewFragment);
+        fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
     }
+
 
 
     private class DownloadPlanetTask extends AsyncTask<String, Integer, String> {
@@ -100,7 +111,7 @@ public class PlanetViewActivity extends AppCompatActivity {
                 Log.d("json", planet.toString());
                 initDrawer(planet);
                 initFragments(planet);
-                setOverviewFragment(planet);
+                setFragment(overviewFragment);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -108,12 +119,18 @@ public class PlanetViewActivity extends AppCompatActivity {
         }
     }
 
-    private void initFragments(JSONObject planet) {
-        Bundle data = new Bundle();
-        data.putString("planet", planet.toString());
+    private void initFragments(JSONObject planet) throws JSONException {
+        Bundle planetBundle = new Bundle();
+        planetBundle.putString("planet", planet.toString());
+        overviewFragment.setArguments(planetBundle);
 
-        overviewFragment.setArguments(data);
+        Bundle buildingsBundle = new Bundle();
+        buildingsBundle.putString("upgradables", planet.getJSONArray("buildings").toString());
+        buildingsFragment.setArguments(buildingsBundle);
 
+        Bundle researchBundle = new Bundle();
+        researchBundle.putString("upgradables", planet.getJSONArray("research").toString());
+        researchFragment.setArguments(researchBundle);
     }
 
 
