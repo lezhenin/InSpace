@@ -13,4 +13,7 @@
     <string name="metal">Metal</string>
     <string name="crystals">Crystals</string>
     <string name="deuterium">Deuterium</string>
+    <string name="energy">Energy</string>
+    <string name="power">Power</string>
+    <string name="fields">Fields</string>
 </resources>

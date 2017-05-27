@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "ru.spbstu.icc.kspt.inspace.androidapp"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -39,4 +39,5 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
 
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

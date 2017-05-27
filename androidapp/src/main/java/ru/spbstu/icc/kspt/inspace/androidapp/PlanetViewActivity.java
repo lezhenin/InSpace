@@ -27,6 +27,7 @@ public class PlanetViewActivity extends AppCompatActivity {
     private JSONObject planet;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private OverviewFragment overviewFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +35,11 @@ public class PlanetViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_planet_view);
 
         PLANET_URL = getIntent().getExtras().getString("planet url");
+
+
+        overviewFragment = new OverviewFragment();
+
+
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -71,13 +77,10 @@ public class PlanetViewActivity extends AppCompatActivity {
     }
 
     private void setOverviewFragment(JSONObject planet) {
-        OverviewFragment fragment = new OverviewFragment();
-        Bundle data = new Bundle();
-        data.putString("planet", planet.toString());
-        fragment.setArguments(data);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.content_frame, fragment);
+        fragmentTransaction.replace(R.id.content_frame, overviewFragment);
         fragmentTransaction.commit();
     }
 
@@ -96,12 +99,21 @@ public class PlanetViewActivity extends AppCompatActivity {
                 planet = new JSONObject(s);
                 Log.d("json", planet.toString());
                 initDrawer(planet);
+                initFragments(planet);
                 setOverviewFragment(planet);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void initFragments(JSONObject planet) {
+        Bundle data = new Bundle();
+        data.putString("planet", planet.toString());
+
+        overviewFragment.setArguments(data);
+
     }
 
 

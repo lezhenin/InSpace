@@ -1,116 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:fillViewport="true" >
 
-    <LinearLayout
-        android:id="@+id/oll"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:srcCompat="@drawable/planet"
-            android:id="@+id/oPlanetImage"
-            android:layout_weight="1" />
-
-        <TextView
-            android:text="Planet Name"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/oPlanetName"
-            android:layout_weight="3" />
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        style="@style/AppTheme" />
-
-    <GridLayout
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:columnCount="3">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        android:layout_gravity="top">
 
-        <TextView
-            android:text="@string/metal"
-            android:textSize="14sp"
-            android:textAlignment="center"
-            android:layout_width="70dp"
-            android:id="@+id/oMetalTitle" />
 
-        <TextView
-            android:text="@string/crystals"
-            android:textSize="14sp"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:layout_width="70dp"
-            android:id="@+id/oCrystalsTitle" />
+        <LinearLayout
+            android:id="@+id/oll"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:text="@string/deuterium"
-            android:textSize="14sp"
-            android:layout_width="70dp"
-            android:textAlignment="center"
-            android:id="@+id/oDeuteriumTitle" />
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:srcCompat="@drawable/planet"
+                android:id="@+id/oPlanetImage"
+                android:layout_weight="1" />
 
-        <ImageView
+            <TextView
+                android:text="Planet Name"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/oPlanetName"
+                android:layout_weight="3" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
             android:layout_height="64dp"
-            app:srcCompat="@drawable/metal"
-            android:layout_width="70dp" />
+            style="@style/AppTheme" />
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/crystals" />
-
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="64dp"
-            app:srcCompat="@drawable/deuterium" />
-
-        <TextView
-            android:text="000000"
-            android:textSize="14sp"
-            android:layout_width="70dp"
-            android:textAlignment="center"
-            android:layout_height="wrap_content"
-            android:id="@+id/oMetal" />
-
-        <TextView
-            android:text="000000"
-            android:textSize="14sp"
-            android:layout_width="70dp"
-            android:textAlignment="center"
+        <GridLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/oCrystals" />
+            android:columnCount="3">
 
-        <TextView
-            android:text="000000"
-            android:textSize="14sp"
-            android:textAlignment="center"
-            android:layout_width="70dp"
+            <TextView
+                android:text="@string/metal"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_columnWeight="1"
+                android:layout_width="70dp" />
+
+            <TextView
+                android:text="@string/crystals"
+                android:textSize="14sp"
+                android:layout_columnWeight="1"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/deuterium"
+                android:textSize="14sp"
+                android:layout_columnWeight="1"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:layout_height="64dp"
+                android:layout_columnWeight="1"
+                app:srcCompat="@drawable/metal"
+                android:layout_width="64dp" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_columnWeight="1"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/crystals" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_columnWeight="1"
+                app:srcCompat="@drawable/deuterium" />
+
+            <TextView
+                android:text="000000"
+                android:textSize="14sp"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:id="@+id/oMetal" />
+
+            <TextView
+                android:text="000000"
+                android:textSize="14sp"
+                android:layout_columnWeight="1"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/oCrystals" />
+
+            <TextView
+                android:text="000000"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/oDeuterium" />
+        </GridLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+
+        <GridLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/oDeuterium" />
-    </GridLayout>
+            android:columnCount="3">
 
-</LinearLayout>
+            <TextView
+                android:text="@string/energy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textSize="14sp"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="@string/power"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textSize="14sp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:text="@string/fields"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textSize="14sp"
+                android:textAlignment="center"/>
+
+            <ImageView
+                android:layout_height="64dp"
+                android:layout_columnWeight="1"
+                app:srcCompat="@drawable/energy"
+                android:layout_width="64dp" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_columnWeight="1"
+                app:srcCompat="@drawable/power" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_columnWeight="1"
+                app:srcCompat="@drawable/fields" />
+
+            <TextView
+                android:text="134"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:id="@+id/oEnergy" />
+
+            <TextView
+                android:text="100%"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:id="@+id/oPower" />
+
+            <TextView
+                android:text="25/200"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:id="@+id/oFields" />
+
+        </GridLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="64dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_gravity="start"
+                app:srcCompat="@drawable/actions"
+                android:layout_weight="0.22"
+                android:layout_height="64dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/customborder"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_vertical"
+                    app:srcCompat="@drawable/buildings"
+                    android:id="@+id/oBuildings"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="32dp"
+                    app:srcCompat="@drawable/research"
+                    android:id="@+id/oResearch"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_vertical"
+                    app:srcCompat="@drawable/missions"
+                    android:id="@+id/oMissions"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
