@@ -140,11 +140,11 @@ public class ConstructablesListFragment extends Fragment{
                 holder.crystalsCount.setText(crystals);
                 holder.deuteriumCount.setText(deuterium);
 
-                holder.capacity.setText(getString(R.string.capacity) + ":" + capacity);
-                holder.attack.setText(getString(R.string.attack) + ":" + attack);
-                holder.structure.setText(getString(R.string.structure) + ":" + structure);
-                holder.shield.setText(getString(R.string.shield) + ":" + shield);
-                holder.speed.setText(getString(R.string.speed) + ":" +speed);
+                holder.capacity.setText(getString(R.string.capacity) + ": " + capacity);
+                holder.attack.setText(getString(R.string.attack) + ": " + attack);
+                holder.structure.setText(getString(R.string.structure) + ": " + structure);
+                holder.shield.setText(getString(R.string.shield) + ": " + shield);
+                holder.speed.setText(getString(R.string.speed) + ": " +speed);
 
             } catch (JSONException e) {
                 e.printStackTrace();
