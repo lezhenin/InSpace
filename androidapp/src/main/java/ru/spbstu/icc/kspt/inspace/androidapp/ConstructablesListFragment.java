@@ -35,7 +35,9 @@ public class ConstructablesListFragment extends Fragment{
             Bundle bundle = getArguments();
             if (bundle != null) {
                 JSONArray constructables = new JSONArray(bundle.getString("constructables"));
-                constructablesAdapter = new ConstructablesListFragment.ConstructablesAdapter(constructables);
+                JSONObject fleet = new JSONObject(bundle.getString("fleet"));
+                constructablesAdapter = new ConstructablesListFragment.
+                        ConstructablesAdapter(constructables, fleet);
                 constructablesRecylerView.setAdapter(constructablesAdapter);
 
             } else {
@@ -58,6 +60,7 @@ public class ConstructablesListFragment extends Fragment{
         }
 
         private JSONArray constructables;
+        private JSONObject fleet;
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -93,8 +96,10 @@ public class ConstructablesListFragment extends Fragment{
             }
         }
 
-        ConstructablesAdapter(JSONArray objects) {
+        ConstructablesAdapter(JSONArray objects, JSONObject fleet) {
+            this.fleet = fleet;
             this.constructables = objects;
+
         }
 
         @Override
@@ -118,7 +123,8 @@ public class ConstructablesListFragment extends Fragment{
                 String deuterium = resources.getString("deuterium");
 
                 String type = constructable.getString("type");
-                String number = "5";
+                String number = fleet.getJSONObject("numbersOfShips").
+                        getString(constructable.getString("type"));
                 String time = constructable.getString("constructionDuration") + "s";
 
                 String attack = constructable.getString("attack");

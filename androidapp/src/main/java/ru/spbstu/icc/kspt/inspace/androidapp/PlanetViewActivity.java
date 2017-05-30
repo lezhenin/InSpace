@@ -138,6 +138,7 @@ public class PlanetViewActivity extends AppCompatActivity {
 
         Bundle shipBundle = new Bundle();
         shipBundle.putString("constructables", planet.getJSONArray("ships").toString());
+        shipBundle.putString("fleet", planet.getJSONObject("fleetOnPlanet").toString());
         shipsFragment.setArguments(shipBundle);
     }
 

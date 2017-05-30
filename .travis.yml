@@ -1,11 +1,15 @@
-language: android
+language: java
 
-android:
-  components:
-    - build-tools-25.2.0
-    - android-25
+jdk:
+ - oraclejdk8
+
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 
 script:
- - ./gradlew androidapp:build
+ - ./gradlew core:build
+ - ./gradlew web:build
 
 os: linux
