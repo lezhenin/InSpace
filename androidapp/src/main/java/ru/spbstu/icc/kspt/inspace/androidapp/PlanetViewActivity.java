@@ -32,6 +32,7 @@ public class PlanetViewActivity extends AppCompatActivity {
     private OverviewFragment overviewFragment;
     private UpgradableListFragment buildingsFragment;
     private UpgradableListFragment researchFragment;
+    private ConstructablesListFragment shipsFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class PlanetViewActivity extends AppCompatActivity {
         overviewFragment = new OverviewFragment();
         buildingsFragment = new UpgradableListFragment();
         researchFragment = new UpgradableListFragment();
+        shipsFragment = new ConstructablesListFragment();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -62,6 +64,8 @@ public class PlanetViewActivity extends AppCompatActivity {
                     case R.id.menu_research:
                         setFragment(researchFragment);
                         break;
+                    case R.id.menu_fleet:
+                        setFragment(shipsFragment);
                 }
                 return true;
             }
@@ -131,6 +135,10 @@ public class PlanetViewActivity extends AppCompatActivity {
         Bundle researchBundle = new Bundle();
         researchBundle.putString("upgradables", planet.getJSONArray("research").toString());
         researchFragment.setArguments(researchBundle);
+
+        Bundle shipBundle = new Bundle();
+        shipBundle.putString("constructables", planet.getJSONArray("ships").toString());
+        shipsFragment.setArguments(shipBundle);
     }
 
 

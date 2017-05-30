@@ -16,4 +16,9 @@
     <string name="energy">Energy</string>
     <string name="power">Power</string>
     <string name="fields">Fields</string>
+    <string name="capacity">Capacity</string>
+    <string name="speed">Speed</string>
+    <string name="shield">Shield Structure</string>
+    <string name="structure">Structure</string>
+    <string name="attack">Attack</string>
 </resources>
